@@ -2,6 +2,7 @@
   {
     "id": "ep-lehn-beck-seelisberg",
     "name": "EP Lehn-Beck – Seelisbergtunnel (A2)",
+    "typ": "konzept",
     "lat": 46.9670,
     "lon": 8.4607,
     "pdf": "pdfs/EP-Lehn-Beck_VP2-S_Anhang2.pdf",
@@ -17,6 +18,7 @@
   {
     "id": "sanierung-kreuzgasse-altdorf",
     "name": "Sanierung Kreuzgasse Altdorf",
+    "typ": "totalsperrung",
     "lat": 46.8771,
     "lon": 8.6461,
     "pdf": "pdfs/BRI-Info-Nr1_Sanierung-Kreuzgasse-Altdorf.pdf",

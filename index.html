@@ -58,16 +58,23 @@
 
   map.addControl(new maplibregl.NavigationControl(), 'top-left');
 
+  // Pin-Farbe nach Typ: Totalsperrung = rot, andere Konzepte (z.B. Interventionskonzept) = orange
+  const MARKER_COLORS = {
+    totalsperrung: '#d52b1e',
+    konzept: '#f2811d'
+  };
+
   // Markanter Pin als SVG (Warnfarbe, weisser Rand, Ausrufezeichen)
-  function createMarkerElement() {
+  function createMarkerElement(typ) {
+    const color = MARKER_COLORS[typ] || MARKER_COLORS.konzept;
     const el = document.createElement('div');
     el.className = 'site-marker';
     el.innerHTML = `
       <svg viewBox="0 0 34 44" xmlns="http://www.w3.org/2000/svg">
         <path d="M17 0C7.6 0 0 7.6 0 17c0 12 17 27 17 27s17-15 17-27C34 7.6 26.4 0 17 0z"
-              fill="#d52b1e" stroke="#ffffff" stroke-width="2.5"/>
+              fill="${color}" stroke="#ffffff" stroke-width="2.5"/>
         <circle cx="17" cy="17" r="7" fill="#ffffff"/>
-        <text x="17" y="21.5" text-anchor="middle" font-size="12" font-weight="700" fill="#d52b1e">!</text>
+        <text x="17" y="21.5" text-anchor="middle" font-size="12" font-weight="700" fill="${color}">!</text>
       </svg>
     `;
     return el;
@@ -86,7 +93,7 @@
           <a class="popup-pdf-link" href="${site.pdf}" target="_blank" rel="noopener">PDF öffnen</a>
         `;
         const popup = new maplibregl.Popup({ offset: 30, maxWidth: '320px' }).setHTML(popupHtml);
-        new maplibregl.Marker({ element: createMarkerElement(), anchor: 'bottom' })
+        new maplibregl.Marker({ element: createMarkerElement(site.typ), anchor: 'bottom' })
           .setLngLat([site.lon, site.lat])
           .setPopup(popup)
           .addTo(map);
