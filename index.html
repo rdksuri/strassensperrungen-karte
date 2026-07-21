@@ -49,21 +49,36 @@
 
 <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
 <script>
-  // Kartenausschnitt auf die Zentralschweiz begrenzt (inkl. Grimsel-/Furkapass)
-  const ZENTRALSCHWEIZ_BOUNDS = [
-    [7.95, 46.50], // Südwest
-    [8.95, 47.20]  // Nordost
+  // Zielausschnitt: Uri (inkl. Furkapass) bis Schwyz, über Nidwalden, Obwalden und Luzern.
+  // Wird per fitBounds() nach dem Laden gesetzt (nicht im Konstruktor kombiniert mit
+  // maxBounds), damit unabhängig vom Seitenverhältnis der Einbettung IMMER die
+  // komplette Zielfläche sichtbar ist, statt je nach Format abgeschnitten zu werden.
+  const VISIBLE_BOUNDS = [
+    [7.85, 46.52], // Südwest (Furkapass-Region mit Marge)
+    [9.00, 47.25]  // Nordost (Kanton Schwyz)
+  ];
+
+  // Grosszügige Panning-Grenze (verhindert nur das Wegwandern nach Zürich/Basel/Tessin
+  // etc.), bewusst deutlich weiter als VISIBLE_BOUNDS, damit sie die fitBounds-Zoomwahl
+  // bei extremen Seitenverhältnissen (sehr breit oder sehr hoch) nicht verfälscht.
+  const MAX_BOUNDS = [
+    [7.0, 45.9],  // Südwest
+    [9.9, 47.9]   // Nordost
   ];
 
   const map = new maplibregl.Map({
     container: 'map',
     style: 'https://vectortiles.geo.admin.ch/styles/ch.swisstopo.basemap.vt/style.json', // offizielle swisstopo Basemap
-    center: [8.35, 46.97],
-    zoom: 9.5,
+    center: [8.425, 46.885],
+    zoom: 9,
     minZoom: 8,
     maxZoom: 18,
-    maxBounds: ZENTRALSCHWEIZ_BOUNDS
+    maxBounds: MAX_BOUNDS
   });
+
+  // fitBounds() wirkt sofort auf die Transform, unabhängig davon ob alle Kacheln
+  // schon geladen sind - kein Warten auf ein load-Event nötig.
+  map.fitBounds(VISIBLE_BOUNDS, { padding: 20, animate: false });
 
   map.addControl(new maplibregl.NavigationControl(), 'top-left');
 
