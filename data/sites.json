@@ -1,0 +1,16 @@
+[
+  {
+    "id": "ep-lehn-beck-seelisberg",
+    "name": "EP Lehn-Beck – Seelisbergtunnel (A2)",
+    "lat": 46.9390,
+    "lon": 8.5609,
+    "ort": "A2 Nordachse, Seelisbergtunnel-Bereich, zwischen Beckenried (NW) und Altdorf (UR)",
+    "projekt": "EP Lehn-Beck",
+    "pikett": "041 267 66 05",
+    "phase": "VP2.S",
+    "zeitraum": "April 2026 – Juni 2026",
+    "version": "1.0",
+    "datum": "27.03.2026",
+    "pdf": "pdfs/EP-Lehn-Beck_VP2-S_Anhang2.pdf"
+  }
+]
