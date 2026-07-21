@@ -44,15 +44,13 @@
     .then(sites => {
       sites.forEach(site => {
         const marker = L.marker([site.lat, site.lon]).addTo(map);
+        const detailRows = (site.details || [])
+          .map(d => `<div class="popup-row"><b>${d.label}:</b> ${d.value}</div>`)
+          .join('');
         const popupHtml = `
           <div class="popup-title">${site.name}</div>
-          <div class="popup-row"><b>Ort:</b> ${site.ort}</div>
-          <div class="popup-row"><b>Projekt:</b> ${site.projekt}</div>
-          <div class="popup-row"><b>Phase:</b> ${site.phase}</div>
-          <div class="popup-row"><b>Zeitraum:</b> ${site.zeitraum}</div>
-          <div class="popup-row"><b>Pikett:</b> ${site.pikett}</div>
-          <div class="popup-row"><b>Version:</b> ${site.version} (${site.datum})</div>
-          <a class="popup-pdf-link" href="${site.pdf}" target="_blank" rel="noopener">Interventionskonzept PDF öffnen</a>
+          ${detailRows}
+          <a class="popup-pdf-link" href="${site.pdf}" target="_blank" rel="noopener">PDF öffnen</a>
         `;
         marker.bindPopup(popupHtml);
       });

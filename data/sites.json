@@ -4,13 +4,29 @@
     "name": "EP Lehn-Beck – Seelisbergtunnel (A2)",
     "lat": 46.9390,
     "lon": 8.5609,
-    "ort": "A2 Nordachse, Seelisbergtunnel-Bereich, zwischen Beckenried (NW) und Altdorf (UR)",
-    "projekt": "EP Lehn-Beck",
-    "pikett": "041 267 66 05",
-    "phase": "VP2.S",
-    "zeitraum": "April 2026 – Juni 2026",
-    "version": "1.0",
-    "datum": "27.03.2026",
-    "pdf": "pdfs/EP-Lehn-Beck_VP2-S_Anhang2.pdf"
+    "pdf": "pdfs/EP-Lehn-Beck_VP2-S_Anhang2.pdf",
+    "details": [
+      { "label": "Ort", "value": "A2 Nordachse, Seelisbergtunnel-Bereich, zwischen Beckenried (NW) und Altdorf (UR)" },
+      { "label": "Projekt", "value": "EP Lehn-Beck" },
+      { "label": "Phase", "value": "VP2.S" },
+      { "label": "Zeitraum", "value": "April 2026 – Juni 2026" },
+      { "label": "Pikett", "value": "041 267 66 05" },
+      { "label": "Version", "value": "1.0 (27.03.2026)" }
+    ]
+  },
+  {
+    "id": "sanierung-kreuzgasse-altdorf",
+    "name": "Sanierung Kreuzgasse Altdorf",
+    "lat": 46.8771,
+    "lon": 8.6461,
+    "pdf": "pdfs/BRI-Info-Nr1_Sanierung-Kreuzgasse-Altdorf.pdf",
+    "details": [
+      { "label": "Ort", "value": "Kreuzgasse Altdorf, Abschnitt Gotthardstrasse – Gründligasse" },
+      { "label": "Projekt", "value": "Gemeinde Altdorf: Sanierung Kreuzgasse" },
+      { "label": "Verkehrsregime", "value": "Totalsperrung / Verkehrsbehinderungen (4 Etappen)" },
+      { "label": "Zeitraum", "value": "15. Juni 2026 – ca. 30. September 2026" },
+      { "label": "Kontakt", "value": "Patrick Walker, IUB Engineering AG, Tel. 041 874 72 37" },
+      { "label": "Info Nr.", "value": "1 (26.05.2026)" }
+    ]
   }
 ]
