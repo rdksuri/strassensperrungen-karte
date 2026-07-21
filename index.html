@@ -21,9 +21,11 @@
     background: #eee;
   }
 
-  /* Popup nie breiter als der Bildschirm, Inhalt scrollt statt den Screen zu sprengen */
+  /* Popup nie breiter als der Bildschirm, Inhalt scrollt statt den Screen zu sprengen.
+     dvh statt vh, weil mobile Browser-Adressleisten vh sonst falsch berechnen. */
   .maplibregl-popup-content {
-    max-height: 75vh;
+    max-height: 70vh;
+    max-height: 70dvh;
     overflow-y: auto;
   }
   /* Groesserer Schliessen-Button als Touch-Target */
@@ -39,6 +41,10 @@
     .popup-flex { flex-direction: column; }
     .popup-info { min-width: 0; }
     .popup-minimap { width: 100%; height: 220px; }
+    .maplibregl-popup-content {
+      max-height: 62vh;
+      max-height: 62dvh;
+    }
   }
   .popup-title { font-weight: 700; font-size: 14px; margin-bottom: 4px; }
   .popup-row { font-size: 13px; margin: 2px 0; }
@@ -126,6 +132,38 @@
   map.fitBounds(VISIBLE_BOUNDS, { padding: 20, animate: false });
 
   map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-left');
+
+  // maplibre-gl zentriert Popups beim Oeffnen nicht automatisch in den sichtbaren
+  // Bereich (anders als z.B. Leaflet). Gerade am Handy, wo das Popup einen grossen
+  // Teil des Bildschirms einnimmt, war das Ergebnis: Teile ragen ueber den Rand
+  // hinaus und man muss muehsam selbst per Hand nachschieben. Stattdessen wird die
+  // Karte hier nach dem Oeffnen automatisch so verschoben, dass das komplette
+  // Popup sichtbar ist.
+  function panPopupIntoView(popup) {
+    requestAnimationFrame(() => {
+      const popupEl = popup.getElement();
+      if (!popupEl) return;
+      const margin = 12;
+      const mapRect = map.getContainer().getBoundingClientRect();
+      const popupRect = popupEl.getBoundingClientRect();
+      let dx = 0;
+      let dy = 0;
+      if (popupRect.left < mapRect.left + margin) {
+        dx = popupRect.left - (mapRect.left + margin);
+      } else if (popupRect.right > mapRect.right - margin) {
+        dx = popupRect.right - (mapRect.right - margin);
+      }
+      if (popupRect.top < mapRect.top + margin) {
+        dy = popupRect.top - (mapRect.top + margin);
+      } else if (popupRect.bottom > mapRect.bottom - margin) {
+        dy = popupRect.bottom - (mapRect.bottom - margin);
+      }
+      if (dx === 0 && dy === 0) return;
+      const centerPx = map.project(map.getCenter());
+      const newCenter = map.unproject([centerPx.x + dx, centerPx.y + dy]);
+      map.easeTo({ center: newCenter, duration: 300 });
+    });
+  }
 
   // Pin-Farbe nach Typ:
   // Totalsperrung = rot, andere Konzepte (z.B. Interventionskonzept) = orange,
@@ -263,6 +301,7 @@
         // wieder entfernt (begrenzte Anzahl gleichzeitiger WebGL-Kontexte im Browser).
         let miniMap = null;
         popup.on('open', () => {
+          panPopupIntoView(popup);
           const container = document.getElementById(minimapId);
           if (!container) return;
           miniMap = new maplibregl.Map({
