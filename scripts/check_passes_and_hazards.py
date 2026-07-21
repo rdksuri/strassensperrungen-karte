@@ -53,7 +53,14 @@ def fetch(url):
 
 
 def check_passes():
-    html = fetch(TCS_URL)
+    """Gibt (erfolgreich, sites) zurueck. Bei erfolgreich=False soll der
+    Aufrufer die zuletzt bekannten Pass-Eintraege unveraendert beibehalten,
+    statt sie durch eine leere Liste zu ersetzen."""
+    try:
+        html = fetch(TCS_URL)
+    except Exception as e:
+        print(f"WARNUNG: TCS-Pässe-Portal nicht erreichbar: {e}", file=sys.stderr)
+        return False, []
     sites = []
     for p in PASSES:
         idx = html.find(f'data-search="{p["slug"]}"')
@@ -91,7 +98,7 @@ def check_passes():
             ],
             "link": TCS_URL,
         })
-    return sites
+    return True, sites
 
 
 def polygon_centroid(coordinates):
@@ -106,12 +113,13 @@ def in_bbox(lat, lon):
 
 
 def check_alertswiss():
+    """Gibt (erfolgreich, sites) zurueck, siehe check_passes()."""
     try:
         raw = fetch(ALERTSWISS_URL)
         data = json.loads(raw)
     except Exception as e:
         print(f"WARNUNG: Alertswiss-Feed nicht erreichbar: {e}", file=sys.stderr)
-        return []
+        return False, []
 
     sites = []
     for alert in data.get("alerts", []):
@@ -149,14 +157,34 @@ def check_alertswiss():
             ],
             "link": alert.get("link"),
         })
-    return sites
+    return True, sites
 
 
 def main():
     out_path = Path(__file__).resolve().parent.parent / "data" / "auto-sites.json"
-    sites = check_passes() + check_alertswiss()
+
+    try:
+        previous = json.loads(out_path.read_text(encoding="utf-8"))
+    except Exception:
+        previous = []
+    previous_passes = [s for s in previous if s.get("typ") == "passsperrung"]
+    previous_hazards = [s for s in previous if s.get("typ") == "gefahrengebiet"]
+
+    passes_ok, passes = check_passes()
+    hazards_ok, hazards = check_alertswiss()
+
+    # Bei einem Fehlschlag die zuletzt bekannten Eintraege dieser Quelle
+    # beibehalten, statt sie durch eine leere Liste zu ersetzen.
+    final_passes = passes if passes_ok else previous_passes
+    final_hazards = hazards if hazards_ok else previous_hazards
+
+    sites = final_passes + final_hazards
     out_path.write_text(json.dumps(sites, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
-    print(f"{len(sites)} automatisch erkannte Einträge geschrieben nach {out_path}")
+    print(
+        f"{len(sites)} automatisch erkannte Einträge geschrieben nach {out_path} "
+        f"(Pässe: {'aktuell' if passes_ok else 'ALT/unveraendert, Quelle nicht erreichbar'}, "
+        f"Alertswiss: {'aktuell' if hazards_ok else 'ALT/unveraendert, Quelle nicht erreichbar'})"
+    )
 
 
 if __name__ == "__main__":
