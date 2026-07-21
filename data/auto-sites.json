@@ -3,8 +3,8 @@
     "id": "alertswiss-POA-1353744782-3",
     "name": "Waldbrandgefahr: absolutes Feuerverbot im Freien",
     "typ": "gefahrengebiet",
-    "lat": 46.76931437299037,
-    "lon": 8.627696045016082,
+    "lat": 46.76931437299035,
+    "lon": 8.627696045016078,
     "pdf": null,
     "details": [
       {
@@ -34,8 +34,8 @@
     "id": "alertswiss-POA-1351679432-3",
     "name": "Waldbrandgefahr: Feuerverbot im Wald und Waldesnähe",
     "typ": "gefahrengebiet",
-    "lat": 47.16948751773047,
-    "lon": 8.53474326241135,
+    "lat": 47.1694875177305,
+    "lon": 8.534743262411347,
     "pdf": null,
     "details": [
       {
@@ -65,7 +65,7 @@
     "id": "alertswiss-POA-1351965994-2",
     "name": "Waldbrandgefahr: absolutes Feuerverbot im Wald und in Waldesnähe (50m)",
     "typ": "gefahrengebiet",
-    "lat": 46.8230626506024,
+    "lat": 46.82306265060241,
     "lon": 8.424633975903616,
     "pdf": null,
     "details": [
@@ -96,7 +96,7 @@
     "id": "alertswiss-POA-1351640390-1",
     "name": "Waldbrandgefahr: Feuerverbot im Wald und Waldesnähe",
     "typ": "gefahrengebiet",
-    "lat": 47.0479810548523,
+    "lat": 47.04798105485232,
     "lon": 8.747684219409283,
     "pdf": null,
     "details": [
@@ -127,8 +127,8 @@
     "id": "alertswiss-POA-1351933396-1",
     "name": "Waldbrandgefahr: absolutes Feuerverbot im im Wald und Waldesnähe (50m)",
     "typ": "gefahrengebiet",
-    "lat": 46.9038662430939,
-    "lon": 8.388483535911599,
+    "lat": 46.90386624309392,
+    "lon": 8.388483535911602,
     "pdf": null,
     "details": [
       {
@@ -158,8 +158,8 @@
     "id": "alertswiss-POA-1347270355-2",
     "name": "Waldbrandgefahr: Feuerverbot im Wald und Waldesnähe",
     "typ": "gefahrengebiet",
-    "lat": 47.077424164456275,
-    "lon": 8.129046684350138,
+    "lat": 47.07742416445623,
+    "lon": 8.129046684350133,
     "pdf": null,
     "details": [
       {
