@@ -9,6 +9,17 @@
   html, body { margin: 0; padding: 0; height: 100%; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; }
   #map { height: 100%; width: 100%; }
 
+  .popup-flex { display: flex; gap: 10px; align-items: flex-start; }
+  .popup-info { flex: 1; min-width: 160px; }
+  .popup-minimap {
+    width: 140px;
+    height: 140px;
+    flex-shrink: 0;
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background: #eee;
+  }
   .popup-title { font-weight: 700; font-size: 14px; margin-bottom: 4px; }
   .popup-row { font-size: 13px; margin: 2px 0; }
   .popup-row b { color: #333; }
@@ -189,7 +200,7 @@
     fetch('data/auto-sites.json').then(res => res.json()).catch(() => [])
   ])
     .then(([manualSites, autoSites]) => {
-      [...manualSites, ...autoSites].forEach(site => {
+      [...manualSites, ...autoSites].forEach((site, idx) => {
         const detailRows = (site.details || [])
           .map(d => `<div class="popup-row"><b>${d.label}:</b> ${d.value}</div>`)
           .join('');
@@ -199,13 +210,48 @@
         const disclaimer = site.typ === 'gefahrengebiet'
           ? `<div class="popup-disclaimer">⚠ Automatisch aus einem inoffiziellen Alertswiss-Feed übernommen. Keine offizielle Quelle, kann fehlerhaft sein oder ausfallen.</div>`
           : '';
+        const minimapId = `popup-minimap-${idx}`;
         const popupHtml = `
-          <div class="popup-title">${site.name}</div>
-          ${detailRows}
-          ${pdfLink}
-          ${disclaimer}
+          <div class="popup-flex">
+            <div class="popup-info">
+              <div class="popup-title">${site.name}</div>
+              ${detailRows}
+              ${pdfLink}
+              ${disclaimer}
+            </div>
+            <div class="popup-minimap" id="${minimapId}"></div>
+          </div>
         `;
-        const popup = new maplibregl.Popup({ offset: 30, maxWidth: '320px' }).setHTML(popupHtml);
+        const popup = new maplibregl.Popup({ offset: 30, maxWidth: '420px' }).setHTML(popupHtml);
+
+        // Mini-Karte: wird erst beim Oeffnen des Popups erzeugt und beim Schliessen
+        // wieder entfernt (begrenzte Anzahl gleichzeitiger WebGL-Kontexte im Browser).
+        let miniMap = null;
+        popup.on('open', () => {
+          const container = document.getElementById(minimapId);
+          if (!container) return;
+          miniMap = new maplibregl.Map({
+            container,
+            style: 'https://vectortiles.geo.admin.ch/styles/ch.swisstopo.basemap.vt/style.json',
+            center: [site.lon, site.lat],
+            zoom: 14,
+            interactive: false,
+            attributionControl: { compact: true }
+          });
+          miniMap.on('load', () => {
+            miniMap.resize();
+            new maplibregl.Marker({ element: createMarkerElement(site.typ, getIconKey(site)), anchor: 'bottom' })
+              .setLngLat([site.lon, site.lat])
+              .addTo(miniMap);
+          });
+        });
+        popup.on('close', () => {
+          if (miniMap) {
+            miniMap.remove();
+            miniMap = null;
+          }
+        });
+
         new maplibregl.Marker({ element: createMarkerElement(site.typ, getIconKey(site)), anchor: 'bottom' })
           .setLngLat([site.lon, site.lat])
           .setPopup(popup)
