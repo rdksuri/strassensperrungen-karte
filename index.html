@@ -77,9 +77,83 @@
     gefahrengebiet: '#7b3fe4'
   };
 
-  // Markanter Pin als SVG (Warnfarbe, weisser Rand, Ausrufezeichen)
-  function createMarkerElement(typ) {
+  // Icon-Glyphen (werden in der jeweiligen Pin-Farbe auf den weissen Kreis gezeichnet)
+  const ICONS = {
+    // Sperrung/Barriere: fuer totalsperrung, konzept, passsperrung
+    barrier: (c) => `
+      <rect x="9.5" y="15.3" width="15" height="3.4" rx="1.2" fill="${c}" transform="rotate(-18 17 17)"/>
+      <circle cx="10.3" cy="14.2" r="1.4" fill="${c}"/>
+      <circle cx="23.7" cy="19.8" r="1.4" fill="${c}"/>
+    `,
+    // Feuer/Feuerverbot/Waldbrand
+    flame: (c) => `
+      <path fill="${c}" d="M19 8.5c-3.5 2.5-7 6-7 9.8a5 5 0 1010 0c0-2.2-1-3.8-2.2-5.2.4 1.9-.6 3.2-2 3.2-1.4 0-2.3-1.2-1.9-2.6.4-1.4 1.6-2.2 3.1-5.2z"/>
+      <path fill="#ffffff" d="M18.5 15c-1.3 1.6-2.5 2.9-2.5 4.4a2.2 2.2 0 004.4 0c0-1.5-1-2.7-1.9-4.4z"/>
+    `,
+    // Fels-/Bergsturz, Erdrutsch, Murgang
+    mountain: (c) => `
+      <path fill="${c}" d="M8.5 23.5L14 13.5l3.5 5 2.7-3.3 5.8 8.3z"/>
+    `,
+    // Lawine / Schnee
+    snowflake: (c) => `
+      <g stroke="${c}" stroke-width="1.6" stroke-linecap="round">
+        <line x1="17" y1="10" x2="17" y2="24"/>
+        <line x1="10.9" y1="13.5" x2="23.1" y2="20.5"/>
+        <line x1="10.9" y1="20.5" x2="23.1" y2="13.5"/>
+      </g>
+    `,
+    // Hitzewelle / Trockenheit
+    sun: (c) => `
+      <circle cx="17" cy="17" r="3.2" fill="${c}"/>
+      <g stroke="${c}" stroke-width="1.6" stroke-linecap="round">
+        <line x1="17" y1="9.5" x2="17" y2="11.8"/>
+        <line x1="17" y1="22.2" x2="17" y2="24.5"/>
+        <line x1="9.5" y1="17" x2="11.8" y2="17"/>
+        <line x1="22.2" y1="17" x2="24.5" y2="17"/>
+        <line x1="12.2" y1="12.2" x2="13.7" y2="13.7"/>
+        <line x1="20.3" y1="20.3" x2="21.8" y2="21.8"/>
+        <line x1="12.2" y1="21.8" x2="13.7" y2="20.3"/>
+        <line x1="20.3" y1="13.7" x2="21.8" y2="12.2"/>
+      </g>
+    `,
+    // Hochwasser
+    wave: (c) => `
+      <path fill="none" stroke="${c}" stroke-width="1.6" stroke-linecap="round" d="M10.5 15c1.5-1.8 3-1.8 4.5 0s3 1.8 4.5 0 3-1.8 4.5 0"/>
+      <path fill="none" stroke="${c}" stroke-width="1.6" stroke-linecap="round" d="M10.5 20c1.5-1.8 3-1.8 4.5 0s3 1.8 4.5 0 3-1.8 4.5 0"/>
+    `,
+    // Fallback fuer unbekannte/sonstige Ereignisse
+    warning: (c) => `
+      <text x="17" y="21.5" text-anchor="middle" font-size="12" font-weight="700" fill="${c}">!</text>
+    `
+  };
+
+  // Ordnet den Alertswiss-"Ereignis"-Text einem Icon zu
+  const EVENT_ICON_MAP = {
+    'feuerverbot': 'flame',
+    'waldbrand': 'flame',
+    'divieto di accendere fuochi': 'flame',
+    'trockenheit': 'sun',
+    'hitzewelle': 'sun',
+    'fels- und bergsturz, erdrutsch': 'mountain',
+    'murgang': 'mountain',
+    'lawine': 'snowflake',
+    'schnee': 'snowflake',
+    'hochwasser': 'wave'
+  };
+
+  // Sperrungs-Typen bekommen immer das Barriere-Icon; bei Alertswiss-Gefahrengebieten
+  // richtet sich das Icon nach dem gemeldeten Ereignistyp
+  function getIconKey(site) {
+    if (site.typ !== 'gefahrengebiet') return 'barrier';
+    const ereignis = (site.details || []).find(d => d.label === 'Ereignis');
+    const key = ereignis ? ereignis.value.trim().toLowerCase() : '';
+    return EVENT_ICON_MAP[key] || 'warning';
+  }
+
+  // Markanter Pin als SVG (Warnfarbe, weisser Rand, typspezifisches Icon)
+  function createMarkerElement(typ, iconKey) {
     const color = MARKER_COLORS[typ] || MARKER_COLORS.konzept;
+    const glyph = (ICONS[iconKey] || ICONS.warning)(color);
     const el = document.createElement('div');
     el.className = 'site-marker';
     el.innerHTML = `
@@ -87,7 +161,7 @@
         <path d="M17 0C7.6 0 0 7.6 0 17c0 12 17 27 17 27s17-15 17-27C34 7.6 26.4 0 17 0z"
               fill="${color}" stroke="#ffffff" stroke-width="2.5"/>
         <circle cx="17" cy="17" r="7" fill="#ffffff"/>
-        <text x="17" y="21.5" text-anchor="middle" font-size="12" font-weight="700" fill="${color}">!</text>
+        ${glyph}
       </svg>
     `;
     return el;
@@ -117,7 +191,7 @@
           ${disclaimer}
         `;
         const popup = new maplibregl.Popup({ offset: 30, maxWidth: '320px' }).setHTML(popupHtml);
-        new maplibregl.Marker({ element: createMarkerElement(site.typ), anchor: 'bottom' })
+        new maplibregl.Marker({ element: createMarkerElement(site.typ, getIconKey(site)), anchor: 'bottom' })
           .setLngLat([site.lon, site.lat])
           .setPopup(popup)
           .addTo(map);
