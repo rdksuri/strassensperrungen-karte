@@ -53,6 +53,12 @@
     transition: transform 0.15s ease;
   }
   .site-marker:hover { transform: scale(1.15); }
+
+  /* Kleinerer Pin in der Mini-Karte, damit Strassen und Strassennamen sichtbar bleiben */
+  .site-marker.site-marker-mini {
+    width: 16px;
+    height: 16px;
+  }
 </style>
 </head>
 <body>
@@ -177,11 +183,12 @@
   }
 
   // Markanter Pin als SVG (Warnfarbe, weisser Rand, typspezifisches Icon)
-  function createMarkerElement(typ, iconKey) {
+  // mini=true liefert eine verkleinerte Variante fuer die Popup-Mini-Karte
+  function createMarkerElement(typ, iconKey, mini) {
     const color = MARKER_COLORS[typ] || MARKER_COLORS.konzept;
     const glyph = (ICONS[iconKey] || ICONS.warning)(color);
     const el = document.createElement('div');
-    el.className = 'site-marker';
+    el.className = mini ? 'site-marker site-marker-mini' : 'site-marker';
     el.innerHTML = `
       <svg viewBox="0 0 34 44" xmlns="http://www.w3.org/2000/svg">
         <path d="M17 0C7.6 0 0 7.6 0 17c0 12 17 27 17 27s17-15 17-27C34 7.6 26.4 0 17 0z"
@@ -240,7 +247,7 @@
           });
           miniMap.on('load', () => {
             miniMap.resize();
-            new maplibregl.Marker({ element: createMarkerElement(site.typ, getIconKey(site)), anchor: 'bottom' })
+            new maplibregl.Marker({ element: createMarkerElement(site.typ, getIconKey(site), true), anchor: 'bottom' })
               .setLngLat([site.lon, site.lat])
               .addTo(miniMap);
           });
