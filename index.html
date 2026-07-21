@@ -133,6 +133,15 @@
 
   map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-left');
 
+  // Standort-Button: zeigt die eigene Position auf der Karte (praktisch beim Fahren,
+  // um zu sehen, wie nah man an einer Sperrung ist). trackUserLocation folgt der
+  // Position live weiter, falls sich der Nutzer bewegt.
+  map.addControl(new maplibregl.GeolocateControl({
+    positionOptions: { enableHighAccuracy: true },
+    trackUserLocation: true,
+    showUserHeading: true
+  }), 'top-left');
+
   // maplibre-gl zentriert Popups beim Oeffnen nicht automatisch in den sichtbaren
   // Bereich (anders als z.B. Leaflet). Gerade am Handy, wo das Popup einen grossen
   // Teil des Bildschirms einnimmt, war das Ergebnis: Teile ragen ueber den Rand
