@@ -1,0 +1,35 @@
+name: Tägliche Prüfung Alpenpässe & Alertswiss
+
+on:
+  schedule:
+    # 05:30 UTC = 06:30/07:30 Schweizer Zeit, je nach Sommer-/Winterzeit
+    - cron: "30 5 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Pässe und Alertswiss prüfen
+        run: python3 scripts/check_passes_and_hazards.py
+
+      - name: Änderungen committen und pushen
+        run: |
+          git config user.name "strassensperrungen-karte-bot"
+          git config user.email "actions@users.noreply.github.com"
+          if ! git diff --quiet -- data/auto-sites.json; then
+            git add data/auto-sites.json
+            git commit -m "Automatisches Update: Pass- und Alertswiss-Status"
+            git push
+          else
+            echo "Keine Änderungen."
+          fi

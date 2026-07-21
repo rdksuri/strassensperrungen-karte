@@ -23,6 +23,15 @@
     font-size: 13px;
   }
   .popup-pdf-link:hover { background: #b3241a; }
+  .popup-disclaimer {
+    margin-top: 8px;
+    padding: 6px 8px;
+    background: #f3eefc;
+    border-left: 3px solid #7b3fe4;
+    font-size: 11.5px;
+    color: #4a2f80;
+    line-height: 1.4;
+  }
 
   /* Markante Pin-Marker */
   .site-marker {
@@ -40,9 +49,9 @@
 
 <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
 <script>
-  // Kartenausschnitt auf die Zentralschweiz begrenzt (Vierwaldstättersee-Region)
+  // Kartenausschnitt auf die Zentralschweiz begrenzt (inkl. Grimsel-/Furkapass)
   const ZENTRALSCHWEIZ_BOUNDS = [
-    [7.95, 46.65], // Südwest
+    [7.95, 46.50], // Südwest
     [8.95, 47.20]  // Nordost
   ];
 
@@ -58,10 +67,14 @@
 
   map.addControl(new maplibregl.NavigationControl(), 'top-left');
 
-  // Pin-Farbe nach Typ: Totalsperrung = rot, andere Konzepte (z.B. Interventionskonzept) = orange
+  // Pin-Farbe nach Typ:
+  // Totalsperrung = rot, andere Konzepte (z.B. Interventionskonzept) = orange,
+  // Pass-Sperrung = blau, Alertswiss-Gefahrengebiet = violett
   const MARKER_COLORS = {
     totalsperrung: '#d52b1e',
-    konzept: '#f2811d'
+    konzept: '#f2811d',
+    passsperrung: '#1c6fd6',
+    gefahrengebiet: '#7b3fe4'
   };
 
   // Markanter Pin als SVG (Warnfarbe, weisser Rand, Ausrufezeichen)
@@ -80,17 +93,28 @@
     return el;
   }
 
-  fetch('data/sites.json')
-    .then(res => res.json())
-    .then(sites => {
-      sites.forEach(site => {
+  // manual-sites.json: von Hand gepflegte Standorte (aus PDFs etc.)
+  // auto-sites.json: taeglich per GitHub Action aus TCS/Alertswiss generiert
+  Promise.all([
+    fetch('data/manual-sites.json').then(res => res.json()),
+    fetch('data/auto-sites.json').then(res => res.json()).catch(() => [])
+  ])
+    .then(([manualSites, autoSites]) => {
+      [...manualSites, ...autoSites].forEach(site => {
         const detailRows = (site.details || [])
           .map(d => `<div class="popup-row"><b>${d.label}:</b> ${d.value}</div>`)
           .join('');
+        const pdfLink = site.pdf
+          ? `<a class="popup-pdf-link" href="${site.pdf}" target="_blank" rel="noopener">PDF öffnen</a>`
+          : (site.link ? `<a class="popup-pdf-link" href="${site.link}" target="_blank" rel="noopener">Quelle öffnen</a>` : '');
+        const disclaimer = site.typ === 'gefahrengebiet'
+          ? `<div class="popup-disclaimer">⚠ Automatisch aus einem inoffiziellen Alertswiss-Feed übernommen. Keine offizielle Quelle, kann fehlerhaft sein oder ausfallen.</div>`
+          : '';
         const popupHtml = `
           <div class="popup-title">${site.name}</div>
           ${detailRows}
-          <a class="popup-pdf-link" href="${site.pdf}" target="_blank" rel="noopener">PDF öffnen</a>
+          ${pdfLink}
+          ${disclaimer}
         `;
         const popup = new maplibregl.Popup({ offset: 30, maxWidth: '320px' }).setHTML(popupHtml);
         new maplibregl.Marker({ element: createMarkerElement(site.typ), anchor: 'bottom' })

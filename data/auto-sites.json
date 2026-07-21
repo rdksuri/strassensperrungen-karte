@@ -1,0 +1,188 @@
+[
+  {
+    "id": "alertswiss-POA-1353744782-3",
+    "name": "Waldbrandgefahr: absolutes Feuerverbot im Freien",
+    "typ": "gefahrengebiet",
+    "lat": 46.76931437299037,
+    "lon": 8.627696045016082,
+    "pdf": null,
+    "details": [
+      {
+        "label": "Ereignis",
+        "value": "Feuerverbot"
+      },
+      {
+        "label": "Schweregrad",
+        "value": "moderate"
+      },
+      {
+        "label": "Herausgeber",
+        "value": "Kanton Uri"
+      },
+      {
+        "label": "Gemeldet",
+        "value": "Fr., 17.07.2026, 10:56"
+      },
+      {
+        "label": "Quelle",
+        "value": "Alertswiss (inoffizieller Feed, siehe Hinweis)"
+      }
+    ],
+    "link": "https://www.alert.swiss"
+  },
+  {
+    "id": "alertswiss-POA-1351679432-3",
+    "name": "Waldbrandgefahr: Feuerverbot im Wald und Waldesnähe",
+    "typ": "gefahrengebiet",
+    "lat": 47.16948751773047,
+    "lon": 8.53474326241135,
+    "pdf": null,
+    "details": [
+      {
+        "label": "Ereignis",
+        "value": "Feuerverbot"
+      },
+      {
+        "label": "Schweregrad",
+        "value": "moderate"
+      },
+      {
+        "label": "Herausgeber",
+        "value": "Kanton Zug"
+      },
+      {
+        "label": "Gemeldet",
+        "value": "Mi., 15.07.2026, 13:30"
+      },
+      {
+        "label": "Quelle",
+        "value": "Alertswiss (inoffizieller Feed, siehe Hinweis)"
+      }
+    ],
+    "link": "https://www.zg.ch/behoerden/direktion-des-innern/wald-und-wild"
+  },
+  {
+    "id": "alertswiss-POA-1351965994-2",
+    "name": "Waldbrandgefahr: absolutes Feuerverbot im Wald und in Waldesnähe (50m)",
+    "typ": "gefahrengebiet",
+    "lat": 46.8230626506024,
+    "lon": 8.424633975903616,
+    "pdf": null,
+    "details": [
+      {
+        "label": "Ereignis",
+        "value": "Feuerverbot"
+      },
+      {
+        "label": "Schweregrad",
+        "value": "moderate"
+      },
+      {
+        "label": "Herausgeber",
+        "value": "Kanton Obwalden"
+      },
+      {
+        "label": "Gemeldet",
+        "value": "Fr., 10.07.2026, 14:54"
+      },
+      {
+        "label": "Quelle",
+        "value": "Alertswiss (inoffizieller Feed, siehe Hinweis)"
+      }
+    ],
+    "link": "www.waldbrandgefahr.ch"
+  },
+  {
+    "id": "alertswiss-POA-1351640390-1",
+    "name": "Waldbrandgefahr: Feuerverbot im Wald und Waldesnähe",
+    "typ": "gefahrengebiet",
+    "lat": 47.0479810548523,
+    "lon": 8.747684219409283,
+    "pdf": null,
+    "details": [
+      {
+        "label": "Ereignis",
+        "value": "Feuerverbot"
+      },
+      {
+        "label": "Schweregrad",
+        "value": "moderate"
+      },
+      {
+        "label": "Herausgeber",
+        "value": "Kanton Schwyz"
+      },
+      {
+        "label": "Gemeldet",
+        "value": "Fr., 10.07.2026, 13:59"
+      },
+      {
+        "label": "Quelle",
+        "value": "Alertswiss (inoffizieller Feed, siehe Hinweis)"
+      }
+    ],
+    "link": "https://www.waldbrandgefahr.ch/"
+  },
+  {
+    "id": "alertswiss-POA-1351933396-1",
+    "name": "Waldbrandgefahr: absolutes Feuerverbot im im Wald und Waldesnähe (50m)",
+    "typ": "gefahrengebiet",
+    "lat": 46.9038662430939,
+    "lon": 8.388483535911599,
+    "pdf": null,
+    "details": [
+      {
+        "label": "Ereignis",
+        "value": "Feuerverbot"
+      },
+      {
+        "label": "Schweregrad",
+        "value": "moderate"
+      },
+      {
+        "label": "Herausgeber",
+        "value": "Kanton Nidwalden"
+      },
+      {
+        "label": "Gemeldet",
+        "value": "Fr., 10.07.2026, 12:09"
+      },
+      {
+        "label": "Quelle",
+        "value": "Alertswiss (inoffizieller Feed, siehe Hinweis)"
+      }
+    ],
+    "link": "https://www.sichere-sache.ch/de/home"
+  },
+  {
+    "id": "alertswiss-POA-1347270355-2",
+    "name": "Waldbrandgefahr: Feuerverbot im Wald und Waldesnähe",
+    "typ": "gefahrengebiet",
+    "lat": 47.077424164456275,
+    "lon": 8.129046684350138,
+    "pdf": null,
+    "details": [
+      {
+        "label": "Ereignis",
+        "value": "Feuerverbot"
+      },
+      {
+        "label": "Schweregrad",
+        "value": "moderate"
+      },
+      {
+        "label": "Herausgeber",
+        "value": "Kanton Luzern"
+      },
+      {
+        "label": "Gemeldet",
+        "value": "Mi., 08.07.2026, 19:07"
+      },
+      {
+        "label": "Quelle",
+        "value": "Alertswiss (inoffizieller Feed, siehe Hinweis)"
+      }
+    ],
+    "link": "https://www.alert.swiss"
+  }
+]
