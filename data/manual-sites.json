@@ -60,5 +60,22 @@
       { "label": "Start Strassensperre", "value": "13.07.2026" },
       { "label": "Ende Strassensperre", "value": "unbefristet" }
     ]
+  },
+  {
+    "id": "instandsetzung-buchholzstrasse-silenen",
+    "name": "Instandsetzung obere Buchholzstrasse, Silenen",
+    "typ": "totalsperrung",
+    "lat": 46.8028,
+    "lon": 8.6687,
+    "pdf": "pdfs/Instandsetzung-obere-Buchholzstrasse-Silenen_3-Info.pdf",
+    "details": [
+      { "label": "Ort", "value": "Obere Buchholzstrasse, Silenen (Bereich Buchholz 37–57)" },
+      { "label": "Projekt", "value": "Instandsetzung obere Buchholzstrasse" },
+      { "label": "Verkehrsregime", "value": "Täglich ca. 07:00–17:00 Uhr gesperrt (Etappe 1+2); zusätzlich Mi 15.07.26 07:00 Uhr – Do 16.07.26 17:00 Uhr durchgehend gesperrt (Belagseinbau)" },
+      { "label": "Zeitraum", "value": "ab 13.07.2026, laufend" },
+      { "label": "Kontakt Bauleitung", "value": "Elias Epp, A. Kälin AG, Tel. 079 588 86 48" },
+      { "label": "Notfallkontakt", "value": "Elias Wyrsch, Kalbermatter AG (Polier), Tel. 079 863 05 60" },
+      { "label": "Info Nr.", "value": "3 (10.07.2026)" }
+    ]
   }
 ]
