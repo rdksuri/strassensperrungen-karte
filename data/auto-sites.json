@@ -1,5 +1,143 @@
 [
   {
+    "id": "pass-sustenpass",
+    "name": "Sustenpass",
+    "typ": "pass_offen",
+    "lat": 46.7313,
+    "lon": 8.4512,
+    "pdf": null,
+    "details": [
+      {
+        "label": "Status",
+        "value": "Offen"
+      },
+      {
+        "label": "Übliche Wintersperre",
+        "value": "Übliche Wintersperre: November — Juni"
+      },
+      {
+        "label": "Quelle",
+        "value": "TCS Pässe-Portal (Stand: 24.07.2026 20:02:32)"
+      }
+    ],
+    "link": "https://www.tcs.ch/de/tools/verkehrsinfo-verkehrslage/paesse-in-der-schweiz.php"
+  },
+  {
+    "id": "pass-klausenpass",
+    "name": "Klausenpass",
+    "typ": "pass_offen",
+    "lat": 46.8682,
+    "lon": 8.8555,
+    "pdf": null,
+    "details": [
+      {
+        "label": "Status",
+        "value": "Offen"
+      },
+      {
+        "label": "Übliche Wintersperre",
+        "value": "Übliche Wintersperre: November — Mai"
+      },
+      {
+        "label": "Quelle",
+        "value": "TCS Pässe-Portal (Stand: 24.07.2026 20:02:32)"
+      }
+    ],
+    "link": "https://www.tcs.ch/de/tools/verkehrsinfo-verkehrslage/paesse-in-der-schweiz.php"
+  },
+  {
+    "id": "pass-grimselpass",
+    "name": "Grimselpass",
+    "typ": "pass_offen",
+    "lat": 46.561,
+    "lon": 8.337,
+    "pdf": null,
+    "details": [
+      {
+        "label": "Status",
+        "value": "Offen"
+      },
+      {
+        "label": "Übliche Wintersperre",
+        "value": "Übliche Wintersperre: November — Juni"
+      },
+      {
+        "label": "Quelle",
+        "value": "TCS Pässe-Portal (Stand: 24.07.2026 20:02:32)"
+      }
+    ],
+    "link": "https://www.tcs.ch/de/tools/verkehrsinfo-verkehrslage/paesse-in-der-schweiz.php"
+  },
+  {
+    "id": "pass-furkapass",
+    "name": "Furkapass",
+    "typ": "pass_offen",
+    "lat": 46.5719,
+    "lon": 8.4164,
+    "pdf": null,
+    "details": [
+      {
+        "label": "Status",
+        "value": "Offen"
+      },
+      {
+        "label": "Übliche Wintersperre",
+        "value": "Übliche Wintersperre: November — Juni"
+      },
+      {
+        "label": "Quelle",
+        "value": "TCS Pässe-Portal (Stand: 24.07.2026 20:02:32)"
+      }
+    ],
+    "link": "https://www.tcs.ch/de/tools/verkehrsinfo-verkehrslage/paesse-in-der-schweiz.php"
+  },
+  {
+    "id": "pass-pragelpass",
+    "name": "Pragelpass",
+    "typ": "pass_offen",
+    "lat": 46.9992,
+    "lon": 8.8695,
+    "pdf": null,
+    "details": [
+      {
+        "label": "Status",
+        "value": "Offen"
+      },
+      {
+        "label": "Übliche Wintersperre",
+        "value": "Übliche Wintersperre: November — Juni"
+      },
+      {
+        "label": "Quelle",
+        "value": "TCS Pässe-Portal (Stand: 24.07.2026 20:02:32)"
+      }
+    ],
+    "link": "https://www.tcs.ch/de/tools/verkehrsinfo-verkehrslage/paesse-in-der-schweiz.php"
+  },
+  {
+    "id": "pass-glaubenbergpass",
+    "name": "Glaubenbergpass",
+    "typ": "pass_offen",
+    "lat": 46.893,
+    "lon": 8.1074,
+    "pdf": null,
+    "details": [
+      {
+        "label": "Status",
+        "value": "Offen"
+      },
+      {
+        "label": "Übliche Wintersperre",
+        "value": "Übliche Wintersperre: November — April"
+      },
+      {
+        "label": "Quelle",
+        "value": "TCS Pässe-Portal (Stand: 24.07.2026 20:02:32)"
+      }
+    ],
+    "link": "https://www.tcs.ch/de/tools/verkehrsinfo-verkehrslage/paesse-in-der-schweiz.php"
+  },
+  {
     "id": "alertswiss-POA-1353744782-3",
     "name": "Waldbrandgefahr: absolutes Feuerverbot im Freien",
     "typ": "gefahrengebiet",
