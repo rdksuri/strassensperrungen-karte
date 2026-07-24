@@ -85,10 +85,134 @@
     width: 16px;
     height: 16px;
   }
+
+  /* Liste/Legende: Toggle-Button + ausklappbares Panel */
+  .sidebar-toggle {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 5;
+    background: #fff;
+    border: none;
+    border-radius: 6px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+    padding: 10px 14px;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+  }
+  .sidebar-toggle:hover { background: #f2f2f2; }
+
+  .sidebar {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 340px;
+    max-width: 92vw;
+    background: #fff;
+    box-shadow: -2px 0 10px rgba(0,0,0,0.25);
+    z-index: 6;
+    display: flex;
+    flex-direction: column;
+    transform: translateX(100%);
+    transition: transform 0.25s ease;
+  }
+  .sidebar.open { transform: translateX(0); }
+
+  .sidebar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 14px;
+    border-bottom: 1px solid #e2e2e2;
+    flex-shrink: 0;
+  }
+  .sidebar-header h2 { font-size: 15px; margin: 0; }
+  .sidebar-close {
+    background: none;
+    border: none;
+    font-size: 22px;
+    line-height: 1;
+    cursor: pointer;
+    padding: 4px 8px;
+    color: #555;
+  }
+
+  .sidebar-search {
+    margin: 10px 14px;
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    font-family: inherit;
+    flex-shrink: 0;
+  }
+
+  .sidebar-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 12px;
+    padding: 0 14px 10px;
+    border-bottom: 1px solid #e2e2e2;
+    flex-shrink: 0;
+  }
+  .legend-item { display: flex; align-items: center; gap: 5px; font-size: 11.5px; color: #333; }
+  .legend-dot { width: 11px; height: 11px; border-radius: 50%; flex-shrink: 0; border: 1px solid rgba(0,0,0,0.15); }
+
+  .sidebar-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 4px 0;
+  }
+  .sidebar-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    padding: 9px 14px;
+    border: none;
+    background: none;
+    text-align: left;
+    font-size: 13px;
+    font-family: inherit;
+    cursor: pointer;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  .sidebar-item:hover { background: #f7f7f7; }
+  .sidebar-item-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .sidebar-item-name { flex: 1; }
+  .sidebar-empty { padding: 16px 14px; color: #777; font-size: 13px; }
+
+  @media (max-width: 480px) {
+    .sidebar {
+      top: auto;
+      left: 0;
+      right: 0;
+      width: auto;
+      max-width: none;
+      height: 70vh;
+      height: 70dvh;
+      border-radius: 12px 12px 0 0;
+      transform: translateY(100%);
+    }
+    .sidebar.open { transform: translateY(0); }
+  }
 </style>
 </head>
 <body>
 <div id="map"></div>
+<button id="sidebar-toggle" class="sidebar-toggle" aria-label="Liste öffnen">☰ Liste</button>
+<div id="sidebar" class="sidebar">
+  <div class="sidebar-header">
+    <h2>Sperrungen &amp; Pässe</h2>
+    <button id="sidebar-close" class="sidebar-close" aria-label="Schliessen">&times;</button>
+  </div>
+  <input id="sidebar-search" class="sidebar-search" type="text" placeholder="Suchen (Ort, Name) …" />
+  <div id="sidebar-legend" class="sidebar-legend"></div>
+  <div id="sidebar-list" class="sidebar-list"></div>
+</div>
 
 <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
 <script>
@@ -176,13 +300,23 @@
 
   // Pin-Farbe nach Typ:
   // Totalsperrung = rot, andere Konzepte (z.B. Interventionskonzept) = orange,
-  // Pass-Sperrung = blau, Alertswiss-Gefahrengebiet = violett
+  // Pass-Sperrung = blau, offener Pass = gruen, Alertswiss-Gefahrengebiet = violett
   const MARKER_COLORS = {
     totalsperrung: '#d52b1e',
     konzept: '#f2811d',
     passsperrung: '#1c6fd6',
+    pass_offen: '#2e9e44',
     gefahrengebiet: '#7b3fe4'
   };
+
+  // Fuer Legende und Sidebar: Anzeigename je Typ
+  const LEGEND = [
+    { typ: 'totalsperrung', label: 'Totalsperrung' },
+    { typ: 'konzept', label: 'Verkehrsbehinderung / Konzept' },
+    { typ: 'passsperrung', label: 'Alpenpass geschlossen' },
+    { typ: 'pass_offen', label: 'Alpenpass offen' },
+    { typ: 'gefahrengebiet', label: 'Alertswiss-Gefahrengebiet' }
+  ];
 
   // Icon-Glyphen (werden in der jeweiligen Pin-Farbe auf den weissen Kreis gezeichnet)
   const ICONS = {
@@ -231,6 +365,10 @@
     // Fallback fuer unbekannte/sonstige Ereignisse
     warning: (c) => `
       <text x="17" y="21.5" text-anchor="middle" font-size="12" font-weight="700" fill="${c}">!</text>
+    `,
+    // Haken: fuer offene Alpenpaesse
+    check: (c) => `
+      <path fill="none" stroke="${c}" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M10 17.5l4.5 4.5L24 12"/>
     `
   };
 
@@ -248,13 +386,23 @@
     'hochwasser': 'wave'
   };
 
-  // Sperrungs-Typen bekommen immer das Barriere-Icon; bei Alertswiss-Gefahrengebieten
-  // richtet sich das Icon nach dem gemeldeten Ereignistyp
+  // Sperrungs-Typen bekommen immer das Barriere-Icon, offene Paesse den Haken;
+  // bei Alertswiss-Gefahrengebieten richtet sich das Icon nach dem gemeldeten Ereignistyp
   function getIconKey(site) {
+    if (site.typ === 'pass_offen') return 'check';
     if (site.typ !== 'gefahrengebiet') return 'barrier';
     const ereignis = (site.details || []).find(d => d.label === 'Ereignis');
     const key = ereignis ? ereignis.value.trim().toLowerCase() : '';
     return EVENT_ICON_MAP[key] || 'warning';
+  }
+
+  // Ein Standort gilt als abgelaufen, wenn ein "gueltig_bis"-Datum (ISO, z.B.
+  // "2026-08-14") gesetzt und dieses in der Vergangenheit liegt. Standorte
+  // ohne dieses Feld (unbefristet/laufend) werden immer angezeigt.
+  function isExpired(site) {
+    if (!site.gueltig_bis) return false;
+    const end = new Date(site.gueltig_bis + 'T23:59:59');
+    return end.getTime() < Date.now();
   }
 
   // Markanter Pin als SVG (Warnfarbe, weisser Rand, typspezifisches Icon)
@@ -275,6 +423,18 @@
     return el;
   }
 
+  // Sidebar-Toggle (Liste & Legende)
+  const sidebar = document.getElementById('sidebar');
+  document.getElementById('sidebar-toggle').addEventListener('click', () => sidebar.classList.add('open'));
+  document.getElementById('sidebar-close').addEventListener('click', () => sidebar.classList.remove('open'));
+
+  // Legende einmalig aufbauen (unabhaengig von den geladenen Standorten)
+  document.getElementById('sidebar-legend').innerHTML = LEGEND.map(l => `
+    <span class="legend-item">
+      <span class="legend-dot" style="background:${MARKER_COLORS[l.typ]}"></span>${l.label}
+    </span>
+  `).join('');
+
   // manual-sites.json: von Hand gepflegte Standorte (aus PDFs etc.)
   // auto-sites.json: taeglich per GitHub Action aus TCS/Alertswiss generiert
   Promise.all([
@@ -282,7 +442,13 @@
     fetch('data/auto-sites.json').then(res => res.json()).catch(() => [])
   ])
     .then(([manualSites, autoSites]) => {
-      [...manualSites, ...autoSites].forEach((site, idx) => {
+      // Abgelaufene Sperrungen (gueltig_bis in der Vergangenheit) werden gar nicht
+      // erst angezeigt, damit die Karte nicht mit veralteten Pins zumuellt.
+      const sites = [...manualSites, ...autoSites]
+        .filter(site => !isExpired(site))
+        .sort((a, b) => a.name.localeCompare(b.name, 'de'));
+
+      const entries = sites.map((site, idx) => {
         const detailRows = (site.details || [])
           .map(d => `<div class="popup-row"><b>${d.label}:</b> ${d.value}</div>`)
           .join('');
@@ -343,11 +509,58 @@
           }
         });
 
-        new maplibregl.Marker({ element: createMarkerElement(site.typ, getIconKey(site)), anchor: 'bottom' })
+        const marker = new maplibregl.Marker({ element: createMarkerElement(site.typ, getIconKey(site)), anchor: 'bottom' })
           .setLngLat([site.lon, site.lat])
-          .setPopup(popup)
-          .addTo(map);
+          .setPopup(popup);
+
+        return { site, marker, onMap: false };
       });
+
+      function setOnMap(entry, on) {
+        if (on === entry.onMap) return;
+        if (on) entry.marker.addTo(map); else entry.marker.remove();
+        entry.onMap = on;
+      }
+
+      function openEntry(entry) {
+        map.easeTo({ center: [entry.site.lon, entry.site.lat], zoom: Math.max(map.getZoom(), 13), duration: 500 });
+        entry.marker.togglePopup();
+        if (window.matchMedia('(max-width: 480px)').matches) sidebar.classList.remove('open');
+      }
+
+      // Baut die Liste im Sidebar-Panel neu auf und blendet Marker auf der Karte
+      // ein/aus, je nachdem ob sie zum Suchbegriff passen (Name oder "Ort"-Detail).
+      const listEl = document.getElementById('sidebar-list');
+      function renderList(filterText) {
+        const q = filterText.trim().toLowerCase();
+        listEl.innerHTML = '';
+        let shown = 0;
+        entries.forEach(entry => {
+          const ortDetail = (entry.site.details || []).find(d => d.label === 'Ort');
+          const haystack = (entry.site.name + ' ' + (ortDetail ? ortDetail.value : '')).toLowerCase();
+          const matches = !q || haystack.includes(q);
+          setOnMap(entry, matches);
+          if (!matches) return;
+          shown++;
+          const btn = document.createElement('button');
+          btn.className = 'sidebar-item';
+          btn.innerHTML = `
+            <span class="sidebar-item-dot" style="background:${MARKER_COLORS[entry.site.typ] || MARKER_COLORS.konzept}"></span>
+            <span class="sidebar-item-name">${entry.site.name}</span>
+          `;
+          btn.addEventListener('click', () => openEntry(entry));
+          listEl.appendChild(btn);
+        });
+        if (shown === 0) {
+          const empty = document.createElement('div');
+          empty.className = 'sidebar-empty';
+          empty.textContent = 'Keine Treffer.';
+          listEl.appendChild(empty);
+        }
+      }
+
+      renderList('');
+      document.getElementById('sidebar-search').addEventListener('input', (e) => renderList(e.target.value));
     })
     .catch(err => console.error('Fehler beim Laden der Standorte:', err));
 </script>

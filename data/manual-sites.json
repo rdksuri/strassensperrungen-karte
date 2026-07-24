@@ -6,6 +6,7 @@
     "lat": 46.9670,
     "lon": 8.4607,
     "pdf": "pdfs/EP-Lehn-Beck_VP2-S_Anhang2.pdf",
+    "gueltig_bis": "2026-06-30",
     "details": [
       { "label": "Ort", "value": "A2 Nordachse, Seelisbergtunnel-Bereich, zwischen Beckenried (NW) und Altdorf (UR)" },
       { "label": "Projekt", "value": "EP Lehn-Beck" },
@@ -22,6 +23,7 @@
     "lat": 46.8771,
     "lon": 8.6461,
     "pdf": "pdfs/BRI-Info-Nr1_Sanierung-Kreuzgasse-Altdorf.pdf",
+    "gueltig_bis": "2026-09-30",
     "details": [
       { "label": "Ort", "value": "Kreuzgasse Altdorf, Abschnitt Gotthardstrasse – Gründligasse" },
       { "label": "Projekt", "value": "Gemeinde Altdorf: Sanierung Kreuzgasse" },
@@ -85,6 +87,7 @@
     "lat": 46.7273,
     "lon": 8.6216,
     "pdf": null,
+    "gueltig_bis": "2026-08-20",
     "details": [
       { "label": "Ort", "value": "Dorfstrasse Gurtnellen, zwischen Hälteli und Miseli" },
       { "label": "Status", "value": "geplant" },
@@ -100,6 +103,7 @@
     "lat": 46.8829,
     "lon": 8.6454,
     "pdf": null,
+    "gueltig_bis": "2026-09-06",
     "details": [
       { "label": "Ort", "value": "Zufahrt Winkel, Altdorf UR" },
       { "label": "Status", "value": "geplant" },
@@ -115,6 +119,7 @@
     "lat": 46.8802,
     "lon": 8.6426,
     "pdf": "pdfs/Uebersichtssituation-Umleitung-Gitschenstrasse-Altdorf.pdf",
+    "gueltig_bis": "2026-08-14",
     "details": [
       { "label": "Ort", "value": "Gitschenstrasse Altdorf, Höhe Kreuzung Bahnhofstrasse/Langmattgasse" },
       { "label": "Projekt", "value": "Erschliessung Fernwärme Bahnhofstrasse 43" },

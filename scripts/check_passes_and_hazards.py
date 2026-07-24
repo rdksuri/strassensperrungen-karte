@@ -73,9 +73,6 @@ def check_passes():
         status_text = status_m.group(2).strip() if status_m else ""
         is_closed = "geschlossen" in status_text.lower()
 
-        if not is_closed:
-            continue
-
         wintersperre_m = re.search(
             r'winter-closure.*?alt="[^"]*"\s*/>\s*([^<]+)<', chunk, re.S
         )
@@ -84,16 +81,19 @@ def check_passes():
         update_m = re.search(r'last-update">Zuletzt aktualisiert am: ([^<]+)<', chunk)
         last_update = update_m.group(1).strip() if update_m else "unbekannt"
 
+        # Jeder Pass bekommt IMMER einen Eintrag - geschlossen (blau) oder offen
+        # (gruen mit Haken) - damit auf der Karte auch sichtbar ist, welche
+        # Paesse aktuell befahrbar sind, nicht nur die gesperrten.
         sites.append({
             "id": f"pass-{p['slug']}",
             "name": p["name"],
-            "typ": "passsperrung",
+            "typ": "passsperrung" if is_closed else "pass_offen",
             "lat": p["lat"],
             "lon": p["lon"],
             "pdf": None,
             "details": [
-                {"label": "Status", "value": status_text or "Geschlossen"},
-                {"label": "Zeitraum", "value": wintersperre},
+                {"label": "Status", "value": status_text or ("Geschlossen" if is_closed else "Offen")},
+                {"label": "Übliche Wintersperre", "value": wintersperre},
                 {"label": "Quelle", "value": f"TCS Pässe-Portal (Stand: {last_update})"},
             ],
             "link": TCS_URL,
@@ -167,7 +167,7 @@ def main():
         previous = json.loads(out_path.read_text(encoding="utf-8"))
     except Exception:
         previous = []
-    previous_passes = [s for s in previous if s.get("typ") == "passsperrung"]
+    previous_passes = [s for s in previous if s.get("typ") in ("passsperrung", "pass_offen")]
     previous_hazards = [s for s in previous if s.get("typ") == "gefahrengebiet"]
 
     passes_ok, passes = check_passes()
