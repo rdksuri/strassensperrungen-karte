@@ -41,7 +41,16 @@ PASSES = [
     {"slug": "furkapass", "name": "Furkapass", "lat": 46.5719, "lon": 8.4164},
     {"slug": "pragelpass", "name": "Pragelpass", "lat": 46.9992, "lon": 8.8695},
     {"slug": "glaubenbergpass", "name": "Glaubenbergpass", "lat": 46.8930, "lon": 8.1074},
-    {"slug": "gotthardpass", "name": "Gotthardpass", "lat": 46.5593, "lon": 8.5612},
+    {
+        "slug": "gotthardpass", "name": "Gotthardpass", "lat": 46.5593, "lon": 8.5612,
+        # gotthard-traffic.ch selbst laesst sich nicht automatisiert abfragen (Cloudflare-
+        # Turnstile-Captcha blockiert jeden Skriptzugriff) - daher nur ein Link zum
+        # manuellen Nachschauen der aktuellen Stausituation vor dem Tunnel.
+        "extra_detail": {
+            "label": "Stau-Info",
+            "value": '<a href="https://www.gotthard-traffic.ch/?lan=de" target="_blank" rel="noopener">Aktuelle Stausituation ansehen (gotthard-traffic.ch)</a>',
+        },
+    },
 ]
 
 HEADERS = {"User-Agent": "Mozilla/5.0 (compatible; strassensperrungen-karte-bot/1.0)"}
@@ -82,6 +91,14 @@ def check_passes():
         update_m = re.search(r'last-update">Zuletzt aktualisiert am: ([^<]+)<', chunk)
         last_update = update_m.group(1).strip() if update_m else "unbekannt"
 
+        details = [
+            {"label": "Status", "value": status_text or ("Geschlossen" if is_closed else "Offen")},
+            {"label": "Übliche Wintersperre", "value": wintersperre},
+            {"label": "Quelle", "value": f"TCS Pässe-Portal (Stand: {last_update})"},
+        ]
+        if "extra_detail" in p:
+            details.append(p["extra_detail"])
+
         # Jeder Pass bekommt IMMER einen Eintrag - geschlossen (blau) oder offen
         # (gruen mit Haken) - damit auf der Karte auch sichtbar ist, welche
         # Paesse aktuell befahrbar sind, nicht nur die gesperrten.
@@ -92,11 +109,7 @@ def check_passes():
             "lat": p["lat"],
             "lon": p["lon"],
             "pdf": None,
-            "details": [
-                {"label": "Status", "value": status_text or ("Geschlossen" if is_closed else "Offen")},
-                {"label": "Übliche Wintersperre", "value": wintersperre},
-                {"label": "Quelle", "value": f"TCS Pässe-Portal (Stand: {last_update})"},
-            ],
+            "details": details,
             "link": TCS_URL,
         })
     return True, sites
