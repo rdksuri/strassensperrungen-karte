@@ -107,5 +107,20 @@
       { "label": "Start Strassensperre", "value": "03.09.2026" },
       { "label": "Ende Strassensperre", "value": "06.09.2026" }
     ]
+  },
+  {
+    "id": "totalsperrung-gitschenstrasse-altdorf",
+    "name": "Totalsperrung Gitschenstrasse Altdorf",
+    "typ": "totalsperrung",
+    "lat": 46.8802,
+    "lon": 8.6426,
+    "pdf": "pdfs/Uebersichtssituation-Umleitung-Gitschenstrasse-Altdorf.pdf",
+    "details": [
+      { "label": "Ort", "value": "Gitschenstrasse Altdorf, Höhe Kreuzung Bahnhofstrasse/Langmattgasse" },
+      { "label": "Projekt", "value": "Erschliessung Fernwärme Bahnhofstrasse 43" },
+      { "label": "Verkehrsregime", "value": "Totalsperrung; Umleitung für PW und Langsamverkehr möglich, Fussgängerumleitung über Schulhausplatz–Bahnhofstrasse; Zufahrt Berufsbildungszentrum nicht beeinträchtigt" },
+      { "label": "Zeitraum", "value": "06.07.2026 – max. 14.08.2026" },
+      { "label": "Quelle", "value": "GEO.UR, IUB/PWA (03.06.2026)" }
+    ]
   }
 ]
