@@ -77,5 +77,35 @@
       { "label": "Notfallkontakt", "value": "Elias Wyrsch, Kalbermatter AG (Polier), Tel. 079 863 05 60" },
       { "label": "Info Nr.", "value": "3 (10.07.2026)" }
     ]
+  },
+  {
+    "id": "nachtsperrung-dorfstrasse-gurtnellen",
+    "name": "Nachtsperrung Dorfstrasse Gurtnellen",
+    "typ": "totalsperrung",
+    "lat": 46.7273,
+    "lon": 8.6216,
+    "pdf": null,
+    "details": [
+      { "label": "Ort", "value": "Dorfstrasse Gurtnellen, zwischen Hälteli und Miseli" },
+      { "label": "Status", "value": "geplant" },
+      { "label": "Beschreibung", "value": "Nachtsperrung, jeweils zwischen 20:00 – 05:00 Uhr" },
+      { "label": "Start Strassensperre", "value": "17.08.2026" },
+      { "label": "Ende Strassensperre", "value": "20.08.2026" }
+    ]
+  },
+  {
+    "id": "oktoberfest-altdorf-zufahrt-winkel",
+    "name": "Oktoberfest Altdorf",
+    "typ": "konzept",
+    "lat": 46.8829,
+    "lon": 8.6454,
+    "pdf": null,
+    "details": [
+      { "label": "Ort", "value": "Zufahrt Winkel, Altdorf UR" },
+      { "label": "Status", "value": "geplant" },
+      { "label": "Beschreibung", "value": "Behinderung Zufahrt Winkel" },
+      { "label": "Start Strassensperre", "value": "03.09.2026" },
+      { "label": "Ende Strassensperre", "value": "06.09.2026" }
+    ]
   }
 ]
