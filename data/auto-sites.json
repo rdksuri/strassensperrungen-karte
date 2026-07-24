@@ -17,7 +17,7 @@
       },
       {
         "label": "Quelle",
-        "value": "TCS Pässe-Portal (Stand: 24.07.2026 20:02:32)"
+        "value": "TCS Pässe-Portal (Stand: 24.07.2026 20:19:51)"
       }
     ],
     "link": "https://www.tcs.ch/de/tools/verkehrsinfo-verkehrslage/paesse-in-der-schweiz.php"
@@ -40,7 +40,7 @@
       },
       {
         "label": "Quelle",
-        "value": "TCS Pässe-Portal (Stand: 24.07.2026 20:02:32)"
+        "value": "TCS Pässe-Portal (Stand: 24.07.2026 20:19:51)"
       }
     ],
     "link": "https://www.tcs.ch/de/tools/verkehrsinfo-verkehrslage/paesse-in-der-schweiz.php"
@@ -63,7 +63,7 @@
       },
       {
         "label": "Quelle",
-        "value": "TCS Pässe-Portal (Stand: 24.07.2026 20:02:32)"
+        "value": "TCS Pässe-Portal (Stand: 24.07.2026 20:19:51)"
       }
     ],
     "link": "https://www.tcs.ch/de/tools/verkehrsinfo-verkehrslage/paesse-in-der-schweiz.php"
@@ -86,7 +86,7 @@
       },
       {
         "label": "Quelle",
-        "value": "TCS Pässe-Portal (Stand: 24.07.2026 20:02:32)"
+        "value": "TCS Pässe-Portal (Stand: 24.07.2026 20:19:51)"
       }
     ],
     "link": "https://www.tcs.ch/de/tools/verkehrsinfo-verkehrslage/paesse-in-der-schweiz.php"
@@ -109,7 +109,7 @@
       },
       {
         "label": "Quelle",
-        "value": "TCS Pässe-Portal (Stand: 24.07.2026 20:02:32)"
+        "value": "TCS Pässe-Portal (Stand: 24.07.2026 20:19:51)"
       }
     ],
     "link": "https://www.tcs.ch/de/tools/verkehrsinfo-verkehrslage/paesse-in-der-schweiz.php"
@@ -132,7 +132,30 @@
       },
       {
         "label": "Quelle",
-        "value": "TCS Pässe-Portal (Stand: 24.07.2026 20:02:32)"
+        "value": "TCS Pässe-Portal (Stand: 24.07.2026 20:19:51)"
+      }
+    ],
+    "link": "https://www.tcs.ch/de/tools/verkehrsinfo-verkehrslage/paesse-in-der-schweiz.php"
+  },
+  {
+    "id": "pass-gotthardpass",
+    "name": "Gotthardpass",
+    "typ": "pass_offen",
+    "lat": 46.5593,
+    "lon": 8.5612,
+    "pdf": null,
+    "details": [
+      {
+        "label": "Status",
+        "value": "Offen"
+      },
+      {
+        "label": "Übliche Wintersperre",
+        "value": "Übliche Wintersperre: November — Mai"
+      },
+      {
+        "label": "Quelle",
+        "value": "TCS Pässe-Portal (Stand: 24.07.2026 20:19:51)"
       }
     ],
     "link": "https://www.tcs.ch/de/tools/verkehrsinfo-verkehrslage/paesse-in-der-schweiz.php"
