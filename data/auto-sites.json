@@ -17,7 +17,7 @@
       },
       {
         "label": "Quelle",
-        "value": "TCS Pässe-Portal (Stand: 24.07.2026 20:19:51)"
+        "value": "TCS Pässe-Portal (Stand: 24.07.2026 22:16:48)"
       }
     ],
     "link": "https://www.tcs.ch/de/tools/verkehrsinfo-verkehrslage/paesse-in-der-schweiz.php"
@@ -40,7 +40,7 @@
       },
       {
         "label": "Quelle",
-        "value": "TCS Pässe-Portal (Stand: 24.07.2026 20:19:51)"
+        "value": "TCS Pässe-Portal (Stand: 24.07.2026 22:16:48)"
       }
     ],
     "link": "https://www.tcs.ch/de/tools/verkehrsinfo-verkehrslage/paesse-in-der-schweiz.php"
@@ -63,7 +63,7 @@
       },
       {
         "label": "Quelle",
-        "value": "TCS Pässe-Portal (Stand: 24.07.2026 20:19:51)"
+        "value": "TCS Pässe-Portal (Stand: 24.07.2026 22:16:48)"
       }
     ],
     "link": "https://www.tcs.ch/de/tools/verkehrsinfo-verkehrslage/paesse-in-der-schweiz.php"
@@ -86,7 +86,7 @@
       },
       {
         "label": "Quelle",
-        "value": "TCS Pässe-Portal (Stand: 24.07.2026 20:19:51)"
+        "value": "TCS Pässe-Portal (Stand: 24.07.2026 22:16:48)"
       }
     ],
     "link": "https://www.tcs.ch/de/tools/verkehrsinfo-verkehrslage/paesse-in-der-schweiz.php"
@@ -109,7 +109,7 @@
       },
       {
         "label": "Quelle",
-        "value": "TCS Pässe-Portal (Stand: 24.07.2026 20:19:51)"
+        "value": "TCS Pässe-Portal (Stand: 24.07.2026 22:16:48)"
       }
     ],
     "link": "https://www.tcs.ch/de/tools/verkehrsinfo-verkehrslage/paesse-in-der-schweiz.php"
@@ -132,7 +132,7 @@
       },
       {
         "label": "Quelle",
-        "value": "TCS Pässe-Portal (Stand: 24.07.2026 20:19:51)"
+        "value": "TCS Pässe-Portal (Stand: 24.07.2026 22:16:48)"
       }
     ],
     "link": "https://www.tcs.ch/de/tools/verkehrsinfo-verkehrslage/paesse-in-der-schweiz.php"
@@ -155,7 +155,11 @@
       },
       {
         "label": "Quelle",
-        "value": "TCS Pässe-Portal (Stand: 24.07.2026 20:19:51)"
+        "value": "TCS Pässe-Portal (Stand: 24.07.2026 22:16:48)"
+      },
+      {
+        "label": "Stau-Info",
+        "value": "<a href=\"https://www.gotthard-traffic.ch/?lan=de\" target=\"_blank\" rel=\"noopener\">Aktuelle Stausituation ansehen (gotthard-traffic.ch)</a>"
       }
     ],
     "link": "https://www.tcs.ch/de/tools/verkehrsinfo-verkehrslage/paesse-in-der-schweiz.php"
