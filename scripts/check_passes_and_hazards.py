@@ -41,6 +41,7 @@ PASSES = [
     {"slug": "furkapass", "name": "Furkapass", "lat": 46.5719, "lon": 8.4164},
     {"slug": "pragelpass", "name": "Pragelpass", "lat": 46.9992, "lon": 8.8695},
     {"slug": "glaubenbergpass", "name": "Glaubenbergpass", "lat": 46.8930, "lon": 8.1074},
+    {"slug": "gotthardpass", "name": "Gotthardpass", "lat": 46.5593, "lon": 8.5612},
 ]
 
 HEADERS = {"User-Agent": "Mozilla/5.0 (compatible; strassensperrungen-karte-bot/1.0)"}
