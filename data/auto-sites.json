@@ -17,7 +17,7 @@
       },
       {
         "label": "Quelle",
-        "value": "TCS Pässe-Portal (Stand: 24.07.2026 22:16:48)"
+        "value": "TCS Pässe-Portal (Stand: 25.07.2026 12:31:28)"
       }
     ],
     "link": "https://www.tcs.ch/de/tools/verkehrsinfo-verkehrslage/paesse-in-der-schweiz.php"
@@ -40,7 +40,7 @@
       },
       {
         "label": "Quelle",
-        "value": "TCS Pässe-Portal (Stand: 24.07.2026 22:16:48)"
+        "value": "TCS Pässe-Portal (Stand: 25.07.2026 12:31:28)"
       }
     ],
     "link": "https://www.tcs.ch/de/tools/verkehrsinfo-verkehrslage/paesse-in-der-schweiz.php"
@@ -63,7 +63,7 @@
       },
       {
         "label": "Quelle",
-        "value": "TCS Pässe-Portal (Stand: 24.07.2026 22:16:48)"
+        "value": "TCS Pässe-Portal (Stand: 25.07.2026 12:31:28)"
       }
     ],
     "link": "https://www.tcs.ch/de/tools/verkehrsinfo-verkehrslage/paesse-in-der-schweiz.php"
@@ -86,7 +86,7 @@
       },
       {
         "label": "Quelle",
-        "value": "TCS Pässe-Portal (Stand: 24.07.2026 22:16:48)"
+        "value": "TCS Pässe-Portal (Stand: 25.07.2026 12:31:28)"
       }
     ],
     "link": "https://www.tcs.ch/de/tools/verkehrsinfo-verkehrslage/paesse-in-der-schweiz.php"
@@ -94,14 +94,14 @@
   {
     "id": "pass-pragelpass",
     "name": "Pragelpass",
-    "typ": "pass_offen",
+    "typ": "passsperrung",
     "lat": 46.9992,
     "lon": 8.8695,
     "pdf": null,
     "details": [
       {
         "label": "Status",
-        "value": "Offen"
+        "value": "Geschlossen"
       },
       {
         "label": "Übliche Wintersperre",
@@ -109,7 +109,7 @@
       },
       {
         "label": "Quelle",
-        "value": "TCS Pässe-Portal (Stand: 24.07.2026 22:16:48)"
+        "value": "TCS Pässe-Portal (Stand: 25.07.2026 12:31:28)"
       }
     ],
     "link": "https://www.tcs.ch/de/tools/verkehrsinfo-verkehrslage/paesse-in-der-schweiz.php"
@@ -132,7 +132,7 @@
       },
       {
         "label": "Quelle",
-        "value": "TCS Pässe-Portal (Stand: 24.07.2026 22:16:48)"
+        "value": "TCS Pässe-Portal (Stand: 25.07.2026 12:31:28)"
       }
     ],
     "link": "https://www.tcs.ch/de/tools/verkehrsinfo-verkehrslage/paesse-in-der-schweiz.php"
@@ -155,7 +155,7 @@
       },
       {
         "label": "Quelle",
-        "value": "TCS Pässe-Portal (Stand: 24.07.2026 22:16:48)"
+        "value": "TCS Pässe-Portal (Stand: 25.07.2026 12:31:28)"
       },
       {
         "label": "Stau-Info",
@@ -349,5 +349,36 @@
       }
     ],
     "link": "https://www.alert.swiss"
+  },
+  {
+    "id": "alertswiss-POA-1355545984-1",
+    "name": "Unterbruch der Telekommunikation",
+    "typ": "gefahrengebiet",
+    "lat": 46.87687668965517,
+    "lon": 8.76889951724138,
+    "pdf": null,
+    "details": [
+      {
+        "label": "Ereignis",
+        "value": "Ausfall Kommunikationsmittel"
+      },
+      {
+        "label": "Schweregrad",
+        "value": "minor"
+      },
+      {
+        "label": "Herausgeber",
+        "value": "Kanton Uri"
+      },
+      {
+        "label": "Gemeldet",
+        "value": "Sa., 25.07.2026, 11:59"
+      },
+      {
+        "label": "Quelle",
+        "value": "Alertswiss (inoffizieller Feed, siehe Hinweis)"
+      }
+    ],
+    "link": "https://www.buerglen.ch/_docn/7112995/Informationsschreiben_Unterbruch_infolge_Wartungsarbeiten.pdf"
   }
 ]
