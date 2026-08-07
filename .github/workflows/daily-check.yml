@@ -26,8 +26,12 @@ jobs:
         run: |
           git config user.name "strassensperrungen-karte-bot"
           git config user.email "actions@users.noreply.github.com"
-          if ! git diff --quiet -- data/auto-sites.json; then
-            git add data/auto-sites.json
+          # last-check.json aendert sich (Zeitstempel) bei jedem Lauf, auch wenn
+          # sich an den Sperrungen/Paessen selbst nichts geaendert hat - deshalb
+          # wird hier immer committet, damit "zuletzt geprüft" auf der Karte
+          # stimmt statt nur bei inhaltlichen Aenderungen.
+          git add data/auto-sites.json data/last-check.json
+          if ! git diff --cached --quiet; then
             git commit -m "Automatisches Update: Pass- und Alertswiss-Status"
             git push
           else

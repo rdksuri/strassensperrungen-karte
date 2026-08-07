@@ -20,6 +20,7 @@ import json
 import re
 import sys
 import urllib.request
+from datetime import datetime, timezone
 from pathlib import Path
 
 TCS_URL = "https://www.tcs.ch/de/tools/verkehrsinfo-verkehrslage/paesse-in-der-schweiz.php"
@@ -194,6 +195,18 @@ def main():
 
     sites = final_passes + final_hazards
     out_path.write_text(json.dumps(sites, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+
+    # Zeitstempel des letzten Checks separat ablegen, damit die Karte anzeigen kann,
+    # wann die Pass-/Alertswiss-Daten zuletzt geprueft wurden (unabhaengig vom Inhalt
+    # von auto-sites.json, das bei einem Fehlschlag ja auch mal unveraendert bleibt).
+    meta_path = out_path.parent / "last-check.json"
+    meta = {
+        "checked_at": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "passes_ok": passes_ok,
+        "hazards_ok": hazards_ok,
+    }
+    meta_path.write_text(json.dumps(meta, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+
     print(
         f"{len(sites)} automatisch erkannte Einträge geschrieben nach {out_path} "
         f"(Pässe: {'aktuell' if passes_ok else 'ALT/unveraendert, Quelle nicht erreichbar'}, "
