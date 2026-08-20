@@ -171,6 +171,18 @@
   }
   .sidebar.open { transform: translateX(0); }
 
+  /* Ziehgriff oben an der Liste (nur am Handy sichtbar, siehe Media-Query) -
+     derselbe Wegwisch-Hinweis wie beim Popup. */
+  .sidebar-drag-handle {
+    display: none;
+    width: 40px;
+    height: 4px;
+    border-radius: 2px;
+    background: #ccc;
+    margin: 8px auto 0;
+    flex-shrink: 0;
+  }
+
   .sidebar-header {
     display: flex;
     align-items: center;
@@ -353,6 +365,7 @@
       transform: translateY(100%);
     }
     .sidebar.open { transform: translateY(0); }
+    .sidebar-drag-handle { display: block; }
   }
 </style>
 </head>
@@ -361,6 +374,7 @@
 <div id="last-check" class="last-check" hidden></div>
 <button id="sidebar-toggle" class="sidebar-toggle" aria-label="Liste öffnen">☰ Liste</button>
 <div id="sidebar" class="sidebar">
+  <div class="sidebar-drag-handle" aria-hidden="true"></div>
   <div class="sidebar-header">
     <h2>Sperrungen &amp; Pässe</h2>
     <button id="sidebar-close" class="sidebar-close" aria-label="Schliessen">&times;</button>
@@ -640,6 +654,49 @@
   const sidebar = document.getElementById('sidebar');
   document.getElementById('sidebar-toggle').addEventListener('click', () => sidebar.classList.add('open'));
   document.getElementById('sidebar-close').addEventListener('click', () => sidebar.classList.remove('open'));
+
+  // Sidebar per Runterwischen schliessen (Handy, wo sie als Bottom-Sheet von
+  // unten kommt - am Desktop schiebt sie von rechts rein, dort ergibt ein
+  // vertikaler Wisch keinen Sinn). Startet auf Formularelementen (Sucheingabe,
+  // Vorschlaege, Buttons) NICHT, damit normales Tippen/Tappen dort nicht als
+  // Wisch-Geste verloren geht; in der Liste erst, wenn diese ganz oben ist,
+  // damit normales Scrollen nicht versehentlich schliesst.
+  (function attachSidebarSwipeToClose() {
+    const listEl = document.getElementById('sidebar-list');
+    let startY = null;
+    let dragging = false;
+
+    sidebar.addEventListener('touchstart', (e) => {
+      if (e.touches.length !== 1 || !window.matchMedia('(max-width: 480px)').matches) return;
+      const target = e.target;
+      if (target.closest('input, button, a, .route-suggestion-item')) return;
+      if (listEl.contains(target) && listEl.scrollTop > 0) return;
+      startY = e.touches[0].clientY;
+      dragging = true;
+      sidebar.style.transition = 'none';
+    }, { passive: true });
+
+    sidebar.addEventListener('touchmove', (e) => {
+      if (!dragging || startY === null) return;
+      const dy = e.touches[0].clientY - startY;
+      if (dy > 0) {
+        e.preventDefault();
+        sidebar.style.transform = `translateY(${dy}px)`;
+      }
+    }, { passive: false });
+
+    function endDrag(e) {
+      if (!dragging) return;
+      dragging = false;
+      sidebar.style.transition = '';
+      sidebar.style.transform = '';
+      const endY = (e.changedTouches && e.changedTouches[0]) ? e.changedTouches[0].clientY : startY;
+      if (endY - startY > 100) sidebar.classList.remove('open');
+      startY = null;
+    }
+    sidebar.addEventListener('touchend', endDrag);
+    sidebar.addEventListener('touchcancel', endDrag);
+  })();
 
   // Legende einmalig aufbauen (unabhaengig von den geladenen Standorten)
   document.getElementById('sidebar-legend').innerHTML = LEGEND.map(l => `
