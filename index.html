@@ -181,9 +181,99 @@
     border-bottom: 1px solid #f0f0f0;
   }
   .sidebar-item:hover { background: #f7f7f7; }
+  .sidebar-item.on-route { background: #fff6e9; }
   .sidebar-item-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
   .sidebar-item-name { flex: 1; }
+  .sidebar-item-route-badge {
+    font-size: 10px;
+    font-weight: 700;
+    color: #a0430a;
+    background: #ffe4c2;
+    padding: 1px 6px;
+    border-radius: 10px;
+    flex-shrink: 0;
+  }
   .sidebar-empty { padding: 16px 14px; color: #777; font-size: 13px; }
+
+  /* Routen-Check: Ziel eingeben, Standort ermitteln, Sperrungen auf dem Weg finden */
+  .route-check {
+    padding: 10px 14px;
+    border-bottom: 1px solid #e2e2e2;
+    flex-shrink: 0;
+    position: relative;
+  }
+  .route-check label { display: block; font-size: 12px; font-weight: 600; color: #444; margin-bottom: 5px; }
+  .route-input-row { display: flex; gap: 6px; }
+  .route-input-row input {
+    flex: 1;
+    padding: 7px 9px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 13.5px;
+    font-family: inherit;
+    min-width: 0;
+  }
+  .route-input-row button {
+    padding: 7px 12px;
+    border: none;
+    border-radius: 6px;
+    background: #1c6fd6;
+    color: #fff;
+    font-size: 13px;
+    font-family: inherit;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .route-input-row button:hover { background: #1558ab; }
+  .route-suggestions {
+    position: absolute;
+    left: 14px;
+    right: 14px;
+    top: 100%;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-top: none;
+    border-radius: 0 0 6px 6px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+    z-index: 2;
+    max-height: 220px;
+    overflow-y: auto;
+  }
+  .route-suggestion-item {
+    display: block;
+    width: 100%;
+    padding: 8px 10px;
+    border: none;
+    border-bottom: 1px solid #f0f0f0;
+    background: #fff;
+    text-align: left;
+    font-size: 13px;
+    font-family: inherit;
+    cursor: pointer;
+  }
+  .route-suggestion-item:last-child { border-bottom: none; }
+  .route-suggestion-item:hover { background: #f2f6fc; }
+  .route-status {
+    margin-top: 8px;
+    font-size: 12.5px;
+    color: #1a6b2e;
+    background: #eaf7ec;
+    padding: 6px 8px;
+    border-radius: 6px;
+    line-height: 1.5;
+  }
+  .route-status-error { color: #a0430a; background: #fdeee2; }
+  .route-clear-btn {
+    display: inline-block;
+    margin-left: 6px;
+    padding: 2px 8px;
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 10px;
+    background: rgba(255,255,255,0.6);
+    font-size: 11px;
+    font-family: inherit;
+    cursor: pointer;
+  }
 
   /* Zeigt, wann die automatischen Pass-/Alertswiss-Daten zuletzt geprueft wurden */
   .last-check {
@@ -224,6 +314,15 @@
   <div class="sidebar-header">
     <h2>Sperrungen &amp; Pässe</h2>
     <button id="sidebar-close" class="sidebar-close" aria-label="Schliessen">&times;</button>
+  </div>
+  <div class="route-check">
+    <label for="route-destination">Wohin fährst du? (prüft Sperrungen auf der Route)</label>
+    <div class="route-input-row">
+      <input id="route-destination" type="text" placeholder="Ziel eingeben …" autocomplete="off" />
+      <button id="route-check-btn" type="button">Prüfen</button>
+    </div>
+    <div id="route-suggestions" class="route-suggestions" hidden></div>
+    <div id="route-status" class="route-status" hidden></div>
   </div>
   <input id="sidebar-search" class="sidebar-search" type="text" placeholder="Suchen (Ort, Name) …" />
   <div id="sidebar-legend" class="sidebar-legend"></div>
@@ -566,12 +665,15 @@
 
       // Baut die Liste im Sidebar-Panel neu auf und blendet Marker auf der Karte
       // ein/aus, je nachdem ob sie zum Suchbegriff passen (Name oder "Ort"-Detail).
+      // Eintraege, die per Routen-Check als relevant markiert wurden (entry.onRoute),
+      // erscheinen zuerst und mit einem Badge.
       const listEl = document.getElementById('sidebar-list');
       function renderList(filterText) {
         const q = filterText.trim().toLowerCase();
         listEl.innerHTML = '';
         let shown = 0;
-        entries.forEach(entry => {
+        const sorted = entries.slice().sort((a, b) => (b.onRoute ? 1 : 0) - (a.onRoute ? 1 : 0));
+        sorted.forEach(entry => {
           const ortDetail = (entry.site.details || []).find(d => d.label === 'Ort');
           const haystack = (entry.site.name + ' ' + (ortDetail ? ortDetail.value : '')).toLowerCase();
           const matches = !q || haystack.includes(q);
@@ -579,10 +681,11 @@
           if (!matches) return;
           shown++;
           const btn = document.createElement('button');
-          btn.className = 'sidebar-item';
+          btn.className = entry.onRoute ? 'sidebar-item on-route' : 'sidebar-item';
           btn.innerHTML = `
             <span class="sidebar-item-dot" style="background:${MARKER_COLORS[entry.site.typ] || MARKER_COLORS.konzept}"></span>
             <span class="sidebar-item-name">${entry.site.name}</span>
+            ${entry.onRoute ? '<span class="sidebar-item-route-badge">auf Route</span>' : ''}
           `;
           btn.addEventListener('click', () => openEntry(entry));
           listEl.appendChild(btn);
@@ -597,6 +700,173 @@
 
       renderList('');
       document.getElementById('sidebar-search').addEventListener('input', (e) => renderList(e.target.value));
+
+      // --- Routen-Check: Ziel eingeben, aktuellen Standort holen, Route berechnen
+      // und pruefen, welche Sperrungen in der Naehe der Route liegen. ---
+
+      const ROUTE_RELEVANCE_METERS = 400;
+      let currentDestination = null; // { lat, lon, label }
+      let routeLayerAdded = false;
+
+      function ensureRouteLayer() {
+        if (routeLayerAdded) return;
+        map.addSource('route-line', { type: 'geojson', data: { type: 'FeatureCollection', features: [] } });
+        map.addLayer({
+          id: 'route-line-layer',
+          type: 'line',
+          source: 'route-line',
+          layout: { 'line-join': 'round', 'line-cap': 'round' },
+          paint: { 'line-color': '#1c6fd6', 'line-width': 5, 'line-opacity': 0.65 }
+        });
+        routeLayerAdded = true;
+      }
+
+      function setRouteGeometry(coordinates) {
+        ensureRouteLayer();
+        map.getSource('route-line').setData({
+          type: 'Feature',
+          geometry: { type: 'LineString', coordinates }
+        });
+      }
+
+      // Abstand Punkt-zu-Streckensegment in Metern, ueber eine lokale Ebenen-
+      // Naeherung (Grad -> Meter mit Breitengrad-Korrektur). Fuer die kurzen
+      // Distanzen hier (ein paar hundert Meter) mehr als genau genug.
+      function pointToSegmentMeters(plat, plon, alat, alon, blat, blon) {
+        const mPerDegLat = 111320;
+        const mPerDegLon = 111320 * Math.cos(alat * Math.PI / 180);
+        const bx = (blon - alon) * mPerDegLon, by = (blat - alat) * mPerDegLat;
+        const px = (plon - alon) * mPerDegLon, py = (plat - alat) * mPerDegLat;
+        const lenSq = bx * bx + by * by;
+        let t = lenSq === 0 ? 0 : (px * bx + py * by) / lenSq;
+        t = Math.max(0, Math.min(1, t));
+        const dx = px - t * bx, dy = py - t * by;
+        return Math.sqrt(dx * dx + dy * dy);
+      }
+
+      function distanceToRoute(lat, lon, coords) {
+        let min = Infinity;
+        for (let i = 0; i < coords.length - 1; i++) {
+          const [lon1, lat1] = coords[i];
+          const [lon2, lat2] = coords[i + 1];
+          const d = pointToSegmentMeters(lat, lon, lat1, lon1, lat2, lon2);
+          if (d < min) min = d;
+        }
+        return min;
+      }
+
+      function clearRoute() {
+        currentDestination = null;
+        destInput.value = '';
+        if (routeLayerAdded) map.getSource('route-line').setData({ type: 'FeatureCollection', features: [] });
+        entries.forEach(entry => { entry.onRoute = false; });
+        routeStatusEl.hidden = true;
+        routeStatusEl.textContent = '';
+        renderList(document.getElementById('sidebar-search').value);
+      }
+
+      function showRouteStatus(html, isError) {
+        routeStatusEl.hidden = false;
+        routeStatusEl.className = isError ? 'route-status route-status-error' : 'route-status';
+        routeStatusEl.innerHTML = html;
+      }
+
+      function checkRoute() {
+        if (!currentDestination) {
+          showRouteStatus('Bitte zuerst ein Ziel aus den Vorschlägen auswählen.', true);
+          return;
+        }
+        showRouteStatus('Standort wird ermittelt …', false);
+        navigator.geolocation.getCurrentPosition((pos) => {
+          const originLat = pos.coords.latitude;
+          const originLon = pos.coords.longitude;
+          showRouteStatus('Route wird berechnet …', false);
+          const url = `https://router.project-osrm.org/route/v1/driving/${originLon},${originLat};${currentDestination.lon},${currentDestination.lat}?overview=full&geometries=geojson`;
+          fetch(url)
+            .then(res => res.json())
+            .then(data => {
+              if (data.code !== 'Ok' || !data.routes || !data.routes.length) throw new Error('keine Route');
+              const coords = data.routes[0].geometry.coordinates;
+              setRouteGeometry(coords);
+
+              let count = 0;
+              entries.forEach(entry => {
+                entry.onRoute = distanceToRoute(entry.site.lat, entry.site.lon, coords) <= ROUTE_RELEVANCE_METERS;
+                if (entry.onRoute) count++;
+              });
+
+              const label = currentDestination.label;
+              const msg = count > 0
+                ? `⚠ ${count} Sperrung${count === 1 ? '' : 'en'} auf deiner Route nach „${label}“`
+                : `✓ Keine Sperrungen auf deiner Route nach „${label}“ gefunden`;
+              showRouteStatus(`${msg} <button id="route-clear" class="route-clear-btn" type="button">Route zurücksetzen</button>`, false);
+              document.getElementById('route-clear').addEventListener('click', clearRoute);
+
+              const lons = coords.map(c => c[0]);
+              const lats = coords.map(c => c[1]);
+              map.fitBounds([[Math.min(...lons), Math.min(...lats)], [Math.max(...lons), Math.max(...lats)]], { padding: 60, duration: 500 });
+              sidebar.classList.add('open');
+
+              renderList(document.getElementById('sidebar-search').value);
+            })
+            .catch(() => {
+              showRouteStatus('Route konnte nicht berechnet werden (Dienst nicht erreichbar oder keine Verbindung gefunden).', true);
+            });
+        }, () => {
+          showRouteStatus('Standort konnte nicht ermittelt werden (Berechtigung erteilt?).', true);
+        }, { enableHighAccuracy: true, timeout: 15000 });
+      }
+
+      const destInput = document.getElementById('route-destination');
+      const suggestEl = document.getElementById('route-suggestions');
+      const routeStatusEl = document.getElementById('route-status');
+      let suggestTimeout = null;
+
+      destInput.addEventListener('input', () => {
+        currentDestination = null;
+        const q = destInput.value.trim();
+        clearTimeout(suggestTimeout);
+        if (q.length < 3) {
+          suggestEl.hidden = true;
+          suggestEl.innerHTML = '';
+          return;
+        }
+        suggestTimeout = setTimeout(() => {
+          fetch(`https://api3.geo.admin.ch/rest/services/api/SearchServer?searchText=${encodeURIComponent(q)}&type=locations&sr=4326&limit=8`)
+            .then(res => res.json())
+            .then(data => {
+              const results = data.results || [];
+              if (!results.length) {
+                suggestEl.hidden = true;
+                suggestEl.innerHTML = '';
+                return;
+              }
+              suggestEl.innerHTML = '';
+              results.forEach(r => {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'route-suggestion-item';
+                btn.textContent = r.attrs.label.replace(/<[^>]+>/g, '');
+                btn.addEventListener('click', () => {
+                  currentDestination = { lat: r.attrs.lat, lon: r.attrs.lon, label: btn.textContent };
+                  destInput.value = btn.textContent;
+                  suggestEl.hidden = true;
+                  suggestEl.innerHTML = '';
+                  checkRoute();
+                });
+                suggestEl.appendChild(btn);
+              });
+              suggestEl.hidden = false;
+            })
+            .catch(() => { suggestEl.hidden = true; });
+        }, 300);
+      });
+      destInput.addEventListener('blur', () => {
+        // Verzoegert schliessen, damit ein Klick auf einen Vorschlag noch ankommt.
+        setTimeout(() => { suggestEl.hidden = true; }, 150);
+      });
+
+      document.getElementById('route-check-btn').addEventListener('click', () => checkRoute());
     })
     .catch(err => console.error('Fehler beim Laden der Standorte:', err));
 </script>
