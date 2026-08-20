@@ -70,15 +70,24 @@
     line-height: 1.4;
   }
 
-  /* Markante Pin-Marker */
+  /* Markante Pin-Marker.
+     WICHTIG: transition/transform NICHT auf .site-marker selbst, denn genau
+     dieses Element positioniert maplibre-gl bei jeder Kartenbewegung per
+     transform: translate(...) neu. Eine Transition darauf liess den Browser
+     jede Positionsaenderung "einschwingen" statt sofort zu springen - die
+     Pins hinkten beim Verschieben/Zoomen sichtbar hinterher. Der Hover-Effekt
+     sitzt daher auf dem inneren <svg>, das MapLibre nicht anfasst. */
   .site-marker {
     width: 34px;
     height: 34px;
     cursor: pointer;
     filter: drop-shadow(0 2px 3px rgba(0,0,0,0.45));
+  }
+  .site-marker svg {
+    display: block;
     transition: transform 0.15s ease;
   }
-  .site-marker:hover { transform: scale(1.15); }
+  .site-marker:hover svg { transform: scale(1.15); }
 
   /* Kleinerer Pin in der Mini-Karte, damit Strassen und Strassennamen sichtbar bleiben */
   .site-marker.site-marker-mini {
