@@ -161,51 +161,6 @@
   }
   .sidebar-toggle:hover { background: #f2f2f2; }
 
-  /* Eigene, frei setzbare Markierungen */
-  .marker-tool-toggle {
-    position: absolute;
-    top: 58px;
-    right: 12px;
-    z-index: 5;
-    background: #fff;
-    border: none;
-    border-radius: 6px;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.3);
-    padding: 10px 14px;
-    font-size: 14px;
-    font-weight: 600;
-    font-family: inherit;
-    cursor: pointer;
-  }
-  .marker-tool-toggle:hover { background: #f2f2f2; }
-  .marker-tool-toggle.active { background: #374151; color: #fff; }
-
-  .custom-marker-popup { min-width: 200px; }
-  .custom-marker-input {
-    width: 100%;
-    box-sizing: border-box;
-    padding: 7px 9px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 13.5px;
-    font-family: inherit;
-    margin-bottom: 8px;
-  }
-  .custom-marker-actions { display: flex; gap: 8px; }
-  .custom-marker-actions button {
-    flex: 1;
-    padding: 6px 10px;
-    border: none;
-    border-radius: 6px;
-    font-size: 13px;
-    font-family: inherit;
-    cursor: pointer;
-  }
-  .custom-marker-save { background: #374151; color: #fff; }
-  .custom-marker-save:hover { background: #1f2937; }
-  .custom-marker-delete { background: #f3e2e2; color: #a0261e; }
-  .custom-marker-delete:hover { background: #eccece; }
-
   .sidebar {
     position: absolute;
     top: 0;
@@ -425,7 +380,6 @@
 <div id="map"></div>
 <div id="last-check" class="last-check" hidden></div>
 <button id="sidebar-toggle" class="sidebar-toggle" aria-label="Liste öffnen">☰ Liste</button>
-<button id="marker-tool-toggle" class="marker-tool-toggle" aria-label="Eigene Markierung setzen">📍 Marker</button>
 <div id="sidebar" class="sidebar">
   <div class="sidebar-drag-handle" aria-hidden="true"></div>
   <div class="sidebar-header">
@@ -678,6 +632,7 @@
   // bei Alertswiss-Gefahrengebieten richtet sich das Icon nach dem gemeldeten Ereignistyp
   function getIconKey(site) {
     if (site.typ === 'pass_offen') return 'check';
+    if (site.typ === 'custom') return 'star';
     if (site.typ !== 'gefahrengebiet') return 'barrier';
     const ereignis = (site.details || []).find(d => d.label === 'Ereignis');
     const key = ereignis ? ereignis.value.trim().toLowerCase() : '';
@@ -710,94 +665,6 @@
     `;
     return el;
   }
-
-  // --- Eigene, frei setzbare Markierungen ---
-  // Rein clientseitig im localStorage des Browsers gespeichert (keine eigene
-  // Datenbank/Backend noetig) - bleiben also nur auf diesem Geraet/Browser
-  // erhalten, nicht geteilt mit anderen oder anderen Geraeten.
-  const CUSTOM_MARKERS_KEY = 'strassensperrungen-karte:custom-markers';
-  let customMarkers = [];
-  try {
-    customMarkers = JSON.parse(localStorage.getItem(CUSTOM_MARKERS_KEY) || '[]');
-  } catch (e) { customMarkers = []; }
-  const customMarkerRefs = {}; // id -> maplibregl.Marker
-
-  function saveCustomMarkers() {
-    try { localStorage.setItem(CUSTOM_MARKERS_KEY, JSON.stringify(customMarkers)); }
-    catch (e) { /* z.B. privater Modus ohne Storage-Zugriff - dann halt nicht dauerhaft */ }
-  }
-
-  function escapeHtml(str) {
-    return String(str).replace(/[&<>"']/g, (c) => ({
-      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
-    }[c]));
-  }
-
-  function removeCustomMarker(id) {
-    customMarkers = customMarkers.filter(m => m.id !== id);
-    saveCustomMarkers();
-    const marker = customMarkerRefs[id];
-    if (marker) {
-      const popup = marker.getPopup();
-      if (popup) popup.remove();
-      marker.remove();
-      delete customMarkerRefs[id];
-    }
-  }
-
-  function addCustomMarkerToMap(data) {
-    const popup = new maplibregl.Popup({ offset: 30, maxWidth: 'min(300px, 92vw)' });
-    popup.on('open', () => {
-      popup.setHTML(`
-        <div class="popup-drag-handle"></div>
-        <div class="custom-marker-popup">
-          <input type="text" class="custom-marker-input" value="${escapeHtml(data.label)}" placeholder="Eigene Markierung" maxlength="60" />
-          <div class="custom-marker-actions">
-            <button type="button" class="custom-marker-save">Speichern</button>
-            <button type="button" class="custom-marker-delete">Löschen</button>
-          </div>
-        </div>
-      `);
-      panPopupIntoView(popup);
-      attachSwipeToClose(popup);
-      const el = popup.getElement();
-      el.querySelector('.custom-marker-save').addEventListener('click', () => {
-        data.label = el.querySelector('.custom-marker-input').value.trim() || 'Eigene Markierung';
-        saveCustomMarkers();
-        popup.remove();
-      });
-      el.querySelector('.custom-marker-delete').addEventListener('click', () => removeCustomMarker(data.id));
-    });
-
-    const marker = new maplibregl.Marker({ element: createMarkerElement('custom', 'star'), anchor: 'bottom' })
-      .setLngLat([data.lon, data.lat])
-      .setPopup(popup)
-      .addTo(map);
-    customMarkerRefs[data.id] = marker;
-  }
-
-  customMarkers.forEach(addCustomMarkerToMap);
-
-  // "Marker setzen"-Button: einmal klicken, dann Klick auf beliebige Stelle
-  // auf der Karte platziert dort einen neuen Pin (nochmal klicken bricht ab).
-  let placingMarker = false;
-  const markerToolToggle = document.getElementById('marker-tool-toggle');
-  function setPlacingMarker(on) {
-    placingMarker = on;
-    markerToolToggle.classList.toggle('active', on);
-    markerToolToggle.textContent = on ? '✕ Abbrechen' : '📍 Marker';
-    map.getCanvas().style.cursor = on ? 'crosshair' : '';
-  }
-  markerToolToggle.addEventListener('click', () => setPlacingMarker(!placingMarker));
-
-  map.on('click', (e) => {
-    if (!placingMarker) return;
-    setPlacingMarker(false);
-    const data = { id: `custom-${Date.now()}`, lat: e.lngLat.lat, lon: e.lngLat.lng, label: 'Eigene Markierung' };
-    customMarkers.push(data);
-    saveCustomMarkers();
-    addCustomMarkerToMap(data);
-  });
 
   // Sidebar-Toggle (Liste & Legende)
   const sidebar = document.getElementById('sidebar');
@@ -876,14 +743,17 @@
 
   // manual-sites.json: von Hand gepflegte Standorte (aus PDFs etc.)
   // auto-sites.json: taeglich per GitHub Action aus TCS/Alertswiss generiert
+  // custom-markers.json: frei gesetzte Markierungen (typ "custom") - fuer alle
+  // sichtbar, da fest im Repo statt im Browser des Einzelnen gespeichert
   Promise.all([
     fetch('data/manual-sites.json').then(res => res.json()),
-    fetch('data/auto-sites.json').then(res => res.json()).catch(() => [])
+    fetch('data/auto-sites.json').then(res => res.json()).catch(() => []),
+    fetch('data/custom-markers.json').then(res => res.json()).catch(() => [])
   ])
-    .then(([manualSites, autoSites]) => {
+    .then(([manualSites, autoSites, customMarkers]) => {
       // Abgelaufene Sperrungen (gueltig_bis in der Vergangenheit) werden gar nicht
       // erst angezeigt, damit die Karte nicht mit veralteten Pins zumuellt.
-      const sites = [...manualSites, ...autoSites]
+      const sites = [...manualSites, ...autoSites, ...customMarkers]
         .filter(site => !isExpired(site))
         .sort((a, b) => a.name.localeCompare(b.name, 'de'));
 
