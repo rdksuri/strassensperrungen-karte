@@ -6,6 +6,10 @@
 <title>Temporäre Strassensperrungen – Karte</title>
 <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" />
 <style>
+  /* Verhindert, dass ein Runterwischen auf der Seite (z.B. beim Versuch, ein
+     Popup wegzuwischen) vom Handy-Browser als "Pull-to-Refresh" interpretiert
+     wird und die ganze Seite samt Route/Zustand neu laedt. */
+  html, body { overscroll-behavior-y: none; }
   html, body { margin: 0; padding: 0; height: 100%; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; }
   #map { height: 100%; width: 100%; }
 
@@ -35,6 +39,17 @@
     line-height: 1;
   }
 
+  /* Ziehgriff am oberen Rand des Popups - Hinweis, dass man es per Runterwischen
+     schliessen kann (nur am Handy sichtbar, siehe Media-Query weiter unten). */
+  .popup-drag-handle {
+    display: none;
+    width: 40px;
+    height: 4px;
+    border-radius: 2px;
+    background: #ccc;
+    margin: 0 auto 10px;
+  }
+
   /* Auf schmalen Bildschirmen (Handy): Info und Mini-Karte untereinander statt
      nebeneinander, damit nichts gequetscht wird oder abgeschnitten ist. */
   @media (max-width: 480px) {
@@ -45,6 +60,7 @@
       max-height: 62vh;
       max-height: 62dvh;
     }
+    .popup-drag-handle { display: block; }
   }
   .popup-title { font-weight: 700; font-size: 14px; margin-bottom: 4px; }
   .popup-row { font-size: 13px; margin: 2px 0; }
@@ -88,6 +104,31 @@
     transition: transform 0.15s ease;
   }
   .site-marker:hover svg { transform: scale(1.15); }
+
+  /* Ring um Pins, die auf der aktuell berechneten Route liegen. Bewusst kein
+     Farbwechsel am Pin selbst, sonst kollidiert das mit der Typ-Farbe aus der
+     Legende - stattdessen ein zusaetzlicher, pulsierender Ring dahinter.
+     Der Ring lebt in einem ::before und ruehrt das transform von .site-marker
+     selbst nicht an (siehe Hinweis oben zum Pin-Nachzieh-Bug). */
+  .site-marker { position: relative; }
+  .site-marker.on-route-pin::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 44px;
+    height: 44px;
+    margin-left: -22px;
+    margin-top: -22px;
+    border-radius: 50%;
+    background: rgba(255, 176, 32, 0.35);
+    box-shadow: 0 0 0 3px rgba(255, 176, 32, 0.95);
+    animation: onRoutePulse 1.4s ease-in-out infinite;
+  }
+  @keyframes onRoutePulse {
+    0%, 100% { transform: scale(0.9); opacity: 0.9; }
+    50% { transform: scale(1.2); opacity: 0.45; }
+  }
 
   /* Kleinerer Pin in der Mini-Karte, damit Strassen und Strassennamen sichtbar bleiben */
   .site-marker.site-marker-mini {
@@ -422,6 +463,54 @@
     });
   }
 
+  // Popup per Runterwischen schliessen (Handy): Nur wenn der Popup-Inhalt
+  // bereits ganz oben ist, damit normales Scrollen im Popup nicht versehentlich
+  // als Schliessen-Geste interpretiert wird. Die Drag-Verschiebung wirkt auf
+  // .maplibregl-popup-content, NICHT auf den Popup-Wrapper selbst - den
+  // positioniert maplibre-gl per eigenem transform (gleiches Prinzip wie beim
+  // Pin-Nachzieh-Bug: eigenes transform nie mit dem von maplibre ueberschreiben).
+  function attachSwipeToClose(popup) {
+    const wrapperEl = popup.getElement();
+    const contentEl = wrapperEl && wrapperEl.querySelector('.maplibregl-popup-content');
+    if (!contentEl) return;
+    let startY = null;
+    let dragging = false;
+
+    contentEl.addEventListener('touchstart', (e) => {
+      if (e.touches.length !== 1 || contentEl.scrollTop > 0) return;
+      startY = e.touches[0].clientY;
+      dragging = true;
+      contentEl.style.transition = 'none';
+    }, { passive: true });
+
+    contentEl.addEventListener('touchmove', (e) => {
+      if (!dragging || startY === null) return;
+      const dy = e.touches[0].clientY - startY;
+      if (dy > 0) {
+        e.preventDefault();
+        contentEl.style.transform = `translateY(${dy}px)`;
+        contentEl.style.opacity = String(Math.max(1 - dy / 300, 0.4));
+      }
+    }, { passive: false });
+
+    function endDrag(e) {
+      if (!dragging) return;
+      dragging = false;
+      contentEl.style.transition = '';
+      const endY = (e.changedTouches && e.changedTouches[0]) ? e.changedTouches[0].clientY : startY;
+      const dy = endY - startY;
+      if (dy > 80) {
+        popup.remove();
+      } else {
+        contentEl.style.transform = '';
+        contentEl.style.opacity = '';
+      }
+      startY = null;
+    }
+    contentEl.addEventListener('touchend', endDrag);
+    contentEl.addEventListener('touchcancel', endDrag);
+  }
+
   // Pin-Farbe nach Typ:
   // Totalsperrung = rot, andere Konzepte (z.B. Interventionskonzept) = orange,
   // Pass-Sperrung = blau, offener Pass = gruen, Alertswiss-Gefahrengebiet = violett
@@ -604,6 +693,7 @@
           : '';
         const minimapId = `popup-minimap-${idx}`;
         const popupHtml = `
+          <div class="popup-drag-handle"></div>
           <div class="popup-flex">
             <div class="popup-info">
               <div class="popup-title">${site.name}</div>
@@ -621,6 +711,7 @@
         let miniMap = null;
         popup.on('open', () => {
           panPopupIntoView(popup);
+          attachSwipeToClose(popup);
           const container = document.getElementById(minimapId);
           if (!container) return;
           miniMap = new maplibregl.Map({
@@ -764,11 +855,20 @@
         return min;
       }
 
+      // Markiert einen Pin auf der Karte zusaetzlich zum Sidebar-Badge, damit
+      // auch direkt auf der Karte klar ist, welche Sperrungen auf der Route
+      // liegen (pulsierender Ring statt Farbwechsel, siehe CSS-Kommentar).
+      function setEntryOnRoute(entry, on) {
+        entry.onRoute = on;
+        const el = entry.marker.getElement();
+        if (el) el.classList.toggle('on-route-pin', on);
+      }
+
       function clearRoute() {
         currentDestination = null;
         destInput.value = '';
         if (routeLayerAdded) map.getSource('route-line').setData({ type: 'FeatureCollection', features: [] });
-        entries.forEach(entry => { entry.onRoute = false; });
+        entries.forEach(entry => setEntryOnRoute(entry, false));
         routeStatusEl.hidden = true;
         routeStatusEl.textContent = '';
         renderList(document.getElementById('sidebar-search').value);
@@ -800,8 +900,9 @@
 
               let count = 0;
               entries.forEach(entry => {
-                entry.onRoute = distanceToRoute(entry.site.lat, entry.site.lon, coords) <= ROUTE_RELEVANCE_METERS;
-                if (entry.onRoute) count++;
+                const onRoute = distanceToRoute(entry.site.lat, entry.site.lon, coords) <= ROUTE_RELEVANCE_METERS;
+                setEntryOnRoute(entry, onRoute);
+                if (onRoute) count++;
               });
 
               const label = currentDestination.label;
