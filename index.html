@@ -109,8 +109,15 @@
      Farbwechsel am Pin selbst, sonst kollidiert das mit der Typ-Farbe aus der
      Legende - stattdessen ein zusaetzlicher, pulsierender Ring dahinter.
      Der Ring lebt in einem ::before und ruehrt das transform von .site-marker
-     selbst nicht an (siehe Hinweis oben zum Pin-Nachzieh-Bug). */
-  .site-marker { position: relative; }
+     selbst nicht an (siehe Hinweis oben zum Pin-Nachzieh-Bug).
+     WICHTIG: hier KEIN "position: relative" auf .site-marker setzen - maplibre-gl.css
+     setzt bereits "position: absolute" auf .maplibregl-marker (dieselbe Klasse
+     landet automatisch auf jedem Marker-Element). Ein eigenes "relative" hier
+     ueberschreibt das (gleiche Selektor-Spezifitaet, unser <style> steht im
+     Dokument nach dem verlinkten maplibre-gl.css) und zerstoert die Positionierung
+     der Pins komplett - sie drifteten beim Zoomen sichtbar weg. .site-marker ist
+     durch die maplibregl-marker-Klasse schon "position: absolute" und damit von
+     sich aus ein gueltiger Positionierungskontext fuer das ::before. */
   .site-marker.on-route-pin::before {
     content: '';
     position: absolute;
