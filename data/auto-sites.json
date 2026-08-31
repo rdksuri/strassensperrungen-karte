@@ -17,7 +17,7 @@
       },
       {
         "label": "Quelle",
-        "value": "TCS Pässe-Portal (Stand: 30.08.2026 12:24:20)"
+        "value": "TCS Pässe-Portal (Stand: 31.08.2026 13:22:48)"
       }
     ],
     "link": "https://www.tcs.ch/de/tools/verkehrsinfo-verkehrslage/paesse-in-der-schweiz.php"
@@ -40,7 +40,7 @@
       },
       {
         "label": "Quelle",
-        "value": "TCS Pässe-Portal (Stand: 30.08.2026 12:24:20)"
+        "value": "TCS Pässe-Portal (Stand: 31.08.2026 13:22:48)"
       }
     ],
     "link": "https://www.tcs.ch/de/tools/verkehrsinfo-verkehrslage/paesse-in-der-schweiz.php"
@@ -63,7 +63,7 @@
       },
       {
         "label": "Quelle",
-        "value": "TCS Pässe-Portal (Stand: 30.08.2026 12:24:20)"
+        "value": "TCS Pässe-Portal (Stand: 31.08.2026 13:22:48)"
       }
     ],
     "link": "https://www.tcs.ch/de/tools/verkehrsinfo-verkehrslage/paesse-in-der-schweiz.php"
@@ -86,7 +86,7 @@
       },
       {
         "label": "Quelle",
-        "value": "TCS Pässe-Portal (Stand: 30.08.2026 12:24:20)"
+        "value": "TCS Pässe-Portal (Stand: 31.08.2026 13:22:48)"
       }
     ],
     "link": "https://www.tcs.ch/de/tools/verkehrsinfo-verkehrslage/paesse-in-der-schweiz.php"
@@ -94,14 +94,14 @@
   {
     "id": "pass-pragelpass",
     "name": "Pragelpass",
-    "typ": "passsperrung",
+    "typ": "pass_offen",
     "lat": 46.9992,
     "lon": 8.8695,
     "pdf": null,
     "details": [
       {
         "label": "Status",
-        "value": "Geschlossen"
+        "value": "Offen"
       },
       {
         "label": "Übliche Wintersperre",
@@ -109,7 +109,7 @@
       },
       {
         "label": "Quelle",
-        "value": "TCS Pässe-Portal (Stand: 30.08.2026 12:24:20)"
+        "value": "TCS Pässe-Portal (Stand: 31.08.2026 13:22:48)"
       }
     ],
     "link": "https://www.tcs.ch/de/tools/verkehrsinfo-verkehrslage/paesse-in-der-schweiz.php"
@@ -132,7 +132,7 @@
       },
       {
         "label": "Quelle",
-        "value": "TCS Pässe-Portal (Stand: 30.08.2026 12:24:20)"
+        "value": "TCS Pässe-Portal (Stand: 31.08.2026 13:22:48)"
       }
     ],
     "link": "https://www.tcs.ch/de/tools/verkehrsinfo-verkehrslage/paesse-in-der-schweiz.php"
@@ -155,7 +155,7 @@
       },
       {
         "label": "Quelle",
-        "value": "TCS Pässe-Portal (Stand: 30.08.2026 12:24:20)"
+        "value": "TCS Pässe-Portal (Stand: 31.08.2026 13:22:48)"
       },
       {
         "label": "Stau-Info",
