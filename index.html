@@ -724,7 +724,7 @@
   // Zeitpunkt des letzten automatischen Checks (Pässe/Alertswiss) anzeigen.
   // Wird vom taeglichen GitHub-Action-Skript nach jedem Lauf neu geschrieben,
   // unabhaengig davon ob sich inhaltlich etwas geaendert hat.
-  fetch('data/last-check.json')
+  fetch('data/last-check.json', { cache: 'no-cache' })
     .then(res => res.json())
     .then(meta => {
       const el = document.getElementById('last-check');
@@ -745,10 +745,13 @@
   // auto-sites.json: taeglich per GitHub Action aus TCS/Alertswiss generiert
   // custom-markers.json: frei gesetzte Markierungen (typ "custom") - fuer alle
   // sichtbar, da fest im Repo statt im Browser des Einzelnen gespeichert
+  // { cache: 'no-cache' }: erzwingt eine Revalidierung beim Server bei jedem
+  // Laden, statt dass der Browser stillschweigend eine veraltete lokal
+  // zwischengespeicherte Version dieser sich haeufig aendernden Dateien zeigt.
   Promise.all([
-    fetch('data/manual-sites.json').then(res => res.json()),
-    fetch('data/auto-sites.json').then(res => res.json()).catch(() => []),
-    fetch('data/custom-markers.json').then(res => res.json()).catch(() => [])
+    fetch('data/manual-sites.json', { cache: 'no-cache' }).then(res => res.json()),
+    fetch('data/auto-sites.json', { cache: 'no-cache' }).then(res => res.json()).catch(() => []),
+    fetch('data/custom-markers.json', { cache: 'no-cache' }).then(res => res.json()).catch(() => [])
   ])
     .then(([manualSites, autoSites, customMarkers]) => {
       // Abgelaufene Sperrungen (gueltig_bis in der Vergangenheit) werden gar nicht
