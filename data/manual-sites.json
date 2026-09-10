@@ -49,38 +49,6 @@
     ]
   },
   {
-    "id": "chlital-isenthal-zufahrt",
-    "name": "Chlital (Isenthal) – Zufahrt gesperrt",
-    "typ": "totalsperrung",
-    "lat": 46.8811,
-    "lon": 8.5525,
-    "pdf": null,
-    "details": [
-      { "label": "Ort", "value": "Chlital, Isenthal UR" },
-      { "label": "Status", "value": "aktiv" },
-      { "label": "Beschreibung", "value": "Zufahrt bis auf weiteres gesperrt" },
-      { "label": "Start Strassensperre", "value": "13.07.2026" },
-      { "label": "Ende Strassensperre", "value": "unbefristet" }
-    ]
-  },
-  {
-    "id": "instandsetzung-buchholzstrasse-silenen",
-    "name": "Instandsetzung obere Buchholzstrasse, Silenen",
-    "typ": "totalsperrung",
-    "lat": 46.8028,
-    "lon": 8.6687,
-    "pdf": "pdfs/Instandsetzung-obere-Buchholzstrasse-Silenen_6-Info.pdf",
-    "details": [
-      { "label": "Ort", "value": "Obere Buchholzstrasse, Silenen (Bereich Buchholz 37–57)" },
-      { "label": "Projekt", "value": "Instandsetzung obere Buchholzstrasse" },
-      { "label": "Verkehrsregime", "value": "Täglich ca. 07:00–17:00 Uhr gesperrt (Etappe 1–3); zusätzlich ab Mi 19.08.26 voraussichtlich rund 2 Tage durchgehend gesperrt (Belagseinbau Etappe 2, Termin wetterabhängig noch nicht fix)" },
-      { "label": "Zeitraum", "value": "ab 13.07.2026, laufend" },
-      { "label": "Kontakt Bauleitung", "value": "Elias Epp, A. Kälin AG, Tel. 079 588 86 48" },
-      { "label": "Notfallkontakt", "value": "Elias Wyrsch, Kalbermatter AG (Polier), Tel. 079 863 05 60" },
-      { "label": "Info Nr.", "value": "6 (14.08.2026)" }
-    ]
-  },
-  {
     "id": "nachtsperrung-dorfstrasse-gurtnellen",
     "name": "Nachtsperrung Dorfstrasse Gurtnellen",
     "typ": "totalsperrung",
