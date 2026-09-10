@@ -95,5 +95,22 @@
       { "label": "Zeitraum", "value": "06.07.2026 – max. 14.08.2026" },
       { "label": "Quelle", "value": "GEO.UR, IUB/PWA (03.06.2026)" }
     ]
+  },
+  {
+    "id": "sanierung-arnistrasse-gurtnellen",
+    "name": "Sanierung Arnistrasse, Gurtnellen",
+    "typ": "totalsperrung",
+    "lat": 46.7458,
+    "lon": 8.6303,
+    "pdf": "pdfs/Infoblatt-Gemeinde-Sanierung-Arnistrasse-Gurtnellen.pdf",
+    "gueltig_bis": "2027-05-31",
+    "details": [
+      { "label": "Ort", "value": "Arnistrasse Gurtnellen, ab Gasthaus Feld bis Arnistrasse 22" },
+      { "label": "Verkehrsregime", "value": "Täglich ca. 07:00–17:00 Uhr Totalsperrung; auch ganztägige Totalsperrungen möglich. Für Blaulicht-Organisationen ist die Durchfahrt gewährleistet." },
+      { "label": "Zeitraum", "value": "ab 12.10.2026, voraussichtlich bis ca. April/Mai 2027" },
+      { "label": "Kontakt Polier", "value": "Patrik Imholz, Tel. 079 790 58 27" },
+      { "label": "Kontakt Gemeinde", "value": "Kilian Walker (Gemeindevizepräsident), Tel. 079 664 41 39; André Jauch (Gemeindearbeiter), Tel. 079 153 08 28" },
+      { "label": "Quelle", "value": "Einwohnergemeinde Gurtnellen (September 2026)" }
+    ]
   }
 ]
