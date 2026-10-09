@@ -17,7 +17,7 @@
       },
       {
         "label": "Quelle",
-        "value": "TCS Pässe-Portal (Stand: 08.10.2026 13:56:20)"
+        "value": "TCS Pässe-Portal (Stand: 09.10.2026 13:32:49)"
       }
     ],
     "link": "https://www.tcs.ch/de/tools/verkehrsinfo-verkehrslage/paesse-in-der-schweiz.php"
@@ -40,7 +40,7 @@
       },
       {
         "label": "Quelle",
-        "value": "TCS Pässe-Portal (Stand: 08.10.2026 13:56:20)"
+        "value": "TCS Pässe-Portal (Stand: 09.10.2026 13:32:49)"
       }
     ],
     "link": "https://www.tcs.ch/de/tools/verkehrsinfo-verkehrslage/paesse-in-der-schweiz.php"
@@ -63,7 +63,7 @@
       },
       {
         "label": "Quelle",
-        "value": "TCS Pässe-Portal (Stand: 08.10.2026 13:56:20)"
+        "value": "TCS Pässe-Portal (Stand: 09.10.2026 13:32:49)"
       }
     ],
     "link": "https://www.tcs.ch/de/tools/verkehrsinfo-verkehrslage/paesse-in-der-schweiz.php"
@@ -86,7 +86,7 @@
       },
       {
         "label": "Quelle",
-        "value": "TCS Pässe-Portal (Stand: 08.10.2026 13:56:20)"
+        "value": "TCS Pässe-Portal (Stand: 09.10.2026 13:32:49)"
       }
     ],
     "link": "https://www.tcs.ch/de/tools/verkehrsinfo-verkehrslage/paesse-in-der-schweiz.php"
@@ -109,7 +109,7 @@
       },
       {
         "label": "Quelle",
-        "value": "TCS Pässe-Portal (Stand: 08.10.2026 13:56:20)"
+        "value": "TCS Pässe-Portal (Stand: 09.10.2026 13:32:49)"
       }
     ],
     "link": "https://www.tcs.ch/de/tools/verkehrsinfo-verkehrslage/paesse-in-der-schweiz.php"
@@ -132,7 +132,7 @@
       },
       {
         "label": "Quelle",
-        "value": "TCS Pässe-Portal (Stand: 08.10.2026 13:56:20)"
+        "value": "TCS Pässe-Portal (Stand: 09.10.2026 13:32:49)"
       }
     ],
     "link": "https://www.tcs.ch/de/tools/verkehrsinfo-verkehrslage/paesse-in-der-schweiz.php"
@@ -140,14 +140,14 @@
   {
     "id": "pass-gotthardpass",
     "name": "Gotthardpass",
-    "typ": "pass_offen",
+    "typ": "passsperrung",
     "lat": 46.5593,
     "lon": 8.5612,
     "pdf": null,
     "details": [
       {
         "label": "Status",
-        "value": "Offen"
+        "value": "Geschlossen"
       },
       {
         "label": "Übliche Wintersperre",
@@ -155,7 +155,7 @@
       },
       {
         "label": "Quelle",
-        "value": "TCS Pässe-Portal (Stand: 08.10.2026 13:56:20)"
+        "value": "TCS Pässe-Portal (Stand: 09.10.2026 13:32:49)"
       },
       {
         "label": "Stau-Info",
