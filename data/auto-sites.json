@@ -17,7 +17,7 @@
       },
       {
         "label": "Quelle",
-        "value": "TCS Pässe-Portal (Stand: 12.10.2026 15:05:20)"
+        "value": "TCS Pässe-Portal (Stand: 13.10.2026 14:44:44)"
       }
     ],
     "link": "https://www.tcs.ch/de/tools/verkehrsinfo-verkehrslage/paesse-in-der-schweiz.php"
@@ -40,7 +40,7 @@
       },
       {
         "label": "Quelle",
-        "value": "TCS Pässe-Portal (Stand: 12.10.2026 15:05:20)"
+        "value": "TCS Pässe-Portal (Stand: 13.10.2026 14:44:44)"
       }
     ],
     "link": "https://www.tcs.ch/de/tools/verkehrsinfo-verkehrslage/paesse-in-der-schweiz.php"
@@ -63,7 +63,7 @@
       },
       {
         "label": "Quelle",
-        "value": "TCS Pässe-Portal (Stand: 12.10.2026 15:05:20)"
+        "value": "TCS Pässe-Portal (Stand: 13.10.2026 14:44:44)"
       }
     ],
     "link": "https://www.tcs.ch/de/tools/verkehrsinfo-verkehrslage/paesse-in-der-schweiz.php"
@@ -86,7 +86,7 @@
       },
       {
         "label": "Quelle",
-        "value": "TCS Pässe-Portal (Stand: 12.10.2026 15:05:20)"
+        "value": "TCS Pässe-Portal (Stand: 13.10.2026 14:44:44)"
       }
     ],
     "link": "https://www.tcs.ch/de/tools/verkehrsinfo-verkehrslage/paesse-in-der-schweiz.php"
@@ -109,7 +109,7 @@
       },
       {
         "label": "Quelle",
-        "value": "TCS Pässe-Portal (Stand: 12.10.2026 15:05:20)"
+        "value": "TCS Pässe-Portal (Stand: 13.10.2026 14:44:44)"
       }
     ],
     "link": "https://www.tcs.ch/de/tools/verkehrsinfo-verkehrslage/paesse-in-der-schweiz.php"
@@ -132,7 +132,7 @@
       },
       {
         "label": "Quelle",
-        "value": "TCS Pässe-Portal (Stand: 12.10.2026 15:05:20)"
+        "value": "TCS Pässe-Portal (Stand: 13.10.2026 14:44:44)"
       }
     ],
     "link": "https://www.tcs.ch/de/tools/verkehrsinfo-verkehrslage/paesse-in-der-schweiz.php"
@@ -155,7 +155,7 @@
       },
       {
         "label": "Quelle",
-        "value": "TCS Pässe-Portal (Stand: 12.10.2026 15:05:20)"
+        "value": "TCS Pässe-Portal (Stand: 13.10.2026 14:44:44)"
       },
       {
         "label": "Stau-Info",
@@ -165,8 +165,8 @@
     "link": "https://www.tcs.ch/de/tools/verkehrsinfo-verkehrslage/paesse-in-der-schweiz.php"
   },
   {
-    "id": "alertswiss-POA-1366130951-1",
-    "name": "Waldbrandgefahr: Feuerverbot im Wald und Waldesnähe",
+    "id": "alertswiss-POA-1366130951-2",
+    "name": "Feuerverbot im Kanton Uri aufgehoben",
     "typ": "gefahrengebiet",
     "lat": 46.76931437299035,
     "lon": 8.627696045016078,
@@ -178,7 +178,7 @@
       },
       {
         "label": "Schweregrad",
-        "value": "moderate"
+        "value": "minor"
       },
       {
         "label": "Herausgeber",
@@ -186,7 +186,7 @@
       },
       {
         "label": "Gemeldet",
-        "value": "Di., 25.08.2026, 12:04"
+        "value": "Di., 13.10.2026, 11:59"
       },
       {
         "label": "Quelle",
