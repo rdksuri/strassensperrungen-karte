@@ -17,7 +17,7 @@
       },
       {
         "label": "Quelle",
-        "value": "TCS Pässe-Portal (Stand: 15.10.2026 11:55:10)"
+        "value": "TCS Pässe-Portal (Stand: 16.10.2026 11:32:39)"
       }
     ],
     "link": "https://www.tcs.ch/de/tools/verkehrsinfo-verkehrslage/paesse-in-der-schweiz.php"
@@ -40,7 +40,7 @@
       },
       {
         "label": "Quelle",
-        "value": "TCS Pässe-Portal (Stand: 15.10.2026 11:55:10)"
+        "value": "TCS Pässe-Portal (Stand: 16.10.2026 11:32:39)"
       }
     ],
     "link": "https://www.tcs.ch/de/tools/verkehrsinfo-verkehrslage/paesse-in-der-schweiz.php"
@@ -63,7 +63,7 @@
       },
       {
         "label": "Quelle",
-        "value": "TCS Pässe-Portal (Stand: 15.10.2026 11:55:10)"
+        "value": "TCS Pässe-Portal (Stand: 16.10.2026 11:32:39)"
       }
     ],
     "link": "https://www.tcs.ch/de/tools/verkehrsinfo-verkehrslage/paesse-in-der-schweiz.php"
@@ -71,14 +71,14 @@
   {
     "id": "pass-furkapass",
     "name": "Furkapass",
-    "typ": "passsperrung",
+    "typ": "pass_offen",
     "lat": 46.5719,
     "lon": 8.4164,
     "pdf": null,
     "details": [
       {
         "label": "Status",
-        "value": "Geschlossen"
+        "value": "Offen"
       },
       {
         "label": "Übliche Wintersperre",
@@ -86,7 +86,7 @@
       },
       {
         "label": "Quelle",
-        "value": "TCS Pässe-Portal (Stand: 15.10.2026 11:55:10)"
+        "value": "TCS Pässe-Portal (Stand: 16.10.2026 11:32:39)"
       }
     ],
     "link": "https://www.tcs.ch/de/tools/verkehrsinfo-verkehrslage/paesse-in-der-schweiz.php"
@@ -109,7 +109,7 @@
       },
       {
         "label": "Quelle",
-        "value": "TCS Pässe-Portal (Stand: 15.10.2026 11:55:10)"
+        "value": "TCS Pässe-Portal (Stand: 16.10.2026 11:32:39)"
       }
     ],
     "link": "https://www.tcs.ch/de/tools/verkehrsinfo-verkehrslage/paesse-in-der-schweiz.php"
@@ -132,7 +132,7 @@
       },
       {
         "label": "Quelle",
-        "value": "TCS Pässe-Portal (Stand: 15.10.2026 11:55:10)"
+        "value": "TCS Pässe-Portal (Stand: 16.10.2026 11:32:39)"
       }
     ],
     "link": "https://www.tcs.ch/de/tools/verkehrsinfo-verkehrslage/paesse-in-der-schweiz.php"
@@ -155,7 +155,7 @@
       },
       {
         "label": "Quelle",
-        "value": "TCS Pässe-Portal (Stand: 15.10.2026 11:55:10)"
+        "value": "TCS Pässe-Portal (Stand: 16.10.2026 11:32:39)"
       },
       {
         "label": "Stau-Info",
