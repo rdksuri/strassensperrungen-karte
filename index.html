@@ -610,7 +610,8 @@
     warning: (c) => `
       <text x="17" y="21.5" text-anchor="middle" font-size="12" font-weight="700" fill="${c}">!</text>
     `,
-    // Haken: fuer offene Alpenpaesse
+    // Haken: aktuell ungenutzt (offene Paesse zeigen stattdessen den gruenen
+    // Berg, siehe mountain/mountainClosed), als Glyphe aber fuer spaeter behalten
     check: (c) => `
       <path fill="none" stroke="${c}" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="M10 17.5l4.5 4.5L24 12"/>
     `,
@@ -635,10 +636,10 @@
   };
 
   // Strassensperrungen bekommen das Barriere-Icon, gesperrte Paesse den roten
-  // Berg mit Sperrbalken, offene Paesse den Haken; bei Alertswiss-Gefahrengebieten
-  // richtet sich das Icon nach dem gemeldeten Ereignistyp
+  // Berg mit Sperrbalken, offene Paesse den gruenen Berg ohne Sperrbalken;
+  // bei Alertswiss-Gefahrengebieten richtet sich das Icon nach dem gemeldeten Ereignistyp
   function getIconKey(site) {
-    if (site.typ === 'pass_offen') return 'check';
+    if (site.typ === 'pass_offen') return 'mountain';
     if (site.typ === 'passsperrung') return 'mountainClosed';
     if (site.typ === 'custom') return 'star';
     if (site.typ !== 'gefahrengebiet') return 'barrier';
