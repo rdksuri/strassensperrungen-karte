@@ -124,6 +124,7 @@
       { "label": "Ort", "value": "Luzerner Kantonsspital (LUKS), Spitalareal" },
       { "label": "Hinweis", "value": "Kein öffentlicher Strassenabschnitt gesperrt – interne Baustelle auf dem Spitalareal (Bereich Augenklinik/Zufahrt Süd). Rettungsdienstzufahrt zu Kinderspital/Frauenklinik erfolgt deshalb via Tunnel." },
       { "label": "Gültig", "value": "ab Herbst 2026 (neuer Arealplan)" },
+      { "label": "Detailplan", "value": "<a href=\"pdfs/LUKS-Luzern-Rettungsdienstzufahrt-Tunnel-Detail.webp\" target=\"_blank\" rel=\"noopener\">Tunnelzufahrt im Detail ansehen (Ein-/Ausfahrt, Portale, Rampen)</a>" },
       { "label": "Quelle", "value": "LUKS Luzern, Arealplan Rettungsdienst (12.10.2026)" }
     ]
   }
