@@ -2,14 +2,14 @@
   {
     "id": "pass-sustenpass",
     "name": "Sustenpass",
-    "typ": "pass_offen",
+    "typ": "passsperrung",
     "lat": 46.7313,
     "lon": 8.4512,
     "pdf": null,
     "details": [
       {
         "label": "Status",
-        "value": "Offen"
+        "value": "Geschlossen"
       },
       {
         "label": "Übliche Wintersperre",
@@ -17,7 +17,7 @@
       },
       {
         "label": "Quelle",
-        "value": "TCS Pässe-Portal (Stand: 09.09.2026 11:34:27)"
+        "value": "TCS Pässe-Portal (Stand: 21.10.2026 12:16:32)"
       }
     ],
     "link": "https://www.tcs.ch/de/tools/verkehrsinfo-verkehrslage/paesse-in-der-schweiz.php"
@@ -40,7 +40,7 @@
       },
       {
         "label": "Quelle",
-        "value": "TCS Pässe-Portal (Stand: 09.09.2026 11:34:27)"
+        "value": "TCS Pässe-Portal (Stand: 21.10.2026 12:16:32)"
       }
     ],
     "link": "https://www.tcs.ch/de/tools/verkehrsinfo-verkehrslage/paesse-in-der-schweiz.php"
@@ -63,7 +63,7 @@
       },
       {
         "label": "Quelle",
-        "value": "TCS Pässe-Portal (Stand: 09.09.2026 11:34:27)"
+        "value": "TCS Pässe-Portal (Stand: 21.10.2026 12:16:32)"
       }
     ],
     "link": "https://www.tcs.ch/de/tools/verkehrsinfo-verkehrslage/paesse-in-der-schweiz.php"
@@ -71,32 +71,9 @@
   {
     "id": "pass-furkapass",
     "name": "Furkapass",
-    "typ": "pass_offen",
+    "typ": "passsperrung",
     "lat": 46.5719,
     "lon": 8.4164,
-    "pdf": null,
-    "details": [
-      {
-        "label": "Status",
-        "value": "Offen"
-      },
-      {
-        "label": "Übliche Wintersperre",
-        "value": "Übliche Wintersperre: November — Juni"
-      },
-      {
-        "label": "Quelle",
-        "value": "TCS Pässe-Portal (Stand: 09.09.2026 11:34:27)"
-      }
-    ],
-    "link": "https://www.tcs.ch/de/tools/verkehrsinfo-verkehrslage/paesse-in-der-schweiz.php"
-  },
-  {
-    "id": "pass-pragelpass",
-    "name": "Pragelpass",
-    "typ": "passsperrung",
-    "lat": 46.9992,
-    "lon": 8.8695,
     "pdf": null,
     "details": [
       {
@@ -109,7 +86,30 @@
       },
       {
         "label": "Quelle",
-        "value": "TCS Pässe-Portal (Stand: 09.09.2026 11:34:27)"
+        "value": "TCS Pässe-Portal (Stand: 21.10.2026 12:16:32)"
+      }
+    ],
+    "link": "https://www.tcs.ch/de/tools/verkehrsinfo-verkehrslage/paesse-in-der-schweiz.php"
+  },
+  {
+    "id": "pass-pragelpass",
+    "name": "Pragelpass",
+    "typ": "pass_offen",
+    "lat": 46.9992,
+    "lon": 8.8695,
+    "pdf": null,
+    "details": [
+      {
+        "label": "Status",
+        "value": "Offen"
+      },
+      {
+        "label": "Übliche Wintersperre",
+        "value": "Übliche Wintersperre: November — Juni"
+      },
+      {
+        "label": "Quelle",
+        "value": "TCS Pässe-Portal (Stand: 21.10.2026 12:16:32)"
       }
     ],
     "link": "https://www.tcs.ch/de/tools/verkehrsinfo-verkehrslage/paesse-in-der-schweiz.php"
@@ -132,7 +132,7 @@
       },
       {
         "label": "Quelle",
-        "value": "TCS Pässe-Portal (Stand: 09.09.2026 11:34:27)"
+        "value": "TCS Pässe-Portal (Stand: 21.10.2026 12:16:32)"
       }
     ],
     "link": "https://www.tcs.ch/de/tools/verkehrsinfo-verkehrslage/paesse-in-der-schweiz.php"
@@ -155,7 +155,7 @@
       },
       {
         "label": "Quelle",
-        "value": "TCS Pässe-Portal (Stand: 09.09.2026 11:34:27)"
+        "value": "TCS Pässe-Portal (Stand: 21.10.2026 12:16:32)"
       },
       {
         "label": "Stau-Info",
@@ -165,8 +165,8 @@
     "link": "https://www.tcs.ch/de/tools/verkehrsinfo-verkehrslage/paesse-in-der-schweiz.php"
   },
   {
-    "id": "alertswiss-POA-1366130951-1",
-    "name": "Waldbrandgefahr: Feuerverbot im Wald und Waldesnähe",
+    "id": "alertswiss-POA-1366130951-2",
+    "name": "Feuerverbot im Kanton Uri aufgehoben",
     "typ": "gefahrengebiet",
     "lat": 46.76931437299035,
     "lon": 8.627696045016078,
@@ -178,7 +178,7 @@
       },
       {
         "label": "Schweregrad",
-        "value": "moderate"
+        "value": "minor"
       },
       {
         "label": "Herausgeber",
@@ -186,38 +186,7 @@
       },
       {
         "label": "Gemeldet",
-        "value": "Di., 25.08.2026, 12:04"
-      },
-      {
-        "label": "Quelle",
-        "value": "Alertswiss (inoffizieller Feed, siehe Hinweis)"
-      }
-    ],
-    "link": "https://www.alert.swiss"
-  },
-  {
-    "id": "alertswiss-POA-1366103271-1",
-    "name": "Waldbrandgefahr: Feuerverbot im Wald und Waldesnähe",
-    "typ": "gefahrengebiet",
-    "lat": 47.07742416445623,
-    "lon": 8.129046684350133,
-    "pdf": null,
-    "details": [
-      {
-        "label": "Ereignis",
-        "value": "Feuerverbot"
-      },
-      {
-        "label": "Schweregrad",
-        "value": "moderate"
-      },
-      {
-        "label": "Herausgeber",
-        "value": "Kanton Luzern"
-      },
-      {
-        "label": "Gemeldet",
-        "value": "Di., 25.08.2026, 11:59"
+        "value": "Di., 13.10.2026, 11:59"
       },
       {
         "label": "Quelle",
