@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 """
 Prueft taeglich:
-1. TCS Paesse-Portal auf Sperrungen der Zentralschweiz-relevanten Alpenpaesse
+1. alpen-paesse.ch (IG Alpenpässe) auf Sperrungen der Zentralschweiz-relevanten
+   Alpenpaesse - dort wird jeder Pass einzeln mit eigenem Zeitstempel
+   gepflegt, was deutlich aktueller ist als das zuvor verwendete TCS-Portal
 2. Alertswiss PolyAlert-Feed (inoffizieller Feed, siehe HINWEIS unten) auf
    aktive Warnungen/Gefahrengebiete in der Zentralschweiz
 
@@ -23,7 +25,7 @@ import urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
 
-TCS_URL = "https://www.tcs.ch/de/tools/verkehrsinfo-verkehrslage/paesse-in-der-schweiz.php"
+ALPENPAESSE_URL = "https://www.alpen-paesse.ch/de/"
 ALERTSWISS_URL = (
     "https://www.alert.swiss/content/alertswiss-internet/de/home/"
     "_jcr_content/polyalert.alertswiss_alerts.actual.json"
@@ -33,8 +35,9 @@ ALERTSWISS_URL = (
 # damit Grimsel-/Furkapass mit abgedeckt sind)
 BBOX = {"min_lat": 46.50, "max_lat": 47.20, "min_lon": 7.95, "max_lon": 8.95}
 
-# Fest hinterlegte Zentralschweiz-relevante Paesse: TCS data-search-Slug,
-# Anzeigename und Koordinaten (Passhoehe, via swisstopo geocodiert).
+# Fest hinterlegte Zentralschweiz-relevante Paesse: Slug (= URL-Pfad auf
+# alpen-paesse.ch), Anzeigename und Koordinaten (Passhoehe, via swisstopo
+# geocodiert).
 PASSES = [
     {"slug": "sustenpass", "name": "Sustenpass", "lat": 46.7313, "lon": 8.4512},
     {"slug": "klausenpass", "name": "Klausenpass", "lat": 46.8682, "lon": 8.8555},
@@ -66,36 +69,43 @@ def fetch(url):
 def check_passes():
     """Gibt (erfolgreich, sites) zurueck. Bei erfolgreich=False soll der
     Aufrufer die zuletzt bekannten Pass-Eintraege unveraendert beibehalten,
-    statt sie durch eine leere Liste zu ersetzen."""
+    statt sie durch eine leere Liste zu ersetzen.
+
+    Quelle: alpen-paesse.ch (IG Alpenpässe) statt TCS. Dort wird jeder Pass
+    einzeln mit eigenem Zeitstempel gepflegt ("Unveraendert gueltig seit"),
+    was in der Praxis deutlich aktueller ist als das TCS-Portal, das alle
+    Paesse nur mit einem gemeinsamen, selten aktualisierten Stand zeigt.
+    """
     try:
-        html = fetch(TCS_URL)
+        html = fetch(ALPENPAESSE_URL)
     except Exception as e:
-        print(f"WARNUNG: TCS-Pässe-Portal nicht erreichbar: {e}", file=sys.stderr)
+        print(f"WARNUNG: alpen-paesse.ch nicht erreichbar: {e}", file=sys.stderr)
         return False, []
     sites = []
     for p in PASSES:
-        idx = html.find(f'data-search="{p["slug"]}"')
+        idx = html.find(f'pass-card-title-inner"><a href="/de/alpenpaesse/{p["slug"]}/')
         if idx == -1:
-            print(f"WARNUNG: {p['name']} nicht auf TCS-Seite gefunden (Slug geaendert?)", file=sys.stderr)
+            print(f"WARNUNG: {p['name']} nicht auf alpen-paesse.ch gefunden (Slug geaendert?)", file=sys.stderr)
             continue
-        chunk = html[idx:idx + 3500]
+        chunk = html[idx:idx + 1200]
 
-        status_m = re.search(r'tcs-icon_status_(\w+)\.svg.*?/>\s*([^<]+)<', chunk, re.S)
-        status_text = status_m.group(2).strip() if status_m else ""
-        is_closed = "geschlossen" in status_text.lower()
+        status_icon_m = re.search(r'icon-status-(\w+)', chunk)
+        status_icon = status_icon_m.group(1) if status_icon_m else ""
+        is_closed = status_icon in ("closed", "winter")
 
-        wintersperre_m = re.search(
-            r'winter-closure.*?alt="[^"]*"\s*/>\s*([^<]+)<', chunk, re.S
+        badge_m = re.search(
+            r'pass-card-badge-text"><div>([^<]+)</div>'
+            r'<div class="pass-card-badge-text-clamp-1">([^<]+)</div>',
+            chunk,
         )
-        wintersperre = re.sub(r"\s+", " ", wintersperre_m.group(1)).strip() if wintersperre_m else "unbekannt"
+        status_text = badge_m.group(1).strip() if badge_m else ("Geschlossen" if is_closed else "Offen")
+        seit = re.sub(r"^Unverändert gültig seit:+\s*", "", badge_m.group(2).strip()) if badge_m else "unbekannt"
 
-        update_m = re.search(r'last-update">Zuletzt aktualisiert am: ([^<]+)<', chunk)
-        last_update = update_m.group(1).strip() if update_m else "unbekannt"
-
+        pass_url = f"{ALPENPAESSE_URL}alpenpaesse/{p['slug']}/"
         details = [
-            {"label": "Status", "value": status_text or ("Geschlossen" if is_closed else "Offen")},
-            {"label": "Übliche Wintersperre", "value": wintersperre},
-            {"label": "Quelle", "value": f"TCS Pässe-Portal (Stand: {last_update})"},
+            {"label": "Status", "value": status_text},
+            {"label": "Unverändert seit", "value": seit},
+            {"label": "Quelle", "value": f'<a href="{pass_url}" target="_blank" rel="noopener">alpen-paesse.ch</a>'},
         ]
         if "extra_detail" in p:
             details.append(p["extra_detail"])
@@ -111,7 +121,7 @@ def check_passes():
             "lon": p["lon"],
             "pdf": None,
             "details": details,
-            "link": TCS_URL,
+            "link": pass_url,
         })
     return True, sites
 
