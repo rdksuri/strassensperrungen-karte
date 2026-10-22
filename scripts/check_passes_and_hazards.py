@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Prueft taeglich:
+Prueft alle 3 Stunden:
 1. alpen-paesse.ch (IG Alpenpässe) auf Sperrungen der Zentralschweiz-relevanten
    Alpenpaesse - dort wird jeder Pass einzeln mit eigenem Zeitstempel
    gepflegt, was deutlich aktueller ist als das zuvor verwendete TCS-Portal

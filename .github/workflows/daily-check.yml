@@ -1,9 +1,10 @@
-name: Tägliche Prüfung Alpenpässe & Alertswiss
+name: Prüfung Alpenpässe & Alertswiss
 
 on:
   schedule:
-    # 05:30 UTC = 06:30/07:30 Schweizer Zeit, je nach Sommer-/Winterzeit
-    - cron: "30 5 * * *"
+    # alle 3 Stunden (8x taeglich), Minute 30 um nicht exakt mit den vielen
+    # anderen Jobs auf die volle Stunde zu kollidieren
+    - cron: "30 */3 * * *"
   workflow_dispatch: {}
 
 permissions:

@@ -722,7 +722,7 @@
   `).join('');
 
   // Zeitpunkt des letzten automatischen Checks (Pässe/Alertswiss) anzeigen.
-  // Wird vom taeglichen GitHub-Action-Skript nach jedem Lauf neu geschrieben,
+  // Wird vom GitHub-Action-Skript (alle 3 Std.) nach jedem Lauf neu geschrieben,
   // unabhaengig davon ob sich inhaltlich etwas geaendert hat.
   fetch('data/last-check.json', { cache: 'no-cache' })
     .then(res => res.json())
@@ -742,7 +742,7 @@
     .catch(() => { /* Datei fehlt z.B. beim allerersten Lauf noch - dann einfach nichts anzeigen */ });
 
   // manual-sites.json: von Hand gepflegte Standorte (aus PDFs etc.)
-  // auto-sites.json: taeglich per GitHub Action aus TCS/Alertswiss generiert
+  // auto-sites.json: alle 3 Std. per GitHub Action aus alpen-paesse.ch/Alertswiss generiert
   // custom-markers.json: frei gesetzte Markierungen (typ "custom") - fuer alle
   // sichtbar, da fest im Repo statt im Browser des Einzelnen gespeichert
   // { cache: 'no-cache' }: erzwingt eine Revalidierung beim Server bei jedem
