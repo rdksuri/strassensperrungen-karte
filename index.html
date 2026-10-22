@@ -534,11 +534,11 @@
 
   // Pin-Farbe nach Typ:
   // Totalsperrung = rot, andere Konzepte (z.B. Interventionskonzept) = orange,
-  // Pass-Sperrung = blau, offener Pass = gruen, Alertswiss-Gefahrengebiet = violett
+  // Pass-Sperrung = rot (Berg-Icon, klar als "gesperrt" erkennbar), offener Pass = gruen, Alertswiss-Gefahrengebiet = violett
   const MARKER_COLORS = {
     totalsperrung: '#d52b1e',
     konzept: '#f2811d',
-    passsperrung: '#1c6fd6',
+    passsperrung: '#b3101e',
     pass_offen: '#2e9e44',
     gefahrengebiet: '#7b3fe4',
     // frei gesetzte, eigene Markierungen - bewusst neutral/dunkel, damit sie
@@ -572,6 +572,12 @@
     // Fels-/Bergsturz, Erdrutsch, Murgang
     mountain: (c) => `
       <path fill="${c}" d="M8.5 23.5L14 13.5l3.5 5 2.7-3.3 5.8 8.3z"/>
+    `,
+    // Gesperrter Alpenpass: Berg mit Sperrbalken darueber, bewusst deutlich
+    // als "gesperrt" erkennbar statt nur als neutrales Berg-Symbol
+    mountainClosed: (c) => `
+      <path fill="${c}" d="M8.5 23.5L14 13.5l3.5 5 2.7-3.3 5.8 8.3z"/>
+      <rect x="7.5" y="18.3" width="19" height="3.2" rx="1.2" fill="${c}" stroke="#fff" stroke-width="0.8" transform="rotate(-14 17 19.9)"/>
     `,
     // Lawine / Schnee
     snowflake: (c) => `
@@ -628,10 +634,12 @@
     'hochwasser': 'wave'
   };
 
-  // Sperrungs-Typen bekommen immer das Barriere-Icon, offene Paesse den Haken;
-  // bei Alertswiss-Gefahrengebieten richtet sich das Icon nach dem gemeldeten Ereignistyp
+  // Strassensperrungen bekommen das Barriere-Icon, gesperrte Paesse den roten
+  // Berg mit Sperrbalken, offene Paesse den Haken; bei Alertswiss-Gefahrengebieten
+  // richtet sich das Icon nach dem gemeldeten Ereignistyp
   function getIconKey(site) {
     if (site.typ === 'pass_offen') return 'check';
+    if (site.typ === 'passsperrung') return 'mountainClosed';
     if (site.typ === 'custom') return 'star';
     if (site.typ !== 'gefahrengebiet') return 'barrier';
     const ereignis = (site.details || []).find(d => d.label === 'Ereignis');
