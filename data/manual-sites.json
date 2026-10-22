@@ -112,5 +112,19 @@
       { "label": "Kontakt Gemeinde", "value": "Kilian Walker (Gemeindevizepräsident), Tel. 079 664 41 39; André Jauch (Gemeindearbeiter), Tel. 079 153 08 28" },
       { "label": "Quelle", "value": "Einwohnergemeinde Gurtnellen (September 2026)" }
     ]
+  },
+  {
+    "id": "luks-luzern-rettungsdienstzufahrt",
+    "name": "LUKS Luzern – Rettungsdienstzufahrt via Tunnel",
+    "typ": "konzept",
+    "lat": 47.0587,
+    "lon": 8.2968,
+    "pdf": "pdfs/LUKS-Luzern-Arealplan-Rettungsdienst.pdf",
+    "details": [
+      { "label": "Ort", "value": "Luzerner Kantonsspital (LUKS), Spitalareal" },
+      { "label": "Hinweis", "value": "Kein öffentlicher Strassenabschnitt gesperrt – interne Baustelle auf dem Spitalareal (Bereich Augenklinik/Zufahrt Süd). Rettungsdienstzufahrt zu Kinderspital/Frauenklinik erfolgt deshalb via Tunnel." },
+      { "label": "Gültig", "value": "ab Herbst 2026 (neuer Arealplan)" },
+      { "label": "Quelle", "value": "LUKS Luzern, Arealplan Rettungsdienst (12.10.2026)" }
+    ]
   }
 ]
