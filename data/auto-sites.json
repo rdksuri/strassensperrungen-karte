@@ -13,7 +13,7 @@
       },
       {
         "label": "Unverändert seit",
-        "value": "23.10.2026, 08:41"
+        "value": "26.10.2026, 08:39"
       },
       {
         "label": "Quelle",
@@ -25,18 +25,18 @@
   {
     "id": "pass-klausenpass",
     "name": "Klausenpass",
-    "typ": "passsperrung",
+    "typ": "pass_offen",
     "lat": 46.8682,
     "lon": 8.8555,
     "pdf": null,
     "details": [
       {
         "label": "Status",
-        "value": "Bis auf weiteres gesperrt"
+        "value": "Offen, normal befahrbar"
       },
       {
         "label": "Unverändert seit",
-        "value": "23.10.2026, 18:22"
+        "value": "26.10.2026, 08:30"
       },
       {
         "label": "Quelle",
@@ -59,7 +59,7 @@
       },
       {
         "label": "Unverändert seit",
-        "value": "23.10.2026, 08:38"
+        "value": "26.10.2026, 10:29"
       },
       {
         "label": "Quelle",
@@ -82,7 +82,7 @@
       },
       {
         "label": "Unverändert seit",
-        "value": "20.10.2026, 18:25"
+        "value": "26.10.2026, 08:58"
       },
       {
         "label": "Quelle",
@@ -151,7 +151,7 @@
       },
       {
         "label": "Unverändert seit",
-        "value": "23.10.2026, 08:36"
+        "value": "26.10.2026, 08:02"
       },
       {
         "label": "Quelle",
