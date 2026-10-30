@@ -345,28 +345,48 @@
     "typ": "totalsperrung",
     "lat": 46.8822,
     "lon": 8.6155,
-    "pdf": null,
+    "pdf": "pdfs/Totalsperrung-Reussstrasse-Seedorf-2026-11-13.pdf",
     "gueltig_bis": "2026-11-16",
     "details": [
       {
         "label": "Ort",
-        "value": "Reussstrasse, Seedorf UR (Abschnitt noch nicht bestätigt, Pin ungefähr im Dorfkern)"
+        "value": "Reussstrasse, Seedorf UR: Knoten Bauerstrasse/Reussstrasse bis Knoten Reussstrasse/Untere Feldgasse (Pin ungefähr in der Mitte)"
       },
       {
         "label": "Status",
         "value": "geplant"
       },
       {
-        "label": "Beschreibung",
-        "value": "Von 13.11.2026, 17:00 Uhr bis 16.11.2026, 05:00 Uhr bleibt die Reussstrasse … (Text in der Quelle gekürzt)"
+        "label": "Art der Arbeit",
+        "value": "Belagsersatz"
+      },
+      {
+        "label": "Verkehrsregime",
+        "value": "Totalsperrung, keine Ampelanlage"
       },
       {
         "label": "Start Strassensperre",
-        "value": "13.11.2026"
+        "value": "Fr. 13.11.2026, 17:00 Uhr"
       },
       {
         "label": "Ende Strassensperre",
-        "value": "16.11.2026"
+        "value": "Mo. 16.11.2026, 05:00 Uhr"
+      },
+      {
+        "label": "Bauherr",
+        "value": "Kanton Uri (Projekt Nr. 2182 / 2183)"
+      },
+      {
+        "label": "Bauleitung",
+        "value": "Kari Schmid, Synaxis AG, Tel. 041 874 04 07"
+      },
+      {
+        "label": "Unternehmung / Polier",
+        "value": "Marti AG Bürglen, Herbert Brunner, Tel. 079 348 59 86"
+      },
+      {
+        "label": "Quelle",
+        "value": "Meldeformular Amt für Tiefbau Uri, 21.10.2026"
       }
     ]
   }
