@@ -261,14 +261,14 @@
     "id": "nachtsperrung-axenstrasse",
     "name": "Nachtsperrung Axenstrasse",
     "typ": "totalsperrung",
-    "lat": 46.9265,
-    "lon": 8.6235,
+    "lat": 46.923782,
+    "lon": 8.615544,
     "pdf": null,
     "gueltig_bis": "2026-11-06",
     "details": [
       {
         "label": "Ort",
-        "value": "Axenstrasse (Position ungefähr: zwischen Flüelen und Sisikon)"
+        "value": "Axenstrasse (Abschnitt nicht angegeben; Pin liegt auf der Axenstrasse zwischen Flüelen und Sisikon)"
       },
       {
         "label": "Status",
@@ -276,7 +276,7 @@
       },
       {
         "label": "Beschreibung",
-        "value": "Von 22:00 bis 05:00 Uhr bleibt die Axenstrasse wegen Reinigungs- und … gesperrt (Text in der Quelle gekürzt)"
+        "value": "Von 22:00 Uhr bis 05:00 Uhr bleibt die Axenstrasse wegen Reinigungs- und Bauarbeiten gesperrt"
       },
       {
         "label": "Start Strassensperre",
