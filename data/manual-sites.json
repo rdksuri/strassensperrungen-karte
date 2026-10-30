@@ -3,17 +3,35 @@
     "id": "ep-lehn-beck-seelisberg",
     "name": "EP Lehn-Beck – Seelisbergtunnel (A2)",
     "typ": "konzept",
-    "lat": 46.9670,
+    "lat": 46.967,
     "lon": 8.4607,
     "pdf": "pdfs/EP-Lehn-Beck_VP2-S_Anhang2.pdf",
     "gueltig_bis": "2026-06-30",
     "details": [
-      { "label": "Ort", "value": "A2 Nordachse, Seelisbergtunnel-Bereich, zwischen Beckenried (NW) und Altdorf (UR)" },
-      { "label": "Projekt", "value": "EP Lehn-Beck" },
-      { "label": "Phase", "value": "VP2.S" },
-      { "label": "Zeitraum", "value": "April 2026 – Juni 2026" },
-      { "label": "Pikett", "value": "041 267 66 05" },
-      { "label": "Version", "value": "1.0 (27.03.2026)" }
+      {
+        "label": "Ort",
+        "value": "A2 Nordachse, Seelisbergtunnel-Bereich, zwischen Beckenried (NW) und Altdorf (UR)"
+      },
+      {
+        "label": "Projekt",
+        "value": "EP Lehn-Beck"
+      },
+      {
+        "label": "Phase",
+        "value": "VP2.S"
+      },
+      {
+        "label": "Zeitraum",
+        "value": "April 2026 – Juni 2026"
+      },
+      {
+        "label": "Pikett",
+        "value": "041 267 66 05"
+      },
+      {
+        "label": "Version",
+        "value": "1.0 (27.03.2026)"
+      }
     ]
   },
   {
@@ -25,12 +43,30 @@
     "pdf": "pdfs/BRI-Info-Nr1_Sanierung-Kreuzgasse-Altdorf.pdf",
     "gueltig_bis": "2026-09-30",
     "details": [
-      { "label": "Ort", "value": "Kreuzgasse Altdorf, Abschnitt Gotthardstrasse – Gründligasse" },
-      { "label": "Projekt", "value": "Gemeinde Altdorf: Sanierung Kreuzgasse" },
-      { "label": "Verkehrsregime", "value": "Totalsperrung / Verkehrsbehinderungen (4 Etappen)" },
-      { "label": "Zeitraum", "value": "15. Juni 2026 – ca. 30. September 2026" },
-      { "label": "Kontakt", "value": "Patrick Walker, IUB Engineering AG, Tel. 041 874 72 37" },
-      { "label": "Info Nr.", "value": "1 (26.05.2026)" }
+      {
+        "label": "Ort",
+        "value": "Kreuzgasse Altdorf, Abschnitt Gotthardstrasse – Gründligasse"
+      },
+      {
+        "label": "Projekt",
+        "value": "Gemeinde Altdorf: Sanierung Kreuzgasse"
+      },
+      {
+        "label": "Verkehrsregime",
+        "value": "Totalsperrung / Verkehrsbehinderungen (4 Etappen)"
+      },
+      {
+        "label": "Zeitraum",
+        "value": "15. Juni 2026 – ca. 30. September 2026"
+      },
+      {
+        "label": "Kontakt",
+        "value": "Patrick Walker, IUB Engineering AG, Tel. 041 874 72 37"
+      },
+      {
+        "label": "Info Nr.",
+        "value": "1 (26.05.2026)"
+      }
     ]
   },
   {
@@ -41,11 +77,26 @@
     "lon": 8.6782,
     "pdf": null,
     "details": [
-      { "label": "Ort", "value": "Bristenstrasse, Bristen (Gemeinde Silenen UR)" },
-      { "label": "Status", "value": "aktiv" },
-      { "label": "Beschreibung", "value": "Sanierung; bei Blaulichteinsätzen den Polier unter 077 486 15 84 anrufen und informieren" },
-      { "label": "Start Strassensperre", "value": "07.04.2026" },
-      { "label": "Ende Strassensperre", "value": "unbefristet" }
+      {
+        "label": "Ort",
+        "value": "Bristenstrasse, Bristen (Gemeinde Silenen UR)"
+      },
+      {
+        "label": "Status",
+        "value": "aktiv"
+      },
+      {
+        "label": "Beschreibung",
+        "value": "Sanierung; bei Blaulichteinsätzen den Polier unter 077 486 15 84 anrufen und informieren"
+      },
+      {
+        "label": "Start Strassensperre",
+        "value": "07.04.2026"
+      },
+      {
+        "label": "Ende Strassensperre",
+        "value": "unbefristet"
+      }
     ]
   },
   {
@@ -57,11 +108,26 @@
     "pdf": null,
     "gueltig_bis": "2026-08-20",
     "details": [
-      { "label": "Ort", "value": "Dorfstrasse Gurtnellen, zwischen Hälteli und Miseli" },
-      { "label": "Status", "value": "geplant" },
-      { "label": "Beschreibung", "value": "Nachtsperrung, jeweils zwischen 20:00 – 05:00 Uhr" },
-      { "label": "Start Strassensperre", "value": "17.08.2026" },
-      { "label": "Ende Strassensperre", "value": "20.08.2026" }
+      {
+        "label": "Ort",
+        "value": "Dorfstrasse Gurtnellen, zwischen Hälteli und Miseli"
+      },
+      {
+        "label": "Status",
+        "value": "geplant"
+      },
+      {
+        "label": "Beschreibung",
+        "value": "Nachtsperrung, jeweils zwischen 20:00 – 05:00 Uhr"
+      },
+      {
+        "label": "Start Strassensperre",
+        "value": "17.08.2026"
+      },
+      {
+        "label": "Ende Strassensperre",
+        "value": "20.08.2026"
+      }
     ]
   },
   {
@@ -73,11 +139,26 @@
     "pdf": null,
     "gueltig_bis": "2026-09-06",
     "details": [
-      { "label": "Ort", "value": "Zufahrt Winkel, Altdorf UR" },
-      { "label": "Status", "value": "geplant" },
-      { "label": "Beschreibung", "value": "Behinderung Zufahrt Winkel" },
-      { "label": "Start Strassensperre", "value": "03.09.2026" },
-      { "label": "Ende Strassensperre", "value": "06.09.2026" }
+      {
+        "label": "Ort",
+        "value": "Zufahrt Winkel, Altdorf UR"
+      },
+      {
+        "label": "Status",
+        "value": "geplant"
+      },
+      {
+        "label": "Beschreibung",
+        "value": "Behinderung Zufahrt Winkel"
+      },
+      {
+        "label": "Start Strassensperre",
+        "value": "03.09.2026"
+      },
+      {
+        "label": "Ende Strassensperre",
+        "value": "06.09.2026"
+      }
     ]
   },
   {
@@ -89,11 +170,26 @@
     "pdf": "pdfs/Uebersichtssituation-Umleitung-Gitschenstrasse-Altdorf.pdf",
     "gueltig_bis": "2026-08-14",
     "details": [
-      { "label": "Ort", "value": "Gitschenstrasse Altdorf, Höhe Kreuzung Bahnhofstrasse/Langmattgasse" },
-      { "label": "Projekt", "value": "Erschliessung Fernwärme Bahnhofstrasse 43" },
-      { "label": "Verkehrsregime", "value": "Totalsperrung; Umleitung für PW und Langsamverkehr möglich, Fussgängerumleitung über Schulhausplatz–Bahnhofstrasse; Zufahrt Berufsbildungszentrum nicht beeinträchtigt" },
-      { "label": "Zeitraum", "value": "06.07.2026 – max. 14.08.2026" },
-      { "label": "Quelle", "value": "GEO.UR, IUB/PWA (03.06.2026)" }
+      {
+        "label": "Ort",
+        "value": "Gitschenstrasse Altdorf, Höhe Kreuzung Bahnhofstrasse/Langmattgasse"
+      },
+      {
+        "label": "Projekt",
+        "value": "Erschliessung Fernwärme Bahnhofstrasse 43"
+      },
+      {
+        "label": "Verkehrsregime",
+        "value": "Totalsperrung; Umleitung für PW und Langsamverkehr möglich, Fussgängerumleitung über Schulhausplatz–Bahnhofstrasse; Zufahrt Berufsbildungszentrum nicht beeinträchtigt"
+      },
+      {
+        "label": "Zeitraum",
+        "value": "06.07.2026 – max. 14.08.2026"
+      },
+      {
+        "label": "Quelle",
+        "value": "GEO.UR, IUB/PWA (03.06.2026)"
+      }
     ]
   },
   {
@@ -105,12 +201,30 @@
     "pdf": "pdfs/Infoblatt-Gemeinde-Sanierung-Arnistrasse-Gurtnellen.pdf",
     "gueltig_bis": "2027-05-31",
     "details": [
-      { "label": "Ort", "value": "Arnistrasse Gurtnellen, ab Gasthaus Feld bis Arnistrasse 22" },
-      { "label": "Verkehrsregime", "value": "Täglich ca. 07:00–17:00 Uhr Totalsperrung; auch ganztägige Totalsperrungen möglich. Für Blaulicht-Organisationen ist die Durchfahrt gewährleistet." },
-      { "label": "Zeitraum", "value": "ab 12.10.2026, voraussichtlich bis ca. April/Mai 2027" },
-      { "label": "Kontakt Polier", "value": "Patrik Imholz, Tel. 079 790 58 27" },
-      { "label": "Kontakt Gemeinde", "value": "Kilian Walker (Gemeindevizepräsident), Tel. 079 664 41 39; André Jauch (Gemeindearbeiter), Tel. 079 153 08 28" },
-      { "label": "Quelle", "value": "Einwohnergemeinde Gurtnellen (September 2026)" }
+      {
+        "label": "Ort",
+        "value": "Arnistrasse Gurtnellen, ab Gasthaus Feld bis Arnistrasse 22"
+      },
+      {
+        "label": "Verkehrsregime",
+        "value": "Täglich ca. 07:00–17:00 Uhr Totalsperrung; auch ganztägige Totalsperrungen möglich. Für Blaulicht-Organisationen ist die Durchfahrt gewährleistet."
+      },
+      {
+        "label": "Zeitraum",
+        "value": "ab 12.10.2026, voraussichtlich bis ca. April/Mai 2027"
+      },
+      {
+        "label": "Kontakt Polier",
+        "value": "Patrik Imholz, Tel. 079 790 58 27"
+      },
+      {
+        "label": "Kontakt Gemeinde",
+        "value": "Kilian Walker (Gemeindevizepräsident), Tel. 079 664 41 39; André Jauch (Gemeindearbeiter), Tel. 079 153 08 28"
+      },
+      {
+        "label": "Quelle",
+        "value": "Einwohnergemeinde Gurtnellen (September 2026)"
+      }
     ]
   },
   {
@@ -121,11 +235,119 @@
     "lon": 8.2968,
     "pdf": "pdfs/LUKS-Luzern-Arealplan-Rettungsdienst.pdf",
     "details": [
-      { "label": "Ort", "value": "Luzerner Kantonsspital (LUKS), Spitalareal" },
-      { "label": "Hinweis", "value": "Kein öffentlicher Strassenabschnitt gesperrt – interne Baustelle auf dem Spitalareal (Bereich Augenklinik/Zufahrt Süd). Rettungsdienstzufahrt zu Kinderspital/Frauenklinik erfolgt deshalb via Tunnel." },
-      { "label": "Gültig", "value": "ab Herbst 2026 (neuer Arealplan)" },
-      { "label": "Detailplan", "value": "<a href=\"pdfs/LUKS-Luzern-Rettungsdienstzufahrt-Tunnel-Detail.webp\" target=\"_blank\" rel=\"noopener\">Tunnelzufahrt im Detail ansehen (Ein-/Ausfahrt, Portale, Rampen)</a>" },
-      { "label": "Quelle", "value": "LUKS Luzern, Arealplan Rettungsdienst (12.10.2026)" }
+      {
+        "label": "Ort",
+        "value": "Luzerner Kantonsspital (LUKS), Spitalareal"
+      },
+      {
+        "label": "Hinweis",
+        "value": "Kein öffentlicher Strassenabschnitt gesperrt – interne Baustelle auf dem Spitalareal (Bereich Augenklinik/Zufahrt Süd). Rettungsdienstzufahrt zu Kinderspital/Frauenklinik erfolgt deshalb via Tunnel."
+      },
+      {
+        "label": "Gültig",
+        "value": "ab Herbst 2026 (neuer Arealplan)"
+      },
+      {
+        "label": "Detailplan",
+        "value": "<a href=\"pdfs/LUKS-Luzern-Rettungsdienstzufahrt-Tunnel-Detail.webp\" target=\"_blank\" rel=\"noopener\">Tunnelzufahrt im Detail ansehen (Ein-/Ausfahrt, Portale, Rampen)</a>"
+      },
+      {
+        "label": "Quelle",
+        "value": "LUKS Luzern, Arealplan Rettungsdienst (12.10.2026)"
+      }
+    ]
+  },
+  {
+    "id": "nachtsperrung-axenstrasse",
+    "name": "Nachtsperrung Axenstrasse",
+    "typ": "totalsperrung",
+    "lat": 46.9265,
+    "lon": 8.6235,
+    "pdf": null,
+    "gueltig_bis": "2026-11-06",
+    "details": [
+      {
+        "label": "Ort",
+        "value": "Axenstrasse (Position ungefähr: zwischen Flüelen und Sisikon)"
+      },
+      {
+        "label": "Status",
+        "value": "geplant"
+      },
+      {
+        "label": "Beschreibung",
+        "value": "Von 22:00 bis 05:00 Uhr bleibt die Axenstrasse wegen Reinigungs- und … gesperrt (Text in der Quelle gekürzt)"
+      },
+      {
+        "label": "Start Strassensperre",
+        "value": "02.11.2026"
+      },
+      {
+        "label": "Ende Strassensperre",
+        "value": "06.11.2026"
+      }
+    ]
+  },
+  {
+    "id": "totalsperrung-reussstrasse-seedorf-1",
+    "name": "Totalsperrung Reussstrasse Seedorf",
+    "typ": "totalsperrung",
+    "lat": 46.8793,
+    "lon": 8.6008,
+    "pdf": null,
+    "gueltig_bis": "2026-11-09",
+    "details": [
+      {
+        "label": "Ort",
+        "value": "Reussstrasse, Seedorf UR (Position ungefähr: Dorfzentrum)"
+      },
+      {
+        "label": "Status",
+        "value": "geplant"
+      },
+      {
+        "label": "Beschreibung",
+        "value": "Von 06.11.2026, 17:00 Uhr bis 09.11.2026, 05:00 Uhr bleibt die Reussstrasse … (Text in der Quelle gekürzt)"
+      },
+      {
+        "label": "Start Strassensperre",
+        "value": "06.11.2026"
+      },
+      {
+        "label": "Ende Strassensperre",
+        "value": "09.11.2026"
+      }
+    ]
+  },
+  {
+    "id": "totalsperrung-reussstrasse-seedorf-2",
+    "name": "Totalsperrung Reussstrasse Seedorf",
+    "typ": "totalsperrung",
+    "lat": 46.8793,
+    "lon": 8.6008,
+    "pdf": null,
+    "gueltig_bis": "2026-11-16",
+    "details": [
+      {
+        "label": "Ort",
+        "value": "Reussstrasse, Seedorf UR (Position ungefähr: Dorfzentrum)"
+      },
+      {
+        "label": "Status",
+        "value": "geplant"
+      },
+      {
+        "label": "Beschreibung",
+        "value": "Von 13.11.2026, 17:00 Uhr bis 16.11.2026, 05:00 Uhr bleibt die Reussstrasse … (Text in der Quelle gekürzt)"
+      },
+      {
+        "label": "Start Strassensperre",
+        "value": "13.11.2026"
+      },
+      {
+        "label": "Ende Strassensperre",
+        "value": "16.11.2026"
+      }
     ]
   }
 ]

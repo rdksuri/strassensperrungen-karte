@@ -83,7 +83,7 @@ def check_passes():
         return False, []
     sites = []
     for p in PASSES:
-        idx = html.find(f'pass-card-title-inner"><a href="/de/alpenpaesse/{p["slug"]}/')
+        idx = html.find(f'pass-card-title-inner"><a href="/de/alpenpaesse/{p["slug"]}"')
         if idx == -1:
             print(f"WARNUNG: {p['name']} nicht auf alpen-paesse.ch gefunden (Slug geaendert?)", file=sys.stderr)
             continue
@@ -94,14 +94,14 @@ def check_passes():
         is_closed = status_icon in ("closed", "winter")
 
         badge_m = re.search(
-            r'pass-card-badge-text"><div>([^<]+)</div>'
+            r'pass-card-badge-text"><div class="pass-card-badge-text-clamp-1">([^<]+)</div>'
             r'<div class="pass-card-badge-text-clamp-1">([^<]+)</div>',
             chunk,
         )
         status_text = badge_m.group(1).strip() if badge_m else ("Geschlossen" if is_closed else "Offen")
         seit = re.sub(r"^Unverändert gültig seit:+\s*", "", badge_m.group(2).strip()) if badge_m else "unbekannt"
 
-        pass_url = f"{ALPENPAESSE_URL}alpenpaesse/{p['slug']}/"
+        pass_url = f"{ALPENPAESSE_URL}alpenpaesse/{p['slug']}"
         details = [
             {"label": "Status", "value": status_text},
             {"label": "Unverändert seit", "value": seit},
@@ -123,6 +123,12 @@ def check_passes():
             "details": details,
             "link": pass_url,
         })
+    if not sites:
+        # Seite erreichbar, aber kein einziger Pass erkannt -> Markup hat sich
+        # vermutlich geaendert. Nicht als Erfolg werten, sonst wuerden die
+        # zuletzt bekannten Pass-Eintraege durch eine leere Liste ersetzt.
+        print("WARNUNG: kein einziger Pass erkannt - alpen-paesse.ch-Markup geaendert?", file=sys.stderr)
+        return False, []
     return True, sites
 
 
