@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wetter Rettungsdienst Uri</title>
+<style>
+  :root {
+    --bg: #ffffff; --fg: #1f2a2e; --muted: #5d6b70; --line: #e3e8ea;
+    --teal: #4B8A92; --teal-soft: #e8f1f2;
+    --snow: #1b5fa8; --snow-soft: #e6f0fb;
+    --warn: #8a4b00; --warn-soft: #fff3e0;
+    --ok: #2e6b3a; --ok-soft: #e9f5ec;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--fg);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; }
+  .card { padding: 12px 14px; }
+  .head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+  .ort { font-size: 18px; font-weight: 700; }
+  .hoehe { font-size: 12px; color: var(--muted); font-weight: 400; margin-left: 4px; }
+  .jetzt { display: flex; align-items: center; gap: 10px; margin: 6px 0 8px; }
+  .jetzt .ico { font-size: 38px; line-height: 1; }
+  .jetzt .temp { font-size: 34px; font-weight: 700; }
+  .jetzt .txt { font-size: 14px; color: var(--muted); }
+  .alarm { border-radius: 8px; padding: 8px 10px; font-size: 14px; line-height: 1.35; margin-bottom: 10px; }
+  .alarm b { display: block; font-size: 15px; }
+  .alarm.snow { background: var(--snow-soft); color: var(--snow); border-left: 5px solid var(--snow); }
+  .alarm.glatt { background: var(--warn-soft); color: var(--warn); border-left: 5px solid var(--warn); }
+  .alarm.ok { background: var(--ok-soft); color: var(--ok); border-left: 5px solid var(--ok); }
+  .std { display: grid; grid-template-columns: repeat(6, 1fr); gap: 2px; text-align: center;
+    border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 6px 0; margin-bottom: 8px; }
+  .std div { font-size: 12px; color: var(--muted); }
+  .std .i { font-size: 20px; line-height: 1.4; }
+  .std .t { font-size: 13px; color: var(--fg); font-weight: 600; }
+  .std .s { color: var(--snow); font-weight: 600; min-height: 15px; }
+  .tage { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+  .tag { background: var(--teal-soft); border-radius: 8px; padding: 6px; text-align: center; }
+  .tag .n { font-size: 12px; font-weight: 700; color: var(--teal); }
+  .tag .i { font-size: 22px; line-height: 1.3; }
+  .tag .mm { font-size: 13px; }
+  .tag .sn { font-size: 13px; color: var(--snow); font-weight: 700; min-height: 17px; }
+  .fuss { font-size: 11px; color: var(--muted); margin-top: 8px; display: flex; justify-content: space-between; gap: 6px; flex-wrap: wrap; }
+  .fuss a { color: var(--teal); }
+  .fehler { color: var(--warn); font-size: 14px; padding: 20px 14px; }
+</style>
+</head>
+<body>
+<div id="app" class="card"><div class="fuss">Wetter wird geladen …</div></div>
+<script>
+// Orte: ?ort=altdorf | andermatt (je ein eingebettetes Fenster pro Ort in SharePoint,
+// damit sie am Handy automatisch untereinander stehen).
+const ORTE = {
+  altdorf:   { name: "Altdorf",   hoehe: 458,  lat: 46.8804, lon: 8.6444, ms: "https://www.meteoswiss.admin.ch/local-forecasts/altdorf-ur/6460.html" },
+  andermatt: { name: "Andermatt", hoehe: 1444, lat: 46.6356, lon: 8.5939, ms: "https://www.meteoswiss.admin.ch/local-forecasts/andermatt/6490.html" }
+};
+const key = (new URLSearchParams(location.search).get("ort") || "altdorf").toLowerCase();
+const O = ORTE[key] || ORTE.altdorf;
+
+// WMO-Wettercodes -> Symbol + Text
+function wx(code, nacht) {
+  const m = {
+    0: [nacht ? "🌙" : "☀️", "Klar"], 1: [nacht ? "🌙" : "🌤️", "Meist sonnig"], 2: ["⛅", "Teilweise bewölkt"], 3: ["☁️", "Bedeckt"],
+    45: ["🌫️", "Nebel"], 48: ["🌫️", "Reifnebel"],
+    51: ["🌦️", "Nieselregen"], 53: ["🌦️", "Nieselregen"], 55: ["🌧️", "Starker Niesel"],
+    56: ["🧊", "Gefrierender Niesel"], 57: ["🧊", "Gefrierender Niesel"],
+    61: ["🌧️", "Leichter Regen"], 63: ["🌧️", "Regen"], 65: ["🌧️", "Starker Regen"],
+    66: ["🧊", "Gefrierender Regen"], 67: ["🧊", "Gefrierender Regen"],
+    71: ["🌨️", "Leichter Schneefall"], 73: ["🌨️", "Schneefall"], 75: ["❄️", "Starker Schneefall"], 77: ["🌨️", "Schneegriesel"],
+    80: ["🌦️", "Regenschauer"], 81: ["🌧️", "Regenschauer"], 82: ["⛈️", "Heftige Schauer"],
+    85: ["🌨️", "Schneeschauer"], 86: ["❄️", "Starke Schneeschauer"],
+    95: ["⛈️", "Gewitter"], 96: ["⛈️", "Gewitter mit Hagel"], 99: ["⛈️", "Gewitter mit Hagel"]
+  };
+  return m[code] || ["❔", "–"];
+}
+const TAG = ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"];
+const hh = d => String(d.getHours()).padStart(2, "0") + " Uhr";
+const r1 = x => (Math.round(x * 10) / 10).toLocaleString("de-CH");
+function wann(d, jetzt) {
+  const heute = new Date(jetzt); heute.setHours(0, 0, 0, 0);
+  const t = new Date(d); t.setHours(0, 0, 0, 0);
+  const diff = Math.round((t - heute) / 864e5);
+  const pre = diff === 0 ? "heute" : diff === 1 ? "morgen" : TAG[d.getDay()];
+  return pre + " " + hh(d);
+}
+
+async function laden() {
+  const url = "https://api.open-meteo.com/v1/forecast"
+    + "?latitude=" + O.lat + "&longitude=" + O.lon + "&elevation=" + O.hoehe
+    + "&current=temperature_2m,weather_code,is_day"
+    + "&hourly=temperature_2m,weather_code,snowfall,precipitation,is_day"
+    + "&daily=weather_code,temperature_2m_max,temperature_2m_min,snowfall_sum,precipitation_sum"
+    + "&models=meteoswiss_icon_ch2&forecast_days=3&timezone=Europe%2FZurich";
+  const res = await fetch(url);
+  if (!res.ok) throw new Error("HTTP " + res.status);
+  return res.json();
+}
+
+function zeigen(d) {
+  const jetzt = new Date();
+  const H = d.hourly;
+  const idx = H.time.map(t => new Date(t));
+  let start = idx.findIndex(t => t > jetzt) - 1; if (start < 0) start = 0;
+
+  // Schnee & Glätte in den nächsten 24 h
+  let schnee = 0, ersteSchnee = null, letzteSchnee = null, frost = false, nass = false, minT = 99;
+  for (let i = start; i < Math.min(start + 24, H.time.length); i++) {
+    const s = H.snowfall[i] || 0;
+    if (s >= 0.1) { schnee += s; if (!ersteSchnee) ersteSchnee = idx[i]; letzteSchnee = idx[i]; }
+    if (H.temperature_2m[i] <= 1) frost = true;
+    if ((H.precipitation[i] || 0) >= 0.1) nass = true;
+    minT = Math.min(minT, H.temperature_2m[i]);
+  }
+  let alarm;
+  if (schnee >= 0.5) {
+    const bis = new Date(letzteSchnee.getTime() + 3600e3);
+    alarm = `<div class="alarm snow"><b>❄️ Schnee: ca. ${r1(schnee)} cm in 24 h</b>`
+      + `${ersteSchnee <= jetzt ? "Schneit jetzt" : "Ab " + wann(ersteSchnee, jetzt)} bis ca. ${wann(bis, jetzt)}. Winterausrüstung/Ketten prüfen.</div>`;
+  } else if (schnee > 0) {
+    alarm = `<div class="alarm snow"><b>🌨️ Etwas Schnee möglich</b>Ab ${wann(ersteSchnee, jetzt)}, unter 1 cm.</div>`;
+  } else if (frost && nass) {
+    alarm = `<div class="alarm glatt"><b>⚠️ Glättegefahr</b>Nass und Temperaturen um/unter 0 °C (Tiefstwert ${r1(minT)} °C).</div>`;
+  } else if (frost) {
+    alarm = `<div class="alarm glatt"><b>🥶 Frost</b>Tiefstwert ${r1(minT)} °C – auf Reif und Glatteis achten.</div>`;
+  } else {
+    alarm = `<div class="alarm ok"><b>✅ Kein Schnee in den nächsten 24 h</b>Tiefstwert ${r1(minT)} °C.</div>`;
+  }
+
+  // Nächste Stunden (alle 2 h)
+  let std = "";
+  for (let k = 1; k <= 6; k++) {
+    const i = start + k * 2; if (i >= H.time.length) break;
+    const s = (H.snowfall[i] || 0) + (H.snowfall[i - 1] || 0);
+    std += `<div><div>${String(idx[i].getHours()).padStart(2, "0")}h</div>`
+      + `<div class="i">${wx(H.weather_code[i], !H.is_day[i])[0]}</div>`
+      + `<div class="t">${Math.round(H.temperature_2m[i])}°</div>`
+      + `<div class="s">${s >= 0.1 ? r1(s) + " cm" : ""}</div></div>`;
+  }
+
+  // 3 Tage
+  const D = d.daily;
+  let tage = "";
+  for (let i = 0; i < D.time.length; i++) {
+    const dt = new Date(D.time[i] + "T12:00");
+    const n = i === 0 ? "Heute" : i === 1 ? "Morgen" : TAG[dt.getDay()];
+    const sn = D.snowfall_sum[i] || 0;
+    tage += `<div class="tag"><div class="n">${n}</div><div class="i">${wx(D.weather_code[i], false)[0]}</div>`
+      + `<div class="mm">${Math.round(D.temperature_2m_min[i])}° / <b>${Math.round(D.temperature_2m_max[i])}°</b></div>`
+      + `<div class="sn">${sn >= 0.5 ? "❄️ " + Math.round(sn) + " cm" : (D.precipitation_sum[i] >= 0.5 ? "💧 " + Math.round(D.precipitation_sum[i]) + " mm" : "")}</div></div>`;
+  }
+
+  const c = d.current, w = wx(c.weather_code, !c.is_day);
+  document.getElementById("app").innerHTML =
+    `<div class="head"><div class="ort">${O.name}<span class="hoehe">${O.hoehe} m</span></div></div>`
+    + `<div class="jetzt"><div class="ico">${w[0]}</div><div class="temp">${Math.round(c.temperature_2m)}°</div><div class="txt">${w[1]}</div></div>`
+    + alarm
+    + `<div class="std">${std}</div>`
+    + `<div class="tage">${tage}</div>`
+    + `<div class="fuss"><span>Modell MeteoSchweiz ICON-CH · Stand ${jetzt.toLocaleTimeString("de-CH", { hour: "2-digit", minute: "2-digit" })}</span>`
+    + `<a href="${O.ms}" target="_blank" rel="noopener">MeteoSchweiz ↗</a></div>`;
+}
+
+async function start() {
+  try { zeigen(await laden()); }
+  catch (e) { document.getElementById("app").innerHTML = `<div class="fehler">Wetterdaten gerade nicht erreichbar. <a href="${O.ms}" target="_blank" rel="noopener">MeteoSchweiz öffnen</a></div>`; }
+}
+start();
+setInterval(start, 15 * 60 * 1000);
+</script>
+</body>
+</html>
