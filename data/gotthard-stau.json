@@ -1,0 +1,13 @@
+{
+ "checked": "2026-11-06T09:57:30+00:00",
+ "ok": false,
+ "fehler": "not well-formed (invalid token): line 1, column 0",
+ "sued": {
+  "stau": false
+ },
+ "nord": {
+  "stau": false
+ },
+ "tunnel": null,
+ "weitere": []
+}
