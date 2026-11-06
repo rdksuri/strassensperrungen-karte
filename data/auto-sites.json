@@ -59,7 +59,7 @@
       },
       {
         "label": "Unverändert seit",
-        "value": "04.11.2026, 13:11"
+        "value": "05.11.2026, 09:40"
       },
       {
         "label": "Quelle",
@@ -140,18 +140,18 @@
   {
     "id": "pass-gotthardpass",
     "name": "Gotthardpass",
-    "typ": "pass_offen",
+    "typ": "passsperrung",
     "lat": 46.5593,
     "lon": 8.5612,
     "pdf": null,
     "details": [
       {
         "label": "Status",
-        "value": "Offen, mit Einschränkungen"
+        "value": "Wintersperre"
       },
       {
         "label": "Unverändert seit",
-        "value": "03.11.2026, 09:11"
+        "value": "05.11.2026, 10:02"
       },
       {
         "label": "Quelle",
