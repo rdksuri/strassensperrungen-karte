@@ -36,7 +36,7 @@
       },
       {
         "label": "Unverändert seit",
-        "value": "06.11.2026, 13:33"
+        "value": "06.11.2026, 15:54"
       },
       {
         "label": "Quelle",
@@ -48,18 +48,18 @@
   {
     "id": "pass-grimselpass",
     "name": "Grimselpass",
-    "typ": "pass_offen",
+    "typ": "passsperrung",
     "lat": 46.561,
     "lon": 8.337,
     "pdf": null,
     "details": [
       {
         "label": "Status",
-        "value": "Offen, mit Einschränkungen"
+        "value": "Wintersperre"
       },
       {
         "label": "Unverändert seit",
-        "value": "06.11.2026, 13:35"
+        "value": "06.11.2026, 15:52"
       },
       {
         "label": "Quelle",
