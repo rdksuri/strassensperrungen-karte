@@ -25,18 +25,18 @@
   {
     "id": "pass-klausenpass",
     "name": "Klausenpass",
-    "typ": "passsperrung",
+    "typ": "pass_offen",
     "lat": 46.8682,
     "lon": 8.8555,
     "pdf": null,
     "details": [
       {
         "label": "Status",
-        "value": "Bis auf weiteres gesperrt"
+        "value": "Offen, mit Einschränkungen"
       },
       {
         "label": "Unverändert seit",
-        "value": "06.11.2026, 17:26"
+        "value": "06.11.2026, 15:54"
       },
       {
         "label": "Quelle",
