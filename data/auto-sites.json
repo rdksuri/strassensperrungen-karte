@@ -25,18 +25,18 @@
   {
     "id": "pass-klausenpass",
     "name": "Klausenpass",
-    "typ": "passsperrung",
+    "typ": "pass_offen",
     "lat": 46.8682,
     "lon": 8.8555,
     "pdf": null,
     "details": [
       {
         "label": "Status",
-        "value": "Bis auf weiteres gesperrt"
+        "value": "Offen, normal befahrbar"
       },
       {
         "label": "Unverändert seit",
-        "value": "06.11.2026, 17:26"
+        "value": "26.10.2026, 08:30"
       },
       {
         "label": "Quelle",
@@ -48,18 +48,18 @@
   {
     "id": "pass-grimselpass",
     "name": "Grimselpass",
-    "typ": "passsperrung",
+    "typ": "pass_offen",
     "lat": 46.561,
     "lon": 8.337,
     "pdf": null,
     "details": [
       {
         "label": "Status",
-        "value": "Wintersperre"
+        "value": "Offen, mit Einschränkungen"
       },
       {
         "label": "Unverändert seit",
-        "value": "06.11.2026, 15:52"
+        "value": "05.11.2026, 09:40"
       },
       {
         "label": "Quelle",
