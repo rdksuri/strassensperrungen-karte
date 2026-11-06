@@ -95,7 +95,25 @@ def holen(key):
         "User-Agent": "RD-Uri-Stauanzeige/1.0 (rdksuri.github.io)",
     })
     with urllib.request.urlopen(req, timeout=90) as r:
-        return r.read()
+        data = r.read()
+        ctype = r.headers.get("Content-Type", "")
+        enc = r.headers.get("Content-Encoding", "")
+    if data[:2] == b"\x1f\x8b" or "gzip" in enc:
+        import gzip
+        data = gzip.decompress(data)
+    if "--debug" in sys.argv:
+        print("Content-Type:", ctype, "| Encoding:", enc, "| Bytes:", len(data))
+        print("Anfang:", data[:400])
+    # SOAP-Antwort kann als multipart/MTOM kommen: XML-Teil herausschneiden
+    i = data.find(b"<")
+    j = data.rfind(b">")
+    if i > 0 or "multipart" in ctype:
+        data = data[i:j + 1]
+        k = data.find(b"--uuid")
+        if k > 0:
+            data = data[:k].rstrip()
+            data = data[:data.rfind(b">") + 1]
+    return data
 
 
 def auswerten(xml_bytes, debug=False):
