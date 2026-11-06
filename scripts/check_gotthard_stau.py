@@ -118,7 +118,7 @@ def holen(key):
 
 
 def ortsname(s):
-    s = re.sub(r"^(Anschluss|Ortschaft|Tunnel|Parkplatz|Kreuzung|Verzweigung|Rastplatz|Raststätte|Dosierstelle)\s+",
+    s = re.sub(r"^(?:Autobahndreieck\s+)?(Anschluss|Ortschaft|Tunnel|Parkplatz|Kreuzung|Verzweigung|Rastplatz|Raststätte|Dosierstelle)\s+",
                "", s.strip(), flags=re.I)
     return s.replace("Fluelen", "Flüelen").replace("Goeschenen", "Göschenen").strip(" ,.")
 
