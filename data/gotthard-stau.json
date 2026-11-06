@@ -1,25 +1,16 @@
 {
- "checked": "2026-11-06T09:58:47+00:00",
+ "checked": "2026-11-06T10:01:11+00:00",
  "ok": true,
  "fehler": null,
  "sued": {
-  "stau": true,
-  "ab": "Gotthard",
-  "bis": "Gotthard",
-  "km": 0.3,
-  "minuten": null,
-  "text": "Freigegeben: A2 Chiasso <-> Gotthard Tunnel Gotthard-Tunnel Sachlage: Verkehrsbehinderung Baustelle, Länge [km] 0.3 Zusatz 1: vorübergehende Begrenzung der Breite Fahrbahnbreite [m] 5.2 Dauer:  voraussichtlich 25.06.2021 05:00 bis 29.12.2028 05:00 ID49145\nHöchstbreite für Ausnahmetransporte Fahrichtung Norden 5.20m in Fahrrichtung Süden 6.00m"
+  "stau": false
  },
  "nord": {
   "stau": false
  },
+ "h2": {
+  "stau": false
+ },
  "tunnel": null,
- "weitere": [
-  "Freigegeben: A2 Chiasso -> Gotthard Tunnel Gotthard-Tunnel Sachlage: Verkehrsbehinderung Baustelle, Länge [km] 0.3 Verkehrsführung: veränderte Verkehrsführung Zusatz 1: vorübergehende Begrenzung der Breite Fahrbahnbreite [m] 5.65 Dauer:  voraussichtlich 20.04.2022 05:00 bis 29.12.2028 05:00 ID60816",
-  "Freigegeben: A2 Gotthard -> Chiasso zwischen Parkplatz Dosierstelle Airolo und Anschluss Airolo Sachlage: Verkehrsbehinderung Baustelle, Länge [km] 0.1 Ursache: Arbeiten am Pannenstreifen Dauer:  voraussichtlich 19.11.2024 08:00 bis 28.06.2028 08:00 ID93570",
-  "Freigegeben: A4 Altdorf <-> Brunnen zwischen Kreuzung Abzweigung Morschach und Ortschaft Sisikon Sachlage: Verkehrsbehinderung Baustelle, Länge [km] 0.2 Verkehrsführung: veränderte Verkehrsführung Zusatz 1: vorübergehende Begrenzung der Breite Fahrbahnbreite [m] 3.5 Dauer: nachts voraussichtlich 14.08.2023 07:00 bis 31.12.2026 17:00 ID77351\n23.12.2024 07:00 - 07.01.2025 17:00 Uhr für Ausnahmetransporte 6.50 Meter",
-  "Freigegeben: A2 Chiasso <-> Gotthard Parkplatz Chiasso-Warenzoll Sachlage: Verkehrsbehinderung Baustelle, Länge [km] 0.1 Dauer:  voraussichtlich 01.04.2025 05:00 bis 24.03.2027 16:00 ID97618",
-  "Freigegeben: H2 Airolo <-> Göschenen zwischen Ortschaft Andermatt und Ortschaft Hospental Sachlage: Verkehrsbehinderung Baustelle, Länge [km] 0.5 Zusatz 1: vorübergehende Begrenzung der Breite Fahrbahnbreite [m] 4.0 Zusatz 2: vorübergehende Beschränkung des zulässigen Gesamtgewichts Fahrzeuggewicht [t] 44.0 Dauer:  voraussichtlich 09.01.2026 12:00 bis 31.12.2026 17:00 ID92983 Betrifft Allmend Viadukt: Sondertransporte schwerer 44 Tonnen sind nicht erlaubt!",
-  "Freigegeben: H11 Meiringen <-> Wassen Ortschaft Innertkirchen Sachlage: Verkehrsbehinderung Ursache: Bauarbeiten Verkehrsführung: Verkehrsregelung mit Lichtsignalanlage Dauer:  voraussichtlich 07.04.2026 07:00 bis 30.11.2026 17:00 Sanierung Militalbrücke"
- ]
+ "weitere": []
 }
