@@ -68,13 +68,19 @@ async function laden() {
         + (d.sued.text ? `<div class="orig">${esc(d.sued.text)}</div>` : "") + `</div>`;
     } else {
       html += `<div class="box gruen"><div class="haupt">✅ Kein Stau gemeldet</div>`
-        + `<div class="detail">A2 Altdorf – Göschenen Richtung Süden</div></div>`;
+        + `<div class="detail">A2 Altdorf → Göschenen</div></div>`;
     }
     if (d.nord && d.nord.stau) {
       const t = stauText(d.nord);
       html += `<div class="zeile">↩︎ Rückfahrt Richtung Altdorf: <b>Stau ${t.wo}</b>${t.extra ? " · " + t.extra : ""}</div>`;
     } else {
       html += `<div class="zeile">↩︎ Rückfahrt Richtung Altdorf: <b>kein Stau gemeldet</b></div>`;
+    }
+    if (d.h2 && d.h2.stau) {
+      const t = stauText(d.h2);
+      html += `<div class="zeile">🛣️ Kantonsstrasse H2: <b>Stau ${t.wo}</b>${t.extra ? " · " + t.extra : ""}</div>`;
+    } else {
+      html += `<div class="zeile">🛣️ Kantonsstrasse H2: <b>kein Stau gemeldet</b></div>`;
     }
     if (d.weitere && d.weitere.length) {
       html += `<details><summary>Weitere Meldungen Uri (${d.weitere.length})</summary><ul>`

@@ -1,24 +1,30 @@
 #!/usr/bin/env python3
 """
-Stau-Meldungen A2 Altdorf - Goeschenen (Gotthard-Achse) fuer die
-Dienstbetrieb-Seite des Rettungsdienstes Uri.
+Stau-Meldungen auf der Strecke Altdorf - Goeschenen (A2 und Kantonsstrasse H2)
+fuer die Dienstbetrieb-Seite des Rettungsdienstes Uri.
 
 Quelle: opentransportdata.swiss "Road traffic - traffic situations"
-(DATEX II, Verkehrsmeldungen von ASTRA/VMZ-CH und Polizei).
+(DATEX II, Verkehrsmeldungen von ASTRA/VMZ-CH und Polizei), alle 15 Min.
 Token als GitHub-Secret OTD_KEY.
 
-Schreibt data/gotthard-stau.json:
-  {
-    "checked": ISO-Zeit, "ok": true/false, "fehler": "...",
-    "sued": {"stau": bool, "ab": "Amsteg", "bis": "Göschenen", "km": 8,
-             "minuten": 40, "text": "Originalmeldung"},
-    "nord": {...gleich...},
-    "tunnel": "Text falls Gotthard-Strassentunnel gesperrt" | null,
-    "weitere": ["andere Meldungen A2 Uri (Unfall, Baustelle ...)"]
-  }
+Format der Meldungstexte (Beispiele aus echten Daten):
+  "Freigegeben: A2 Luzern -> Gotthard zwischen Anschluss Erstfeld und Anschluss Amsteg
+   Sachlage: Stau, Länge [km] 6 ..."
+  "Freigegeben: H2 Göschenen <-> Flüelen Anschluss Göschenen Sachlage: Verkehrsbehinderung Baustelle ..."
+"Luzern -> Gotthard" = Richtung Sueden, "Gotthard -> Luzern" = Richtung Norden,
+"<->" = beide Richtungen.
 
-Aufruf mit --debug schreibt die Rohstruktur der Uri-Meldungen ins Log.
+Schreibt data/gotthard-stau.json:
+  { "checked", "ok", "fehler",
+    "sued":  {"stau": bool, "ab", "bis", "km", "minuten", "text"},   # A2 Richtung Gotthard
+    "nord":  {...},                                                  # A2 Richtung Altdorf
+    "h2":    {...},                                                  # Kantonsstrasse, beliebige Richtung
+    "tunnel": Text falls Gotthard-Strassentunnel gesperrt,
+    "weitere": [Sperrungen/Unfaelle im Abschnitt] }
+
+Aufruf mit --debug schreibt die relevanten Rohmeldungen ins Log.
 """
+import gzip
 import json
 import os
 import re
@@ -38,18 +44,22 @@ BODY = """<?xml version="1.0" encoding="UTF-8"?>
 </dx223:supplierIdentification></dx223:exchange></dx223:d2LogicalModel></SOAP-ENV:Body></SOAP-ENV:Envelope>"""
 
 OUT = Path(__file__).resolve().parent.parent / "data" / "gotthard-stau.json"
+DEBUG = "--debug" in sys.argv
 
-# Orte entlang der Strecke, Nord -> Sued. Nur Meldungen, die einen dieser
-# Orte nennen, sind fuer die Fahrt Altdorf -> Andermatt relevant.
-ORTE = ["Seelisberg", "Flüelen", "Altdorf", "Schattdorf", "Erstfeld", "Amsteg",
-        "Gurtnellen", "Intschi", "Wassen", "Göschenen", "Gotthard", "Airolo"]
-ORT_RE = re.compile(r"(Seelisberg|Fl(?:ü|ue)elen|Altdorf|Schattdorf|Erstfeld|Amsteg|Gurtnellen|"
-                    r"Intschi|Wassen|G(?:ö|oe)schenen|Gotthard|Airolo)", re.I)
-SUED_RE = re.compile(r"Richtung\s+(S(?:ü|ue)den|Chiasso|Gotthard|Tessin|Airolo|Lugano)|"
-                     r"→\s*(Chiasso|Gotthard|Airolo)|Basel\s*(?:→|->|-)\s*Chiasso", re.I)
-NORD_RE = re.compile(r"Richtung\s+(Norden|Basel|Luzern|Z(?:ü|ue)rich|Altdorf)|"
-                     r"→\s*(Basel|Luzern)|Chiasso\s*(?:→|->|-)\s*Basel", re.I)
-STAU_RE = re.compile(r"Stau|stockend|Kolonne|Verkehrs(?:ü|ue)berlastung|Wartezeit", re.I)
+# Orte der Strecke Altdorf -> Goeschenen (inkl. Gotthard-Strassentunnel Nordseite)
+UR_ORT = re.compile(r"\b(Seedorf|Fl(?:ü|ue)elen|Altdorf|Schattdorf|B(?:ü|ue)rglen|Erstfeld|Silenen|Amsteg|"
+                    r"Gurtnellen|Intschi|Wassen|Pfaffensprung|Naxberg|G(?:ö|oe)schenen|Gotthard-Tunnel|"
+                    r"Gotthard-Strassentunnel)\b", re.I)
+# Zielorte im Kopf der Meldung, die "Richtung Sueden" bedeuten
+SUED_ZIEL = re.compile(r"^(Gotthard|Chiasso|Airolo|Bellinzona|G(?:ö|oe)schenen|Andermatt)", re.I)
+NORD_ZIEL = re.compile(r"^(Luzern|Basel|Fl(?:ü|ue)elen|Altdorf|Brunnen|Z(?:ü|ue)rich)", re.I)
+LOC_START = (r"(?:zwischen|Anschluss|Ortschaft|Tunnel|Parkplatz|Kreuzung|Autobahndreieck|Verzweigung|"
+             r"Rastplatz|Rastst(?:ä|ae)tte|Grenz(?:ü|ue)bergang|Dosierstelle|Br(?:ü|ue)cke|Galerie|Pass)\b")
+KOPF = re.compile(r"^(?:[\wäöü]+:\s*)?(?P<strasse>[AHN]\d+)\s+(?P<von>.+?)\s*(?P<pfeil><->|->|<-)\s*(?P<nach>.+?)\s+"
+                  r"(?P<ort>" + LOC_START + r".*?)\s+Sachlage:\s*(?P<lage>.*)$", re.S)
+STAU_TYP = {"stationaryTraffic", "queuingTraffic", "slowTraffic", "heavyTraffic", "stopAndGo"}
+STAU_TXT = re.compile(r"\bStau\b|stockend|Kolonne|Wartezeit|zähflüssig|zaehfluessig", re.I)
+WICHTIG_TXT = re.compile(r"gesperrt|Unfall|Panne|Gegenstand|Wintersperre|Lawine|Murgang|Steinschlag|Glätte|Schnee", re.I)
 
 
 def local(tag):
@@ -63,16 +73,16 @@ def xsi_type(el):
     return ""
 
 
-def texts(el, name):
-    """Alle Texte unterhalb von Elementen mit Namen `name` (namespace-unabhaengig)."""
+def kommentar(rec):
     out = []
-    for e in el.iter():
-        if local(e.tag) == name:
+    for e in rec.iter():
+        if local(e.tag) == "generalPublicComment":
             for v in e.iter():
                 if local(v.tag) == "value" and (v.text or "").strip():
                     lang = next((val for k, val in v.attrib.items() if local(k) == "lang"), "")
-                    out.append((lang, v.text.strip()))
-    return out
+                    out.append((lang, re.sub(r"\s+", " ", v.text.strip())))
+    de = [t for l, t in out if l.lower().startswith("de")] or [t for _, t in out]
+    return " ".join(dict.fromkeys(de))
 
 
 def first(el, name):
@@ -82,139 +92,143 @@ def first(el, name):
     return None
 
 
-def norm(o):
-    o = o.replace("Fluelen", "Flüelen").replace("Goeschenen", "Göschenen")
-    return o[:1].upper() + o[1:]
+def zeit(s):
+    if not s:
+        return None
+    try:
+        return datetime.fromisoformat(s.replace("Z", "+00:00"))
+    except ValueError:
+        return None
 
 
 def holen(key):
     req = urllib.request.Request(URL, data=BODY.encode(), method="POST", headers={
         "Authorization": "Bearer " + key,
         "Content-Type": "text/xml; charset=utf-8",
+        "Accept-Encoding": "gzip",
         "SOAPAction": SOAP_ACTION,
         "User-Agent": "RD-Uri-Stauanzeige/1.0 (rdksuri.github.io)",
     })
     with urllib.request.urlopen(req, timeout=90) as r:
         data = r.read()
-        ctype = r.headers.get("Content-Type", "")
         enc = r.headers.get("Content-Encoding", "")
     if data[:2] == b"\x1f\x8b" or "gzip" in enc:
-        import gzip
         data = gzip.decompress(data)
-    if "--debug" in sys.argv:
-        print("Content-Type:", ctype, "| Encoding:", enc, "| Bytes:", len(data))
-        print("Anfang:", data[:400])
-    # SOAP-Antwort kann als multipart/MTOM kommen: XML-Teil herausschneiden
-    i = data.find(b"<")
-    j = data.rfind(b">")
-    if i > 0 or "multipart" in ctype:
-        data = data[i:j + 1]
-        k = data.find(b"--uuid")
-        if k > 0:
-            data = data[:k].rstrip()
-            data = data[:data.rfind(b">") + 1]
     return data
 
 
-def auswerten(xml_bytes, debug=False):
-    root = ET.fromstring(xml_bytes)
-    meldungen = []
-    for sit in root.iter():
-        if local(sit.tag) != "situation":
-            continue
-        for rec in sit:
-            if local(rec.tag) != "situationRecord":
-                continue
-            kommentare = texts(rec, "generalPublicComment") or texts(rec, "comment")
-            de = [t for l, t in kommentare if l.lower().startswith("de")] or [t for _, t in kommentare]
-            text = " ".join(dict.fromkeys(de))
-            loc_names = " ".join(t for _, t in texts(rec, "alertCLocationName"))
-            road = first(rec, "roadNumber") or ""
-            alles = " ".join([text, loc_names, road])
-            if not ORT_RE.search(alles):
-                continue
-            if road and road.upper() not in ("A2", "N2", "2") and "A2" not in alles and "Gotthard" not in alles:
-                # nur Autobahn A2 / Gotthard; Kantonsstrasse-Meldungen separat
-                pass
-            m = {
-                "typ": xsi_type(rec),
-                "text": text,
-                "orte": loc_names,
-                "strasse": road,
-                "laenge_m": first(rec, "lengthAffected") or first(rec, "queueLength"),
-                "verzoegerung_s": first(rec, "delayTimeValue"),
-                "richtung": first(rec, "alertCDirectionCoded") or first(rec, "directionBound") or "",
-                "abnormal": first(rec, "abnormalTrafficType") or "",
-                "start": first(rec, "overallStartTime"),
-            }
-            meldungen.append(m)
-            if debug:
-                print("-----", m["typ"], "|", m["strasse"], "|", m["richtung"])
-                print("TEXT:", m["text"][:600])
-                print("ORTE:", m["orte"][:300], "| Laenge:", m["laenge_m"], "| Verz.:", m["verzoegerung_s"],
-                      "| abnormal:", m["abnormal"])
-    return meldungen
+def ortsname(s):
+    s = re.sub(r"^(Anschluss|Ortschaft|Tunnel|Parkplatz|Kreuzung|Verzweigung|Rastplatz|Raststätte|Dosierstelle)\s+",
+               "", s.strip(), flags=re.I)
+    return s.replace("Fluelen", "Flüelen").replace("Goeschenen", "Göschenen").strip(" ,.")
 
 
-def stau_aus(m):
-    t = m["text"] + " " + m["orte"]
-    ab = bis = None
-    z = re.search(r"zwischen\s+([\wÄÖÜäöü\-\. ]+?)\s+und\s+([\wÄÖÜäöü\-\. ]+?)(?:[,\.;]|\s+(?:in|Richtung|Stau|stockend|Kolonne)|$)", t)
+def ab_bis(ort):
+    z = re.match(r"zwischen\s+(.+?)\s+und\s+(.+)$", ort, re.I)
     if z:
-        ab, bis = z.group(1).strip(), z.group(2).strip()
-    else:
-        orte = [norm(o) for o in ORT_RE.findall(t)]
-        if orte:
-            ab = orte[0]
-            bis = orte[-1] if len(orte) > 1 else None
+        return ortsname(z.group(1)), ortsname(z.group(2))
+    return ortsname(ort), None
+
+
+def km_min(lage, rec):
     km = None
-    k = re.search(r"(\d+(?:[\.,]\d+)?)\s*km", m["text"])
+    k = re.search(r"L(?:ä|ae)nge\s*\[km\]\s*([\d\.,]+)", lage) or re.search(r"(\d+(?:[\.,]\d+)?)\s*km\b", lage)
     if k:
-        km = float(k.group(1).replace(",", "."))
-    elif m["laenge_m"]:
         try:
-            km = round(float(m["laenge_m"]) / 1000, 1)
+            km = float(k.group(1).replace(",", "."))
+        except ValueError:
+            pass
+    if km is None and first(rec, "lengthAffected"):
+        try:
+            km = round(float(first(rec, "lengthAffected")) / 1000, 1)
         except ValueError:
             pass
     minuten = None
-    s = re.search(r"(\d+)\s*(?:Std|Stunde)n?(?:\s*(\d+)\s*Min)?", m["text"])
-    mm = re.search(r"(\d+)\s*Min", m["text"])
+    s = re.search(r"(\d+)\s*(?:Std|Stunde)n?\.?(?:\s*(\d+)\s*Min)?", lage)
+    m = re.search(r"(\d+)\s*Min", lage)
     if s:
         minuten = int(s.group(1)) * 60 + int(s.group(2) or 0)
-    elif mm:
-        minuten = int(mm.group(1))
-    elif m["verzoegerung_s"]:
-        try:
-            minuten = round(float(m["verzoegerung_s"]) / 60)
-        except ValueError:
-            pass
-    return {"stau": True, "ab": ab, "bis": bis, "km": km, "minuten": minuten, "text": m["text"]}
+    elif m:
+        minuten = int(m.group(1))
+    else:
+        d = first(rec, "delayTimeValue")
+        if d:
+            try:
+                minuten = round(float(d) / 60)
+            except ValueError:
+                pass
+    return km, minuten
+
+
+def auswerten(xml_bytes):
+    root = ET.fromstring(xml_bytes)
+    jetzt = datetime.now(timezone.utc)
+    res = {"sued": {"stau": False}, "nord": {"stau": False}, "h2": {"stau": False},
+           "tunnel": None, "weitere": []}
+    n = 0
+    for rec in root.iter():
+        if local(rec.tag) != "situationRecord":
+            continue
+        text = kommentar(rec)
+        if not text:
+            continue
+        kopf = KOPF.match(text)
+        if not kopf:
+            continue
+        strasse, nach, pfeil = kopf["strasse"].upper(), kopf["nach"].strip(), kopf["pfeil"]
+        ort, lage = kopf["ort"].strip(), kopf["lage"].strip()
+        if strasse not in ("A2", "N2", "H2") or not UR_ORT.search(ort):
+            continue
+        # nur aktuell gueltige Meldungen
+        start, ende = zeit(first(rec, "overallStartTime")), zeit(first(rec, "overallEndTime"))
+        if (start and start > jetzt) or (ende and ende < jetzt):
+            continue
+        n += 1
+        typ, abn = xsi_type(rec), first(rec, "abnormalTrafficType") or ""
+        ist_stau = (abn in STAU_TYP) or bool(STAU_TXT.search(lage.split("Dauer:")[0]))
+        if DEBUG:
+            print("-----", typ, abn, "|", text[:500])
+        ab, bis = ab_bis(ort)
+        km, minuten = km_min(lage, rec)
+        eintrag = {"stau": True, "ab": ab, "bis": bis, "km": km, "minuten": minuten, "text": text}
+
+        if strasse in ("A2", "N2") and re.search(r"Gotthard-(Strassen)?tunnel", ort, re.I) \
+                and re.search(r"(Tunnel|Strecke)\s+gesperrt", lage, re.I):
+            res["tunnel"] = text
+            continue
+        if ist_stau:
+            if strasse == "H2":
+                if not res["h2"]["stau"]:
+                    res["h2"] = eintrag
+                continue
+            sued = pfeil == "<->" or (pfeil == "->" and SUED_ZIEL.search(nach)) or \
+                (pfeil == "<-" and SUED_ZIEL.search(kopf["von"]))
+            nord = pfeil == "<->" or (pfeil == "->" and NORD_ZIEL.search(nach)) or \
+                (pfeil == "<-" and NORD_ZIEL.search(kopf["von"]))
+            if sued and not res["sued"]["stau"]:
+                res["sued"] = eintrag
+            if nord and not res["nord"]["stau"]:
+                res["nord"] = eintrag
+        elif WICHTIG_TXT.search(lage.split("Dauer:")[0]) and "Baustelle" not in lage.split("Dauer:")[0]:
+            res["weitere"].append(text)
+    res["weitere"] = list(dict.fromkeys(res["weitere"]))[:6]
+    print(f"{n} aktuelle Meldungen im Abschnitt Altdorf-Göschenen")
+    return res
 
 
 def main():
-    debug = "--debug" in sys.argv
     key = os.environ.get("OTD_KEY", "").strip()
     jetzt = datetime.now(timezone.utc).isoformat(timespec="seconds")
     res = {"checked": jetzt, "ok": False, "fehler": None,
-           "sued": {"stau": False}, "nord": {"stau": False}, "tunnel": None, "weitere": []}
+           "sued": {"stau": False}, "nord": {"stau": False}, "h2": {"stau": False},
+           "tunnel": None, "weitere": []}
     try:
         if not key:
             raise RuntimeError("Kein Token (OTD_KEY) hinterlegt")
-        meldungen = auswerten(holen(key), debug)
+        res.update(auswerten(holen(key)))
         res["ok"] = True
-        for m in meldungen:
-            t = m["text"] + " " + m["orte"]
-            ist_stau = m["typ"] == "AbnormalTraffic" or bool(STAU_RE.search(m["text"]))
-            if re.search(r"Gotthard.{0,30}(Strassen)?tunnel.{0,60}gesperrt|Tunnel.{0,40}Gotthard.{0,60}gesperrt", t, re.I):
-                res["tunnel"] = m["text"]
-            if ist_stau and SUED_RE.search(t) and not res["sued"]["stau"]:
-                res["sued"] = stau_aus(m)
-            elif ist_stau and NORD_RE.search(t) and not res["nord"]["stau"]:
-                res["nord"] = stau_aus(m)
-            elif m["text"]:
-                res["weitere"].append(m["text"])
-        res["weitere"] = list(dict.fromkeys(res["weitere"]))[:6]
-        print(f"{len(meldungen)} Uri-Meldungen, Stau Sued: {res['sued']}, Nord: {res['nord']}")
+        print("Süd:", res["sued"], "\nNord:", res["nord"], "\nH2:", res["h2"], "\nTunnel:", res["tunnel"],
+              "\nWeitere:", res["weitere"])
     except urllib.error.HTTPError as e:
         res["fehler"] = f"HTTP {e.code}"
         print("HTTP-Fehler", e.code, e.read()[:300])
@@ -223,19 +237,18 @@ def main():
         print("Fehler:", e)
 
     # Nur schreiben, wenn sich der Inhalt geaendert hat oder der letzte Stand
-    # aelter als 60 Min. ist (sonst 96 Commits pro Tag).
+    # aelter als ca. 1 h ist (sonst 96 Commits pro Tag).
     alt = {}
     if OUT.exists():
         try:
             alt = json.loads(OUT.read_text(encoding="utf-8"))
         except ValueError:
             alt = {}
-    vergleich = lambda d: {k: v for k, v in d.items() if k != "checked"}
-    alt_zeit = alt.get("checked")
+    ohne_zeit = lambda d: {k: v for k, v in d.items() if k != "checked"}
     zu_alt = True
-    if alt_zeit:
-        zu_alt = datetime.now(timezone.utc) - datetime.fromisoformat(alt_zeit) > timedelta(minutes=55)
-    if vergleich(alt) != vergleich(res) or zu_alt:
+    if alt.get("checked"):
+        zu_alt = datetime.now(timezone.utc) - datetime.fromisoformat(alt["checked"]) > timedelta(minutes=55)
+    if ohne_zeit(alt) != ohne_zeit(res) or zu_alt:
         OUT.write_text(json.dumps(res, ensure_ascii=False, indent=1), encoding="utf-8")
         print("geschrieben")
     else:
