@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stau A2 Uri</title>
+<style>
+  :root { --fg:#1f2a2e; --muted:#5d6b70; --line:#e3e8ea;
+    --rot:#a4161a; --rot-soft:#fdecec; --gruen:#2e6b3a; --gruen-soft:#e9f5ec;
+    --grau:#5d6b70; --grau-soft:#f1f3f4; --orange:#8a4b00; --orange-soft:#fff3e0; }
+  * { box-sizing: border-box; }
+  html, body { margin:0; padding:0; background:#fff; color:var(--fg);
+    font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; }
+  .wrap { padding:10px 14px; }
+  .titel { font-size:13px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:.03em; margin-bottom:6px; }
+  .box { border-radius:8px; padding:10px 12px; border-left:6px solid; margin-bottom:8px; }
+  .box .haupt { font-size:19px; font-weight:700; line-height:1.25; }
+  .box .detail { font-size:14px; margin-top:3px; }
+  .box .orig { font-size:12px; margin-top:5px; opacity:.85; }
+  .rot { background:var(--rot-soft); color:var(--rot); border-color:var(--rot); }
+  .gruen { background:var(--gruen-soft); color:var(--gruen); border-color:var(--gruen); }
+  .grau { background:var(--grau-soft); color:var(--grau); border-color:var(--grau); }
+  .orange { background:var(--orange-soft); color:var(--orange); border-color:var(--orange); }
+  .zeile { font-size:14px; padding:4px 0; border-top:1px solid var(--line); }
+  .zeile b { font-weight:600; }
+  details { font-size:13px; color:var(--muted); border-top:1px solid var(--line); padding-top:4px; }
+  details li { margin:3px 0; }
+  .fuss { font-size:11px; color:var(--muted); margin-top:6px; }
+</style>
+</head>
+<body>
+<div class="wrap" id="app"><div class="fuss">Verkehrsmeldungen werden geladen …</div></div>
+<script>
+const esc = s => String(s || "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+function dauer(min) {
+  if (!min) return "";
+  return min >= 60 ? `ca. ${Math.floor(min / 60)} h ${min % 60 ? (min % 60) + " Min." : ""}` : `ca. ${min} Min.`;
+}
+function stauText(s) {
+  const wo = s.ab ? `ab ${esc(s.ab)}` + (s.bis ? ` bis ${esc(s.bis)}` : "") : "auf der A2";
+  const extra = [s.km ? `${String(s.km).replace(".", ",")} km` : "", dauer(s.minuten)].filter(Boolean).join(" · ");
+  return { wo, extra };
+}
+async function laden() {
+  const app = document.getElementById("app");
+  let d;
+  try {
+    const r = await fetch("../data/gotthard-stau.json?t=" + Date.now(), { cache: "no-store" });
+    if (!r.ok) throw new Error(r.status);
+    d = await r.json();
+  } catch (e) { d = null; }
+
+  const alterMin = d && d.checked ? (Date.now() - new Date(d.checked).getTime()) / 60000 : 1e9;
+  const stand = d && d.checked ? new Date(d.checked).toLocaleTimeString("de-CH", { hour: "2-digit", minute: "2-digit" }) : "–";
+  let html = `<div class="titel">🚦 A2 Richtung Gotthard · Altdorf → Göschenen</div>`;
+
+  if (!d || !d.ok || alterMin > 90) {
+    html += `<div class="box grau"><div class="haupt">⚠️ Staumeldung gerade nicht verfügbar</div>`
+      + `<div class="detail">Bitte Waze-Karte und Webcams prüfen.</div></div>`;
+  } else {
+    if (d.tunnel) {
+      html += `<div class="box rot"><div class="haupt">⛔ Gotthard-Strassentunnel gesperrt</div><div class="orig">${esc(d.tunnel)}</div></div>`;
+    }
+    if (d.sued && d.sued.stau) {
+      const t = stauText(d.sued);
+      html += `<div class="box rot"><div class="haupt">🔴 Stau ${t.wo}</div>`
+        + (t.extra ? `<div class="detail">${t.extra}</div>` : "")
+        + (d.sued.text ? `<div class="orig">${esc(d.sued.text)}</div>` : "") + `</div>`;
+    } else {
+      html += `<div class="box gruen"><div class="haupt">✅ Kein Stau gemeldet</div>`
+        + `<div class="detail">A2 Altdorf – Göschenen Richtung Süden</div></div>`;
+    }
+    if (d.nord && d.nord.stau) {
+      const t = stauText(d.nord);
+      html += `<div class="zeile">↩︎ Rückfahrt Richtung Altdorf: <b>Stau ${t.wo}</b>${t.extra ? " · " + t.extra : ""}</div>`;
+    } else {
+      html += `<div class="zeile">↩︎ Rückfahrt Richtung Altdorf: <b>kein Stau gemeldet</b></div>`;
+    }
+    if (d.weitere && d.weitere.length) {
+      html += `<details><summary>Weitere Meldungen Uri (${d.weitere.length})</summary><ul>`
+        + d.weitere.map(w => `<li>${esc(w)}</li>`).join("") + `</ul></details>`;
+    }
+  }
+  html += `<div class="fuss">Quelle: Verkehrsmeldungen ASTRA/Polizei (opentransportdata.swiss) · Stand ${stand} · ohne Gewähr</div>`;
+  app.innerHTML = html;
+}
+laden();
+setInterval(laden, 5 * 60 * 1000);
+</script>
+</body>
+</html>

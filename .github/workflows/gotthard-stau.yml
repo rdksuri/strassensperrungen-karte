@@ -1,0 +1,48 @@
+name: Stau A2 Altdorf - Göschenen
+
+on:
+  schedule:
+    # alle 15 Minuten (GitHub startet geplante Läufe manchmal einige Minuten verspätet)
+    - cron: "7,22,37,52 * * * *"
+  workflow_dispatch:
+    inputs:
+      debug:
+        description: "Rohmeldungen ins Log schreiben"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: gotthard-stau
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Verkehrsmeldungen abfragen
+        env:
+          OTD_KEY: ${{ secrets.OTD_KEY }}
+        run: python3 scripts/check_gotthard_stau.py ${{ inputs.debug && '--debug' || '' }}
+
+      - name: Änderungen committen und pushen
+        run: |
+          git config user.name "strassensperrungen-karte-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/gotthard-stau.json
+          if ! git diff --cached --quiet; then
+            git commit -m "Automatisches Update: Stau A2 Uri"
+            git pull --rebase
+            git push
+          else
+            echo "Keine Änderungen."
+          fi
