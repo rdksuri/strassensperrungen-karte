@@ -1,5 +1,5 @@
 {
- "checked": "2026-11-09T09:01:17+00:00",
+ "checked": "2026-11-09T09:31:02+00:00",
  "ok": true,
  "fehler": null,
  "sued": {
@@ -16,6 +16,6 @@
  "h2": {
   "stau": false
  },
- "tunnel": "Freigegeben: A2 Gotthard -> Chiasso Tunnel Gotthard-Tunnel Sachlage: Tunnel gesperrt Ursache: Pannenfahrzeug Bergungsarbeiten",
+ "tunnel": "Aufgehoben: A2 Gotthard -> Chiasso Tunnel Gotthard-Tunnel Sachlage: Tunnel gesperrt Ursache: Pannenfahrzeug Bergungsarbeiten",
  "weitere": []
 }
