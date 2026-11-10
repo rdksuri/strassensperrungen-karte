@@ -1,9 +1,14 @@
 {
- "checked": "2026-11-10T12:45:41+00:00",
+ "checked": "2026-11-10T13:31:01+00:00",
  "ok": true,
  "fehler": null,
  "sued": {
-  "stau": false
+  "stau": true,
+  "ab": "Wassen",
+  "bis": "Göschenen",
+  "km": 1.0,
+  "minuten": null,
+  "text": "Freigegeben: A2 Luzern -> Gotthard zwischen Anschluss Wassen und Anschluss Göschenen Sachlage: Stau Länge [km] 1.0 Ursache: Verkehrsüberlastung Zusatz 1: Zeitverlust Anz. [min] 10"
  },
  "nord": {
   "stau": false
