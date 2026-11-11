@@ -1,5 +1,5 @@
 {
- "checked": "2026-11-11T21:15:51+00:00",
+ "checked": "2026-11-11T22:15:38+00:00",
  "ok": true,
  "fehler": null,
  "sued": {
@@ -11,7 +11,7 @@
  "h2": {
   "stau": false
  },
- "tunnel": null,
+ "tunnel": "Freigegeben: A2 Chiasso <-> Gotthard Tunnel Gotthard-Tunnel Sachlage: Tunnel gesperrt Ursache: Ausnahmetransport Dauer: voraussichtlich 11.11.2026 23:00 bis 12.11.2026 01:00",
  "weitere": [
   "Freigegeben: A2 Chiasso <-> Luzern zwischen Anschluss Göschenen und Anschluss Airolo Sachlage: Tunnel gesperrt Ursache: Ausnahmetransport Dauer: voraussichtlich 11.11.2026 23:00 bis 12.11.2026 01:00"
  ]
