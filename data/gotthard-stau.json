@@ -1,5 +1,5 @@
 {
- "checked": "2026-11-12T22:15:41+00:00",
+ "checked": "2026-11-12T23:01:12+00:00",
  "ok": true,
  "fehler": null,
  "sued": {
@@ -12,5 +12,7 @@
   "stau": false
  },
  "tunnel": null,
- "weitere": []
+ "weitere": [
+  "Freigegeben: A2 Chiasso <-> Luzern zwischen Anschluss Göschenen und Anschluss Airolo Sachlage: Tunnel gesperrt Ursache: Ausnahmetransport Dauer: voraussichtlich 04.11.2026 23:00 bis 05.11.2026 01:00"
+ ]
 }
