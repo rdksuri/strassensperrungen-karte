@@ -94,18 +94,18 @@
   {
     "id": "pass-pragelpass",
     "name": "Pragelpass",
-    "typ": "pass_offen",
+    "typ": "passsperrung",
     "lat": 46.9992,
     "lon": 8.8695,
     "pdf": null,
     "details": [
       {
         "label": "Status",
-        "value": "Offen, mit Einschränkungen"
+        "value": "Wintersperre"
       },
       {
         "label": "Unverändert seit",
-        "value": "04.11.2026, 14:31"
+        "value": "12.11.2026, 14:55"
       },
       {
         "label": "Quelle",
