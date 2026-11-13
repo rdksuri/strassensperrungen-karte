@@ -25,18 +25,18 @@
   {
     "id": "pass-klausenpass",
     "name": "Klausenpass",
-    "typ": "pass_offen",
+    "typ": "passsperrung",
     "lat": 46.8682,
     "lon": 8.8555,
     "pdf": null,
     "details": [
       {
         "label": "Status",
-        "value": "Offen, schneebedeckt. Gefahr von Eisglätte"
+        "value": "Wintersperre"
       },
       {
         "label": "Unverändert seit",
-        "value": "12.11.2026, 11:44"
+        "value": "13.11.2026, 07:16"
       },
       {
         "label": "Quelle",
