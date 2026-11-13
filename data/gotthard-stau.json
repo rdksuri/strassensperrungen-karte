@@ -1,17 +1,12 @@
 {
- "checked": "2026-11-13T12:15:40+00:00",
+ "checked": "2026-11-13T13:15:44+00:00",
  "ok": true,
  "fehler": null,
  "sued": {
   "stau": false
  },
  "nord": {
-  "stau": true,
-  "ab": "Altdorf",
-  "bis": "Seelisberg-Tunnel",
-  "km": null,
-  "minuten": null,
-  "text": "Aufgehoben: A2 Gotthard -> Luzern zwischen Autobahndreieck Verzweigung Altdorf und Tunnel Seelisberg-Tunnel Sachlage: Stau Ursache: vorausgegangener Unfall"
+  "stau": false
  },
  "h2": {
   "stau": false
