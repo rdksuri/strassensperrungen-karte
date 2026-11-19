@@ -117,18 +117,18 @@
   {
     "id": "pass-glaubenbergpass",
     "name": "Glaubenbergpass",
-    "typ": "pass_offen",
+    "typ": "passsperrung",
     "lat": 46.893,
     "lon": 8.1074,
     "pdf": null,
     "details": [
       {
         "label": "Status",
-        "value": "Offen, normal befahrbar"
+        "value": "Wintersperre"
       },
       {
         "label": "Unverändert seit",
-        "value": "29.05.2026, 17:06"
+        "value": "19.11.2026, 16:33"
       },
       {
         "label": "Quelle",
