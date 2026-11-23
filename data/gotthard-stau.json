@@ -1,5 +1,5 @@
 {
- "checked": "2026-11-23T09:45:42+00:00",
+ "checked": "2026-11-23T10:01:14+00:00",
  "ok": true,
  "fehler": null,
  "sued": {
@@ -8,7 +8,7 @@
   "bis": null,
   "km": null,
   "minuten": null,
-  "text": "Freigegeben: A2 Luzern -> Gotthard Anschluss Göschenen Sachlage: Stau in der Ausfahrt Ursache: Verkehrsüberlastung"
+  "text": "Aufgehoben: A2 Luzern -> Gotthard Anschluss Göschenen Sachlage: Stau in der Ausfahrt Ursache: Verkehrsüberlastung"
  },
  "nord": {
   "stau": false
