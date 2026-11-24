@@ -194,36 +194,5 @@
       }
     ],
     "link": "https://www.alert.swiss"
-  },
-  {
-    "id": "alertswiss-POA-1366130951-2",
-    "name": "Feuerverbot im Kanton Uri aufgehoben",
-    "typ": "gefahrengebiet",
-    "lat": 46.76931437299035,
-    "lon": 8.627696045016078,
-    "pdf": null,
-    "details": [
-      {
-        "label": "Ereignis",
-        "value": "Waldbrand"
-      },
-      {
-        "label": "Schweregrad",
-        "value": "minor"
-      },
-      {
-        "label": "Herausgeber",
-        "value": "Kanton Uri"
-      },
-      {
-        "label": "Gemeldet",
-        "value": "Di., 13.10.2026, 11:59"
-      },
-      {
-        "label": "Quelle",
-        "value": "Alertswiss (inoffizieller Feed, siehe Hinweis)"
-      }
-    ],
-    "link": "https://www.alert.swiss"
   }
 ]
