@@ -194,36 +194,5 @@
       }
     ],
     "link": "https://www.alert.swiss"
-  },
-  {
-    "id": "alertswiss-POA-1391848079-2",
-    "name": "Steinschlag Gefahr",
-    "typ": "gefahrengebiet",
-    "lat": 46.73241,
-    "lon": 8.540742,
-    "pdf": null,
-    "details": [
-      {
-        "label": "Ereignis",
-        "value": "Fels- und Bergsturz, Erdrutsch"
-      },
-      {
-        "label": "Schweregrad",
-        "value": "minor"
-      },
-      {
-        "label": "Herausgeber",
-        "value": "Kanton Uri"
-      },
-      {
-        "label": "Gemeldet",
-        "value": "Mi., 18.11.2026, 09:37"
-      },
-      {
-        "label": "Quelle",
-        "value": "Alertswiss (inoffizieller Feed, siehe Hinweis)"
-      }
-    ],
-    "link": "https://www.alert.swiss"
   }
 ]
