@@ -163,36 +163,5 @@
       }
     ],
     "link": "https://www.alpen-paesse.ch/de/alpenpaesse/gotthardpass"
-  },
-  {
-    "id": "alertswiss-POA-1394181587-1",
-    "name": "Lawinengefahr Meien - Färnigen",
-    "typ": "gefahrengebiet",
-    "lat": 46.73359333333334,
-    "lon": 8.531953333333334,
-    "pdf": null,
-    "details": [
-      {
-        "label": "Ereignis",
-        "value": "Lawinen"
-      },
-      {
-        "label": "Schweregrad",
-        "value": "minor"
-      },
-      {
-        "label": "Herausgeber",
-        "value": "Kanton Uri"
-      },
-      {
-        "label": "Gemeldet",
-        "value": "Mi., 25.11.2026, 08:26"
-      },
-      {
-        "label": "Quelle",
-        "value": "Alertswiss (inoffizieller Feed, siehe Hinweis)"
-      }
-    ],
-    "link": "https://www.alert.swiss"
   }
 ]
