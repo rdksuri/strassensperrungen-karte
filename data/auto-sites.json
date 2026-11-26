@@ -163,5 +163,36 @@
       }
     ],
     "link": "https://www.alpen-paesse.ch/de/alpenpaesse/gotthardpass"
+  },
+  {
+    "id": "alertswiss-POA-1394524074-1",
+    "name": "Stromausfall Gemeinde Sins",
+    "typ": "gefahrengebiet",
+    "lat": 47.18097602409639,
+    "lon": 8.370728072289157,
+    "pdf": null,
+    "details": [
+      {
+        "label": "Ereignis",
+        "value": "Ausfall Stromversorgung"
+      },
+      {
+        "label": "Schweregrad",
+        "value": "minor"
+      },
+      {
+        "label": "Herausgeber",
+        "value": "Kanton Aargau"
+      },
+      {
+        "label": "Gemeldet",
+        "value": "Do., 26.11.2026, 10:44"
+      },
+      {
+        "label": "Quelle",
+        "value": "Alertswiss (inoffizieller Feed, siehe Hinweis)"
+      }
+    ],
+    "link": null
   }
 ]
