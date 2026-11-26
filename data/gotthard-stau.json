@@ -1,7 +1,7 @@
 {
- "checked": "2026-11-26T15:30:59+00:00",
+ "checked": "2026-11-26T15:41:40+00:00",
  "ok": false,
- "fehler": "HTTP 503",
+ "fehler": "HTTP 502",
  "sued": {
   "stau": false
  },
